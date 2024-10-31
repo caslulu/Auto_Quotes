@@ -39,3 +39,7 @@ def get_quote(playwright: Playwright, zipcode, first_name, last_name, date_birth
     page.get_by_role("link", name="Enter by VIN").click()
     page.get_by_label("Vehicle Identification Number").fill(vin)
     page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
+    time.sleep(500)
+    # ---------------------
+    context.close()
+    browser.close()

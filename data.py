@@ -57,10 +57,3 @@ class DataManager:
         (utilizar quando a cotacao ja tiver sido feita)"""
         requests.delete(url=f"{URL_EXCEL}/2", headers=header)
 
-
-
-
-
-data = DataManager()
-data.pegar_excel()
-print(data.endereco)
