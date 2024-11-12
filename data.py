@@ -33,17 +33,18 @@ class DataManager:
         self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
         self.vin = response["vinDoVeículo"]
         self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
+        self.tempo_de_seguro = response["tempoDeSeguro"]
 
 
             
-    def criar_card_trello(self, nome, documento, endereco, vin, financiado, nascimento):
+    def criar_card_trello(self, nome, documento, endereco, vin, financiado, nascimento, tempo_de_seguro):
         
 
         """a funcao 'criar_card_trello' ira criar o card
           no trello com as informacoes adquiridas no excel."""
 
         
-        descricao_carta = f'doc: {documento} \n {endereco} \n vin: {vin} \n {financiado} \n {nascimento}'
+        descricao_carta = f'doc: {documento} \n {endereco} \n vin: {vin} \n {financiado} \n {nascimento} \n tempo de seguro: {tempo_de_seguro}'
         params_create = {"key": yourKey,
         "token": yourToken,
         "idList": idList,

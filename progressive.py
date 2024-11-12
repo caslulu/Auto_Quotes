@@ -33,13 +33,13 @@ def get_quote(playwright: Playwright, zipcode, first_name, last_name, date_birth
     page.wait_for_load_state("load")
     page.get_by_label("Street number and name").click()
     page.get_by_label("Street number and name").fill(address)
-    time.sleep(15)
+    time.sleep(10)
 
     page.get_by_role("button", name="Ok, start my quote").click()
     page.get_by_role("link", name="Enter by VIN").click()
     page.get_by_label("Vehicle Identification Number").fill(vin)
     page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
-    time.sleep(500)
+    time.sleep(300)
     # ---------------------
     context.close()
     browser.close()
