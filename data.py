@@ -26,6 +26,9 @@ class DataManager:
 
 
         response = requests.get(url=f"{URL_EXCEL}", headers=header).json()["formResponses1"][0]
+        
+        
+
         self.nome = response["nomeCompleto"]
         self.first_name, self.last_name = self.nome.split(" ")
         self.nascimento = response["dataDeNascimento"]
@@ -36,15 +39,22 @@ class DataManager:
         self.tempo_de_seguro = response["tempoDeSeguro"]
 
 
+        get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{self.vin}?format=json').json()['Results']
+        self.veiculo=f"{get_info[7]["Value"]}, {get_info[9]["Value"]}, {get_info[10]["Value"]}"
+
+
+
             
-    def criar_card_trello(self, nome, documento, endereco, vin, financiado, nascimento, tempo_de_seguro):
+    def criar_card_trello(self, nome, documento, endereco, vin, financiado, nascimento, tempo_de_seguro, veiculo):
         
 
         """a funcao 'criar_card_trello' ira criar o card
           no trello com as informacoes adquiridas no excel."""
 
         
-        descricao_carta = f'doc: {documento} \n {endereco} \n vin: {vin} \n {financiado} \n {nascimento} \n tempo de seguro: {tempo_de_seguro}'
+        descricao_carta = f'doc: {documento} \n {endereco} \n vin: {vin} \n {financiado} \n {nascimento} \n tempo de seguro: {tempo_de_seguro} \n veiculo: {veiculo}'
+
+
         params_create = {"key": yourKey,
         "token": yourToken,
         "idList": idList,
