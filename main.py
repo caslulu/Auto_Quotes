@@ -1,13 +1,13 @@
 from data import DataManager
-from cotacoes.progressive import get_quote_progressive
-from cotacoes.geico import get_quote_geico
 from playwright.sync_api import Playwright, sync_playwright, expect
+from cotacao import Cotacao
 EMAIL = "novembro2024ins@outlook.com"
 
 
 
 
 data = DataManager()
+cotacao = Cotacao()
 
 
 
@@ -21,16 +21,19 @@ def main():
                                 5) Apenas cotacao na progressive \n \
                                 6) Deletar ultima linha excel \n \
                                 7) Sair \n" ))
+        
+        # opcao 2 = cotacao na progressive + card no trello
+        # opcao 1 = cotacao na geico + card no trello
+        # opcao 4 = cotacao apenas na geico
+        #opcao 5 = cotacao apenas na progressive
+
+
         if opcao == 1:
             card_only()
-        elif opcao == 2:
-            card_and_progressive()
-        elif opcao == 3:
-            card_and_geico()
-        elif opcao == 4:
-            geico_only()
-        elif opcao == 5:
-            progressive_only()
+        elif opcao == 2 or opcao == 3:
+            card_and_cotacao(opcao)
+        elif opcao == 4 or opcao == 5:
+            fazer_cotacao_only(opcao)
         elif opcao == 6:
             data.delete_excel()
         elif opcao == 7:
@@ -47,33 +50,26 @@ def card_only():
                        data.vin, data.financiado, data.nascimento, data.tempo_de_seguro, data.veiculo)
     
 
-def progressive_only():
+def fazer_cotacao_only(opcao):
     data.pegar_excel()
     zipcode = data.endereco.split(" ")
     zipcode = zipcode[-1]
     with sync_playwright() as playwright:
-        get_quote_progressive(playwright, zipcode=zipcode, first_name=data.first_name, 
+        ## opcao 2/5 = cotacao na progressive
+        ## opcao 3/4 = cotacao na geico
+        if opcao == 3 or opcao == 4:
+            cotacao.geico(playwright, zipcode=zipcode, first_name=data.first_name, 
+                    last_name=data.last_name, date_birth=data.nascimento, 
+                    address=data.endereco, vin=data.vin, email=EMAIL, financiado=data.financiado)
+        elif opcao == 2 or opcao == 5:
+            cotacao.progressive(playwright, zipcode=zipcode, first_name=data.first_name, 
                 last_name=data.last_name, date_birth=data.nascimento, 
                 address=data.endereco, vin=data.vin, email=EMAIL, financiado=data.financiado)
-        
-def geico_only():
-    data.pegar_excel()
-    zipcode = data.endereco.split(" ")
-    zipcode = zipcode[-1]
-    with sync_playwright() as playwright:
-        get_quote_geico(playwright, zipcode=zipcode, first_name=data.first_name, 
-                last_name=data.last_name, date_birth=data.nascimento, 
-                address=data.endereco, vin=data.vin, email=EMAIL, financiado=data.financiado)
+            
 
-
-
-def card_and_progressive():
+def card_and_cotacao(opcao):
     card_only()
-    progressive_only()
-
-def card_and_geico():
-    card_only()
-    geico_only()
+    fazer_cotacao_only(opcao=opcao)
 
 
 if __name__ == "__main__":
