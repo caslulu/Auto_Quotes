@@ -1,75 +1,79 @@
-from data import DataManager
-from playwright.sync_api import Playwright, sync_playwright, expect
-from cotacao import Cotacao
-EMAIL = "novembro2024ins@outlook.com"
-
-
-
-
-data = DataManager()
-cotacao = Cotacao()
-
-
+from tkinter import *
+from functions import *
 
 def main():
-    try:
-        opcao = int(input("\
-                                1) Apenas criar card Trello \n \
-                                2) Criar card trello e fazer cotacao na progressive \n \
-                                3) Criar card trello e fazer cotacao na geico \n \
-                                4) Apenas cotacao na geico \n \
-                                5) Apenas cotacao na progressive \n \
-                                6) Deletar ultima linha excel \n \
-                                7) Sair \n" ))
-        
-        # opcao 2 = cotacao na progressive + card no trello
-        # opcao 1 = cotacao na geico + card no trello
-        # opcao 4 = cotacao apenas na geico
-        #opcao 5 = cotacao apenas na progressive
+    global main_window 
+    main_window = Tk()
+    main_window.minsize(500,200)
+    main_window.title("AutoWork")
+    main_window.config(padx=30, pady=30)
+
+    welcome_label = Label(text="Welcome to the AutoWork App", font=("Arial", 16, "bold"))
+    welcome_label.grid(row=0, column=1)
 
 
-        if opcao == 1:
-            card_only()
-        elif opcao == 2 or opcao == 3:
+
+    quote_button = Button(text="Get Quote",command=get_quote)
+    quote_button.grid(row=1, column=0)
+
+    support_button = Button(text="Get Support")
+    support_button.grid(row=1, column=1)
+
+    quit_button = Button(text="Quit", command=main_window.destroy)
+    quit_button.grid(row=1, column=2)
+
+
+    main_window.mainloop()
+
+
+
+def get_quote():
+    def quote_geico():
+        opcao = "geico"
+        if checked_state.get() == 1:
             card_and_cotacao(opcao)
-        elif opcao == 4 or opcao == 5:
-            fazer_cotacao_only(opcao)
-        elif opcao == 6:
-            data.delete_excel()
-        elif opcao == 7:
-            print("Encerrado")
-        else:
-            raise ValueError
-    except ValueError:
-        main()
-
-
-def card_only():
-    data.pegar_excel()
-    data.criar_card_trello(data.nome, data.documento, data.endereco,
-                       data.vin, data.financiado, data.nascimento, data.tempo_de_seguro, data.veiculo)
-    
-
-def fazer_cotacao_only(opcao):
-    data.pegar_excel()
-    zipcode = data.endereco.split(" ")
-    zipcode = zipcode[-1]
-    with sync_playwright() as playwright:
-        ## opcao 2/5 = cotacao na progressive
-        ## opcao 3/4 = cotacao na geico
-        if opcao == 3 or opcao == 4:
-            cotacao.geico(playwright, zipcode=zipcode, first_name=data.first_name, 
-                    last_name=data.last_name, date_birth=data.nascimento, 
-                    address=data.endereco, vin=data.vin, email=EMAIL, financiado=data.financiado)
-        elif opcao == 2 or opcao == 5:
-            cotacao.progressive(playwright, zipcode=zipcode, first_name=data.first_name, 
-                last_name=data.last_name, date_birth=data.nascimento, 
-                address=data.endereco, vin=data.vin, email=EMAIL, financiado=data.financiado)
             
+        else:
+            fazer_cotacao_only(opcao)
+        quote_window.destroy()
 
-def card_and_cotacao(opcao):
-    card_only()
-    fazer_cotacao_only(opcao=opcao)
+    def quote_progressive():
+        opcao = "progressive"
+        if checked_state.get() == 1:
+            card_and_cotacao(opcao)
+        else:
+            fazer_cotacao_only(opcao)
+        quote_window.destroy()
+
+    main_window.destroy()
+    quote_window = Tk()
+    quote_window.minsize(500,200)
+    quote_window.title("AutoWork")
+    quote_window.config(padx=50, pady=30)
+    select_label = Label(text="Select an Option", font=("Arial", 14, "bold"), pady=10)
+    select_label.grid(column=1,row=0)
+
+    trello_only = Button(text="Trello Card", pady=10, command= card_only)
+    trello_only.grid(column=1,row=1)
+
+    checked_state= IntVar()
+    checkbutton = Checkbutton(text="Trello", variable=checked_state)
+    checkbutton.grid(column=0, row=1)
+
+
+    geico = Button(text="Geico Quote", pady=10, command=quote_geico)
+    geico.grid(column=0,row=2)
+
+    progressive = Button(text="Progressive Quote", pady=10, command=quote_progressive)
+    progressive.grid(column=2,row=2)
+
+    delete = Button(text="Delete", pady=10, command=data.delete_excel)
+    delete.grid(column=1,row=4)
+
+
+
+
+    quote_window.mainloop()
 
 
 if __name__ == "__main__":

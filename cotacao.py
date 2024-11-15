@@ -30,14 +30,16 @@ class Cotacao():
         page.wait_for_load_state("networkidle")
         page.locator("#labelForYes").click()
         page.get_by_role("button", name="Next").click()
-        # page.wait_for_load_state("networkidle")
-        # page.get_by_placeholder("-----------------").fill("1hgcr6f58fa012779")
-        # page.get_by_role("button", name="Next").click()
-        # page.get_by_role("button", name="Next").click()
+        page.wait_for_load_state("networkidle")
+        page.get_by_placeholder("-----------------").fill(vin)
+        page.get_by_role("button", name="Next").click()
+        #page.get_by_role("button", name="Next").click()
         # page.locator("#labelForYes").click()
         # page.get_by_role("button", name="Next").click()
         # page.get_by_role("button", name="Next").click()
         # page.locator("#labelForF").click()
+        time.sleep(300)
+
         
 
         # ---------------------

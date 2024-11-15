@@ -31,7 +31,14 @@ class DataManager:
 
         self.nome = response["nomeCompleto"]
         self.first_name, self.last_name = self.nome.split(" ")
-        self.nascimento = response["dataDeNascimento"]
+        mes,dia,ano = response["dataDeNascimento"].split("/")
+        if len(mes) == 1:
+            mes = f"0{mes}"
+        if len(dia) == 1:
+            dia = f"0{dia}"
+        self.nascimento = f"{mes}/{dia}/{ano}"
+
+
         self.documento = response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"]
         self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
         self.vin = response["vinDoVeículo"]
@@ -67,4 +74,3 @@ class DataManager:
         """Apenas deleta a primeira row do excel 
         (utilizar quando a cotacao ja tiver sido feita)"""
         requests.delete(url=f"{URL_EXCEL}/2", headers=header)
-
