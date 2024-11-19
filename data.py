@@ -30,7 +30,13 @@ class DataManager:
         
 
         self.nome = response["nomeCompleto"]
+        self.documento = response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"]
+        self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
+        self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
+        self.tempo_de_seguro = response["tempoDeSeguro"]
         self.first_name, self.last_name = self.nome.split(" ")
+
+
         mes,dia,ano = response["dataDeNascimento"].split("/")
         if len(mes) == 1:
             mes = f"0{mes}"
@@ -39,15 +45,14 @@ class DataManager:
         self.nascimento = f"{mes}/{dia}/{ano}"
 
 
-        self.documento = response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"]
-        self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
-        self.vin = response["vinDoVeículo"]
-        self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
-        self.tempo_de_seguro = response["tempoDeSeguro"]
-
-
-        get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{self.vin}?format=json').json()['Results']
-        self.veiculo=f"{get_info[7]["Value"]}, {get_info[9]["Value"]}, {get_info[10]["Value"]}"
+        
+        
+        self.vin = response["vinDoVeículo"].split(" / ")
+        self.veiculos = ""
+        for veiculo in self.vin:
+            get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{veiculo}?format=json').json()['Results']
+            carros=f"{get_info[7]["Value"]}, {get_info[9]["Value"]}, {get_info[10]["Value"]} / "
+            self.veiculos = carros + self.veiculos
 
 
 

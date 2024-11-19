@@ -1,6 +1,9 @@
 from tkinter import *
 from functions import *
 
+
+
+### PAGINA PRINCIPAL
 def main():
     global main_window 
     main_window = Tk()
@@ -16,7 +19,7 @@ def main():
     quote_button = Button(text="Get Quote",command=get_quote)
     quote_button.grid(row=1, column=0)
 
-    support_button = Button(text="Get Support")
+    support_button = Button(text="Get Support", command=get_support)
     support_button.grid(row=1, column=1)
 
     quit_button = Button(text="Quit", command=main_window.destroy)
@@ -26,7 +29,7 @@ def main():
     main_window.mainloop()
 
 
-
+### PAGINA PRA COTACAO
 def get_quote():
     def quote_geico():
         opcao = "geico"
@@ -74,6 +77,40 @@ def get_quote():
 
 
     quote_window.mainloop()
+
+
+### PAGINA DO SUPORTE
+def get_support():
+
+    def get_input():
+        user = user_entry.get()
+        password = password_entry.get()
+        mensagem = mensagem_entry.get()
+        support_progressive (user=user, password=password, mensagem=mensagem)
+    main_window.destroy()
+    support_window = Tk()
+    support_window.title("AutoWork")
+    support_window.config(padx=50, pady=30)
+
+    user_label = Label(text="Username")
+    user_label.grid(row=0, column=0)
+    user_entry = Entry(support_window, text="User")
+    user_entry.grid(row=0, column=1)
+
+    password_label = Label(text="Password")
+    password_label.grid(row=1, column=0)
+    password_entry = Entry(support_window, text="Password")
+    password_entry.grid(row=1, column=1)
+
+
+    mensagem_label = Label(text="Mensagem")
+    mensagem_label.grid(row=2, column=0)
+    mensagem_entry = Entry(support_window, text="Your message")
+    mensagem_entry.grid(row=2,column=1)
+
+    button = Button(text="Enter", command=get_input, width=15)
+    button.grid(row=3, column=1)
+    support_window.mainloop()
 
 
 if __name__ == "__main__":
