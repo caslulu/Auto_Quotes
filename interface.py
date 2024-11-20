@@ -1,5 +1,7 @@
 from tkinter import *
-from functions import *
+
+from Cotacao_Automatica.cotacao_funcoes import *
+from Suporte_automatico.suporte_funcoes import *
 
 
 
