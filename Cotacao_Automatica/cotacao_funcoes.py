@@ -3,8 +3,10 @@ import os
 from playwright.sync_api import Playwright, sync_playwright, expect
 
 
-from data import DataManager
-from Cotacao_Automatica.cotacao import Cotacao
+from Cotacao_automatica.data import DataManager
+from Cotacao_automatica.cotacao import Cotacao
+
+
 EMAIL = os.getenv("EMAIL")
 data = DataManager()
 cotacao = Cotacao()

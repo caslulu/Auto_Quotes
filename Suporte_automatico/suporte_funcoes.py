@@ -1,5 +1,5 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
-from suporte import Suporte
+from Suporte_automatico.suporte import Suporte
 
 suporte = Suporte()
 
