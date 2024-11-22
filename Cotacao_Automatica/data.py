@@ -29,6 +29,7 @@ class DataManager:
         self.nome = response["nomeCompleto"]
         self.documento = response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"]
         self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
+        self.zipcode = self.endereco.split(" ")[-1]
         self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
         self.tempo_de_seguro = response["tempoDeSeguro"]
         self.first_name, self.last_name = self.nome.split(" ")
@@ -90,6 +91,7 @@ class DataManager:
         (utilizar quando a cotacao ja tiver sido feita)"""
 
         requests.delete(url=f"{URL_EXCEL}/2", headers=header)
+
 
 
 

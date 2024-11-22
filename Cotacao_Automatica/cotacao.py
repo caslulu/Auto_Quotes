@@ -4,7 +4,7 @@ import time
 
 
 class Cotacao():
-    def automatico(self, playwright, zipcode, first_name, last_name, date_birth, address, vin, email, financiado, opcao):
+    def automatico(self, playwright, zipcode, first_name, last_name, date_birth, address, vin, email, financiado, opcao, quantidade_veiculos):
         ## Fazer cotacao na geico
         if opcao == "geico":
             browser = playwright.chromium.launch(headless=False)
@@ -49,10 +49,13 @@ class Cotacao():
             # page.get_by_role("button", name="Next").click()
             # page.get_by_role("button", name="Next").click()
             # page.locator("#labelForF").click()
-            time.sleep(300)
+            time.sleep(350)
             #------------#
             context.close()
             browser.close()
+
+
+            
         ## Fazer cotacao na progressive
         elif opcao == "progressive":
             browser = playwright.chromium.launch(headless=False)
@@ -83,15 +86,26 @@ class Cotacao():
             page.get_by_label("Street number and name").click()
             page.get_by_label("Street number and name").fill(address)
             time.sleep(10)
-
             page.get_by_role("button", name="Ok, start my quote").click()
-            page.get_by_role("link", name="Enter by VIN").click()
-            page.get_by_label("Vehicle Identification Number").fill(vin)
-            page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
-            if financiado == "Financiado":
-                page.get_by_label("Own or lease?").select_option("2")
-            else:
-                page.get_by_label("Own or lease?").select_option("3")
+
+            # MEXER AQUI PARA COLOCAR MAIS DE 1 VEICULO!
+            for veiculo in quantidade_veiculos:
+                page.get_by_role("link", name="Enter by VIN").click()
+                page.get_by_label("Vehicle Identification Number").fill(veiculo)
+                page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
+                time.sleep(1)
+                if financiado == "Financiado":
+                    page.get_by_label("Own or lease?").select_option("2")
+                else:
+                    page.get_by_label("Own or lease?").select_option("3")
+                    time.sleep(1)
+                page.get_by_label("How long have you had this").select_option("D")
+                time.sleep(1)
+                page.get_by_label("Learn more aboutAnnual").select_option(index=1)
+                time.sleep(10)
+                if len(quantidade_veiculos) >= 2:
+                    page.get_by_role("button", name="+Add another vehicle?").click()
+
             time.sleep(270)
             #---------------------#
             context.close()
