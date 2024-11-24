@@ -49,17 +49,11 @@ class Cotacao():
             # page.get_by_role("button", name="Next").click()
             # page.get_by_role("button", name="Next").click()
             # page.locator("#labelForF").click()
-            time.sleep(350)
-            #------------#
-            context.close()
-            browser.close()
-
 
             
         ## Fazer cotacao na progressive
         elif opcao == "progressive":
             browser = playwright.chromium.launch(headless=False)
-            context = browser.new_context()
             page = context.new_page()
             page.goto("https://www.progressive.com/")
             page.get_by_role("link", name="Or, see all 30+ products").click()
@@ -87,8 +81,6 @@ class Cotacao():
             page.get_by_label("Street number and name").fill(address)
             time.sleep(10)
             page.get_by_role("button", name="Ok, start my quote").click()
-
-            # MEXER AQUI PARA COLOCAR MAIS DE 1 VEICULO!
             for veiculo in quantidade_veiculos:
                 page.get_by_role("link", name="Enter by VIN").click()
                 page.get_by_label("Vehicle Identification Number").fill(veiculo)
@@ -105,8 +97,3 @@ class Cotacao():
                 time.sleep(10)
                 if len(quantidade_veiculos) >= 2:
                     page.get_by_role("button", name="+Add another vehicle?").click()
-
-            time.sleep(270)
-            #---------------------#
-            context.close()
-            browser.close()

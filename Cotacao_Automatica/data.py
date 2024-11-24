@@ -26,8 +26,10 @@ class DataManager:
 
         response = requests.get(url=f"{URL_EXCEL}", headers=header).json()["formResponses1"][0]
         
+        self.genero = response["genero"]
         self.nome = response["nomeCompleto"]
         self.documento = response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"]
+        self.estado_documento = self.documento.split(" - ")[-1]
         self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
         self.zipcode = self.endereco.split(" ")[-1]
         self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
@@ -39,6 +41,7 @@ class DataManager:
         data_nascimento = response["dataDeNascimento"]
         data_formatada = datetime.strptime(data_nascimento, "%m/%d/%Y")
         self.nascimento = data_formatada.strftime("%m/%d/%Y")
+        
 
 
         
