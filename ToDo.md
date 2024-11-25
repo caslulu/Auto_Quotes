@@ -1,3 +1,6 @@
+0. Adicionar Mais de um veiculo na cotacao.
+
+
 1. Clareza e Legibilidade do Código
 Adicione ou atualize comentários explicativos para funções, especialmente onde a lógica é mais complexa.
 Evite abreviações ou nomes confusos para variáveis e funções (ex.: carta para "descrição do card").

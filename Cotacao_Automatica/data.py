@@ -95,6 +95,3 @@ class DataManager:
 
         requests.delete(url=f"{URL_EXCEL}/2", headers=header)
 
-
-
-

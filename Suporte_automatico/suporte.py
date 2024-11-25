@@ -27,7 +27,3 @@ class Suporte:
         page.get_by_placeholder("Enter a message...").fill(mensagem)
         page.get_by_role("button", name="Send").click()
         time.sleep(600)
-
-        # ---------------------
-        context.close()
-        browser.close()

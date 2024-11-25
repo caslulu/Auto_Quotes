@@ -4,7 +4,7 @@ import time
 
 
 class Cotacao():
-    def automatico(self, playwright, zipcode, first_name, last_name, date_birth, address, vin, email, financiado, opcao, quantidade_veiculos):
+    def automatico(self, playwright, zipcode, first_name, last_name, date_birth, address, vin, email, financiado, opcao, quantidade_veiculos, genero, estado, seguro):
         ## Fazer cotacao na geico
         if opcao == "geico":
             browser = playwright.chromium.launch(headless=False)
@@ -49,12 +49,20 @@ class Cotacao():
             # page.get_by_role("button", name="Next").click()
             # page.get_by_role("button", name="Next").click()
             # page.locator("#labelForF").click()
+            time.sleep(350)
+            #------------#
+            context.close()
+            browser.close()
+
 
             
-        ## Fazer cotacao na progressive
+        ## Fazer cotacao na progressive.
         elif opcao == "progressive":
             browser = playwright.chromium.launch(headless=False)
+            context = browser.new_context()
             page = context.new_page()
+
+            #pagina inicial, coloca o zipcode.
             page.goto("https://www.progressive.com/")
             page.get_by_role("link", name="Or, see all 30+ products").click()
             page.get_by_role("option", name="Auto", exact=True).click()
@@ -64,6 +72,7 @@ class Cotacao():
                 page.wait_for_load_state("networkidle")
             except:
                 pass
+            #Informacoes Basicas.
             page.goto("https://autoinsurance1.progressivedirect.com/0/UQA/Quote") 
             page.goto("https://autoinsurance1.progressivedirect.com/0/UQA/Quote/NameEdit")
             page.get_by_label("First Name").click()
@@ -76,24 +85,79 @@ class Cotacao():
             page.get_by_label("Date of birth*").fill(date_birth)
             page.get_by_role("button", name="Continue").click()
 
+            #Informacoes do Endereco.
             page.wait_for_load_state("load")
             page.get_by_label("Street number and name").click()
             page.get_by_label("Street number and name").fill(address)
             time.sleep(10)
             page.get_by_role("button", name="Ok, start my quote").click()
+
+            #Informacoes do Veiculo.
             for veiculo in quantidade_veiculos:
                 page.get_by_role("link", name="Enter by VIN").click()
                 page.get_by_label("Vehicle Identification Number").fill(veiculo)
                 page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
-                time.sleep(1)
+                time.sleep(0.5)
                 if financiado == "Financiado":
                     page.get_by_label("Own or lease?").select_option("2")
                 else:
                     page.get_by_label("Own or lease?").select_option("3")
-                    time.sleep(1)
+                    time.sleep(0.5)
                 page.get_by_label("How long have you had this").select_option("D")
-                time.sleep(1)
+                time.sleep(0.5)
                 page.get_by_label("Learn more aboutAnnual").select_option(index=1)
-                time.sleep(10)
+                time.sleep(5)
                 if len(quantidade_veiculos) >= 2:
                     page.get_by_role("button", name="+Add another vehicle?").click()
+            page.get_by_role("button", name="Continue").click()
+
+            try:
+                #Informacoes Pessoais 2
+                if genero == "Masculino":
+                    page.get_by_label("Male", exact=True).check()
+                else:
+                    page.get_by_label("Female").check()
+                page.get_by_label("Marital Status*").select_option("S")
+                try:
+                    page.get_by_label("Primary Residence Insurance*").select_option("T")
+                except:
+                    pass
+                if estado != "IT":
+                    page.get_by_label("Has your license been valid").get_by_label("Yes").check()
+                else:
+                    page.get_by_label("U.S. License Type*").select_option("F")
+                time.sleep(5)
+            except:
+                pass
+            page.get_by_role("button", name="Continue").click()
+
+            #Seguro Anterior
+
+            if seguro == "Nunca Teve":
+                page.get_by_label("Do you have auto insurance").get_by_label("No").check()
+                page.get_by_label("Have you had auto insurance in the last 31 days?*").get_by_label("No").check()
+
+            elif seguro == "Menos De 1 Ano":
+                page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                page.get_by_label("How long have you been with").select_option("A")
+                page.get_by_label("Have you been insured for the").get_by_label("Yes").check()
+            elif seguro == "1-3 Anos":
+                page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                page.get_by_label("How long have you been with").select_option("B")
+            else:
+                page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                page.get_by_label("How long have you been with").select_option("C")
+
+            page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
+            page.get_by_label("Have you had auto insurance").get_by_label("No").check()
+            time.sleep(7)
+            page.get_by_role("button", name="Continue").click()
+            page.get_by_label("Mobile app", exact=True).check()
+            page.get_by_role("button", name="Continue").click()
+            page.get_by_role("button", name="No thanks, just auto").click()
+
+
+            time.sleep(150)
+            #---------------------#
+            context.close()
+            browser.close()
