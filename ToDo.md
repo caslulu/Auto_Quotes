@@ -1,6 +1,3 @@
-0. Adicionar Mais de um veiculo na cotacao.
-
-
 1. Clareza e Legibilidade do Código
 Adicione ou atualize comentários explicativos para funções, especialmente onde a lógica é mais complexa.
 Evite abreviações ou nomes confusos para variáveis e funções (ex.: carta para "descrição do card").
@@ -18,22 +15,6 @@ Valide entradas do usuário na interface Tkinter (ex.: verificar se o VIN inseri
 3. Redução de Código Repetido
 Unifique as automações do Geico e Progressive em uma função genérica, parametrizando o que muda (ex.: URL ou campos do formulário).
 Centralize funções comuns, como validações ou conversões, em um módulo utilitário.
-
-
-4. Organização do Projeto
-Separe responsabilidades:
-Crie módulos distintos para lógica de negócios (ex.: DataManager), automações (ex.: Geico e Progressive), e interface gráfica (Tkinter).
-Estruture o projeto com pastas claras, como:
-bash
-Copiar código
-project/
-├── modules/
-│   ├── data_manager.py
-│   ├── automations.py
-│   ├── vin_decoder.py
-├── interface.py
-├── .env
-└── main.py
 
 
 5. Melhorias no Tkinter (Interface Gráfica)

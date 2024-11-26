@@ -68,10 +68,12 @@ class Cotacao():
             page.get_by_role("option", name="Auto", exact=True).click()
             page.get_by_role("textbox", name="Enter ZIP Code").fill(zipcode)
             page.get_by_role("button", name="Get a quote").click()
+
             try:
                 page.wait_for_load_state("networkidle")
             except:
                 pass
+
             #Informacoes Basicas.
             page.goto("https://autoinsurance1.progressivedirect.com/0/UQA/Quote") 
             page.goto("https://autoinsurance1.progressivedirect.com/0/UQA/Quote/NameEdit")
@@ -94,6 +96,7 @@ class Cotacao():
 
             #Informacoes do Veiculo.
             for veiculo in quantidade_veiculos:
+                i = 1
                 page.get_by_role("link", name="Enter by VIN").click()
                 page.get_by_label("Vehicle Identification Number").fill(veiculo)
                 page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
@@ -103,16 +106,24 @@ class Cotacao():
                 else:
                     page.get_by_label("Own or lease?").select_option("3")
                     time.sleep(0.5)
-                page.get_by_label("How long have you had this").select_option("D")
-                time.sleep(0.5)
-                page.get_by_label("Learn more aboutAnnual").select_option(index=1)
-                time.sleep(5)
+                try:
+                    page.get_by_label("How long have you had this").select_option("D")
+                    time.sleep(0.5)
+                    page.get_by_label("Learn more aboutAnnual").select_option(index=1)
+                    time.sleep(5)
+                except:
+                    print("Nao foi possivel encotrar alguns botoes.")
+                    time.sleep(7)
+                    continue
                 if len(quantidade_veiculos) >= 2:
-                    page.get_by_role("button", name="+Add another vehicle?").click()
+                    if i < len(quantidade_veiculos):
+                        page.get_by_role("button", name="+Add another vehicle?").click()
+                        i += 1
+
             page.get_by_role("button", name="Continue").click()
 
+            #Informacoes Pessoais 
             try:
-                #Informacoes Pessoais 2
                 if genero == "Masculino":
                     page.get_by_label("Male", exact=True).check()
                 else:
@@ -131,33 +142,37 @@ class Cotacao():
                 pass
             page.get_by_role("button", name="Continue").click()
 
+
             #Seguro Anterior
+            try:
+                if seguro == "Nunca Teve":
+                    page.get_by_label("Do you have auto insurance").get_by_label("No").check()
+                    page.get_by_label("Have you had auto insurance in the last 31 days?*").get_by_label("No").check()
 
-            if seguro == "Nunca Teve":
-                page.get_by_label("Do you have auto insurance").get_by_label("No").check()
-                page.get_by_label("Have you had auto insurance in the last 31 days?*").get_by_label("No").check()
+                elif seguro == "Menos De 1 Ano":
+                    page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                    page.get_by_label("How long have you been with").select_option("A")
+                    page.get_by_label("Have you been insured for the").get_by_label("Yes").check()
+                elif seguro == "1-3 Anos":
+                    page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                    page.get_by_label("How long have you been with").select_option("B")
+                else:
+                    page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                    page.get_by_label("How long have you been with").select_option("C")
 
-            elif seguro == "Menos De 1 Ano":
-                page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
-                page.get_by_label("How long have you been with").select_option("A")
-                page.get_by_label("Have you been insured for the").get_by_label("Yes").check()
-            elif seguro == "1-3 Anos":
-                page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
-                page.get_by_label("How long have you been with").select_option("B")
-            else:
-                page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
-                page.get_by_label("How long have you been with").select_option("C")
-
-            page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
-            page.get_by_label("Have you had auto insurance").get_by_label("No").check()
-            time.sleep(7)
-            page.get_by_role("button", name="Continue").click()
-            page.get_by_label("Mobile app", exact=True).check()
-            page.get_by_role("button", name="Continue").click()
-            page.get_by_role("button", name="No thanks, just auto").click()
+                page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
+                page.get_by_label("Have you had auto insurance").get_by_label("No").check()
+                time.sleep(7)
+                page.get_by_role("button", name="Continue").click()
+                page.get_by_label("Mobile app", exact=True).check()
+                page.get_by_role("button", name="Continue").click()
+                page.get_by_role("button", name="No thanks, just auto").click()
+            except:
+                print("Nao foi possivel encontrar alguns botoes")
+                pass
 
 
-            time.sleep(150)
+            time.sleep(250)
             #---------------------#
             context.close()
             browser.close()

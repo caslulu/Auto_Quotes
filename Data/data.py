@@ -1,8 +1,11 @@
 import requests
 import os
-from dotenv import load_dotenv, dotenv_values 
-from datetime import datetime
+from dotenv import load_dotenv
+
+from Data.data_funcoes import *
 load_dotenv()
+
+
 #EXCEL API INFOS
 header = {os.getenv("HEADER_KEY"): os.getenv("HEADER_VALUE")}
 URL_EXCEL = os.getenv("URL_EXCEL")
@@ -18,43 +21,32 @@ idList = os.getenv("TRELLO_ID_LIST")
 
 
 class DataManager:
+    def __init__(self) -> None:
+        pass
 
 
     def pegar_excel(self):
+
+
         """a funcao pegar_excel, vai pegar a primeira row do excel e salvar nas variaveis abaixo!"""
 
 
-        response = requests.get(url=f"{URL_EXCEL}", headers=header).json()["formResponses1"][0]
-        
+        response = requests.get(url=f"{URL_EXCEL}", headers=header)
+        print(response.status_code)
+        response = response.json()["formResponses1"][0]
+
+
         self.genero = response["genero"]
         self.nome = response["nomeCompleto"]
-        self.documento = response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"]
-        self.estado_documento = self.documento.split(" - ")[-1]
+        self.documento, self.estado_documento = separar_documento(response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"])
         self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
         self.zipcode = self.endereco.split(" ")[-1]
         self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
         self.tempo_de_seguro = response["tempoDeSeguro"]
-        self.first_name, self.last_name = self.nome.split(" ")
+        self.first_name, self.last_name = separar_nome(self.nome)
         self.vin = response["vinDoVeículo"]
-        self.veiculos = ""
-        self.decodificar_vin()
-        data_nascimento = response["dataDeNascimento"]
-        data_formatada = datetime.strptime(data_nascimento, "%m/%d/%Y")
-        self.nascimento = data_formatada.strftime("%m/%d/%Y")
-        
-
-
-        
-    def decodificar_vin(self):
-
-        """essa funcao vai pegar o(s) vins e escrever o nome do veiculo, caso seja necessario utilizar"""
-        self.lista_vin = self.vin.split(" / ")
-        for veiculo in self.lista_vin:
-            get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{veiculo}?format=json').json()['Results']
-            carros=f"{get_info[7]["Value"]}, {get_info[9]["Value"]}, {get_info[10]["Value"]} / "
-            self.veiculos = carros + self.veiculos
-
-
+        self.veiculos, self.lista_vin = decodificar_vin(vin=self.vin)
+        self.nascimento = formatar_data(data=response["dataDeNascimento"])
             
     def criar_card_trello(self):
 
@@ -94,4 +86,4 @@ class DataManager:
         (utilizar quando a cotacao ja tiver sido feita)"""
 
         requests.delete(url=f"{URL_EXCEL}/2", headers=header)
-
+        

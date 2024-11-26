@@ -3,7 +3,7 @@ import os
 from playwright.sync_api import Playwright, sync_playwright, expect
 
 
-from Cotacao_automatica.data import DataManager
+from Data.data import *
 from Cotacao_automatica.cotacao import Cotacao
 
 
