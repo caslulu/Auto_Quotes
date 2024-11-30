@@ -26,4 +26,4 @@ class Suporte:
         time.sleep(30)
         page.get_by_placeholder("Enter a message...").fill(mensagem)
         page.get_by_role("button", name="Send").click()
-        time.sleep(600)
+        time.sleep(4000)

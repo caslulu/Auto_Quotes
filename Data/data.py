@@ -66,7 +66,7 @@ class DataManager:
         """
 
         
-        descricao_carta = f'doc: {self.documento} \n {self.endereco} \n vin: {self.vin} \n\
+        descricao_carta = f'doc: {self.documento} - {self.estado_documento} \n {self.endereco} \n vin: {self.vin} \n\
            {self.financiado} \n {self.nascimento} \n tempo de seguro: {self.tempo_de_seguro} \n\
             veiculo: {self.veiculos}'
 
@@ -86,4 +86,3 @@ class DataManager:
         (utilizar quando a cotacao ja tiver sido feita)"""
 
         requests.delete(url=f"{URL_EXCEL}/2", headers=header)
-        
