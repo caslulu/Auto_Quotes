@@ -67,9 +67,8 @@ class Progressive():
 
     #Informacoes do Veiculo.   
     def informacoes_veiculos(self, quantidade_veiculos, financiado):
-            
-        for veiculo in quantidade_veiculos:
-            i = 1
+        i = 1    
+        for veiculo in quantidade_veiculos: 
             self.page.get_by_role("link", name="Enter by VIN").click()
             self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
             self.page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
@@ -102,18 +101,45 @@ class Progressive():
             else:
                 self.page.get_by_label("Female").check()
             self.page.get_by_label("Marital Status*").select_option("S")
-            try:
-                self.page.get_by_label("Primary Residence Insurance*").select_option("T")
-            except:
-                pass
+            self.page.get_by_label("Primary Residence Insurance*").select_option("T")
             if estado != "IT":
                 self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
             else:
                 self.page.get_by_label("U.S. License Type*").select_option("F")
-            time.sleep(5)
+
+
         except:
+            if genero == "Masculino":
+                self.page.get_by_label("Male", exact=True).check()
+            else:
+                self.page.get_by_label("Female").check()
+            self.page.get_by_label("Marital Status*").select_option("S")
+            self.page.get_by_label("Highest Level of Education*").select_option("2")
+            self.page.get_by_label("Employment Status*").select_option("EM")
+            self.page.get_by_label("Occupation view entire list").click()
+            if genero == "Masculino":
+                self.page.get_by_label("Occupation view entire list").fill("builder")
+                self.page.get_by_role("option", name="Builder: Construction").click()
+            else:
+                self.page.get_by_label("Occupation view entire list").fill("cleaner")
+                self.page.get_by_text("Cleaner").click()
+
+            self.page.get_by_label("Primary Residence*").select_option("T")
+
+            if estado != "IT":
+                    self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
+            else:
+                self.page.get_by_label("U.S. License Type*").select_option("F")
+        else:
+            time.sleep(10)
             pass
+        finally:
+            time.sleep(10)
+
         self.page.get_by_role("button", name="Continue").click()
+        self.page.wait_for_load_state("networkidle")
+        self.page.get_by_role("button", name="Continue").click()
+
 
     #Seguro Anterior
     def informacoes_seguro_anterior(self, seguro):
@@ -141,8 +167,3 @@ class Progressive():
         except:
             print("Nao foi possivel encontrar alguns botoes")
             pass
-
-
-        time.sleep(250)
-        context.close()
-        browser.close()
