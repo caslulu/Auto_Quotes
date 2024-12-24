@@ -126,10 +126,10 @@ class Progressive():
 
             self.page.get_by_label("Primary Residence*").select_option("T")
 
-            if estado != "IT":
-                    self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
-            else:
-                self.page.get_by_label("U.S. License Type*").select_option("F")
+            # if estado != "IT":
+            #         self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
+            # else:
+            #     self.page.get_by_label("U.S. License Type*").select_option("F")
         else:
             time.sleep(10)
             pass
@@ -139,7 +139,6 @@ class Progressive():
         self.page.get_by_role("button", name="Continue").click()
         self.page.wait_for_load_state("networkidle")
         self.page.get_by_role("button", name="Continue").click()
-
 
     #Seguro Anterior
     def informacoes_seguro_anterior(self, seguro):
