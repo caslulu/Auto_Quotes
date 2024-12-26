@@ -1,12 +1,4 @@
 import time
-from Data.data import DataManager
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-EMAIL = os.getenv("EMAIL")
-data = DataManager()
-data.pegar_excel()
 
 class Progressive():
     def cotacao(self, playwright, data_dict):
