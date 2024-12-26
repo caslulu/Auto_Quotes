@@ -62,7 +62,7 @@ class Progressive():
         self.page.wait_for_load_state("load")
         self.page.get_by_label("Street number and name").click()
         self.page.get_by_label("Street number and name").fill(address)
-        time.sleep(10)
+        time.sleep(7)
         self.page.get_by_role("button", name="Ok, start my quote").click()
 
     #Informacoes do Veiculo.   
@@ -72,15 +72,15 @@ class Progressive():
             self.page.get_by_role("link", name="Enter by VIN").click()
             self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
             self.page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
-            time.sleep(0.5)
+            time.sleep(0.7)
             if financiado == "Financiado":
                 self.page.get_by_label("Own or lease?").select_option("2")
             else:
                 self.page.get_by_label("Own or lease?").select_option("3")
-                time.sleep(0.5)
+                time.sleep(0.7)
             try:
                 self.page.get_by_label("How long have you had this").select_option("D")
-                time.sleep(0.5)
+                time.sleep(0.7)
                 self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
                 time.sleep(5)
             except:
@@ -95,12 +95,13 @@ class Progressive():
 
     #Informacoes Pessoais 
     def informacoes_pessoais(self, genero, estado):
+        if genero == "Masculino":
+            self.page.get_by_label("Male", exact=True).check()
+        else:
+            self.page.get_by_label("Female").check()
+        self.page.get_by_label("Marital Status*").select_option("S")
+
         try:
-            if genero == "Masculino":
-                self.page.get_by_label("Male", exact=True).check()
-            else:
-                self.page.get_by_label("Female").check()
-            self.page.get_by_label("Marital Status*").select_option("S")
             self.page.get_by_label("Primary Residence Insurance*").select_option("T")
             if estado != "IT":
                 self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
@@ -109,11 +110,6 @@ class Progressive():
 
 
         except:
-            if genero == "Masculino":
-                self.page.get_by_label("Male", exact=True).check()
-            else:
-                self.page.get_by_label("Female").check()
-            self.page.get_by_label("Marital Status*").select_option("S")
             self.page.get_by_label("Highest Level of Education*").select_option("2")
             self.page.get_by_label("Employment Status*").select_option("EM")
             self.page.get_by_label("Occupation view entire list").click()
@@ -122,22 +118,13 @@ class Progressive():
                 self.page.get_by_role("option", name="Builder: Construction").click()
             else:
                 self.page.get_by_label("Occupation view entire list").fill("cleaner")
-                self.page.get_by_text("Cleaner").click()
+                self.page.get_by_role("option", name="Cleaner").click()
 
-            self.page.get_by_label("Primary Residence*").select_option("T")
+            self.page.get_by_label("Primary Residence*").select_option("R")
+            if estado =="IT":
+                self.page.get_by_label("U.S. License Type*").select_option("F")
 
-            # if estado != "IT":
-            #         self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
-            # else:
-            #     self.page.get_by_label("U.S. License Type*").select_option("F")
-        else:
-            time.sleep(10)
-            pass
-        finally:
-            time.sleep(10)
-
-        self.page.get_by_role("button", name="Continue").click()
-        self.page.wait_for_load_state("networkidle")
+        time.sleep(5)
         self.page.get_by_role("button", name="Continue").click()
 
     #Seguro Anterior
