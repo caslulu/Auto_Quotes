@@ -35,7 +35,6 @@ class DataManager:
         print(response.status_code)
         response = response.json()["formResponses1"][0]
 
-
         self.genero = response["genero"]
         self.nome = response["nomeCompleto"]
         self.documento, self.estado_documento = separar_documento(response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"])
@@ -47,6 +46,18 @@ class DataManager:
         self.vin = response["vinDoVeículo"]
         self.veiculos, self.lista_vin = decodificar_vin(vin=self.vin)
         self.nascimento = formatar_data(data=response["dataDeNascimento"])
+
+        self.dict = {"genero" : self.genero,
+                     "zipcode": self.zipcode,
+                     "first_name": self.first_name,
+                     "last_name": self.last_name,
+                     "email": os.getenv("EMAIL"),
+                     "date_birth": self.nascimento,
+                     "endereco": self.endereco,
+                     "lista_vin": self.lista_vin,
+                     "financiado": self.financiado,
+                     "estado": self.estado_documento,
+                     "tempo_seguro": self.tempo_de_seguro}
             
     def criar_card_trello(self):
 

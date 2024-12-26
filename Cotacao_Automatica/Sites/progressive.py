@@ -9,27 +9,27 @@ data = DataManager()
 data.pegar_excel()
 
 class Progressive():
-    def cotacao(self, playwright):
+    def cotacao(self, playwright, data_dict):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
         
-        self.pagina_inicial(zipcode=data.zipcode)
+        self.pagina_inicial(zipcode=data_dict["zipcode"])
 
         try:
             self.page.wait_for_load_state("networkidle")
         except:
             pass
 
-        self.informacoes_basicas(first_name=data.first_name, last_name=data.last_name, email=EMAIL, date_birth=data.nascimento)
+        self.informacoes_basicas(first_name=data_dict["first_name"], last_name=data_dict["last_name"], email=data_dict["email"], date_birth=data_dict["date_birth"])
         
-        self.informacoes_endereco(address=data.endereco)
+        self.informacoes_endereco(address=data_dict["endereco"])
 
-        self.informacoes_veiculos(quantidade_veiculos=data.lista_vin, financiado=data.financiado)
+        self.informacoes_veiculos(quantidade_veiculos=data_dict["lista_vin"], financiado=data_dict["financiado"])
 
-        self.informacoes_pessoais(genero=data.genero, estado=data.estado_documento)
+        self.informacoes_pessoais(genero=data_dict["genero"], estado=data_dict["estado"])
         
-        self.informacoes_seguro_anterior(seguro=data.tempo_de_seguro)
+        self.informacoes_seguro_anterior(seguro=data_dict["tempo_seguro"])
         
         time.sleep(250)
         context.close()
