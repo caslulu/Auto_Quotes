@@ -31,26 +31,12 @@ Adicione verificações para garantir que elementos esperados estão disponívei
 
 
 7. Segurança e Gerenciamento de Sensíveis
-Verifique se o arquivo .env está protegido contra inclusão acidental no repositório (use .gitignore).
 Adicione logs ou mensagens úteis ao lidar com falhas relacionadas a tokens ou credenciais.
-
-
-
-8. Testes e Depuração
-Crie um conjunto de testes unitários para funções críticas, como:
-decodificar_vin
-Manipulação de arquivos Excel (pegar_excel)
-Simule cenários adversos, como entradas inválidas ou falta de conexão com a internet.
-
-
 
 9. Documentação
 Adicione um README completo ao projeto, incluindo:
 Explicação do propósito do projeto.
 Instruções de instalação e execução.
-Configuração do .env e bibliotecas necessárias.
-
-
 
 10. Recursos Adicionais (Opcional)
 Implemente logs (usando logging) para monitorar a execução do programa.

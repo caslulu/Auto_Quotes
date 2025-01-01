@@ -7,15 +7,14 @@ from Cotacao_automatica.Sites.geico import Geico
 
 data = DataManager()
 
-
-data.pegar_excel()
-
 # vai apenas criar o card no trello
 def card_only():
+    data.pegar_excel()
     data.criar_card_trello()
     
 # vai apenas fazer a cotacao
 def fazer_cotacao_only(opcao):
+    data.pegar_excel()
     with sync_playwright() as playwright:
 
         if opcao == "progressive":
