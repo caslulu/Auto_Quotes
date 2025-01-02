@@ -1,11 +1,12 @@
 from customtkinter import *
 from PIL import Image
+from Interface.login_progressive import LoginProgressive
 
 class SupportInterface:
     def __init__(self):
-        self.geico_img = Image.open("images/geico.jpg")
-        self.progressive_img = Image.open("images/progressive.jpeg")
-        self.allstate_img = Image.open("images/allstate.png")
+        self.geico_img = Image.open("Interface/images/geico.jpg")
+        self.progressive_img = Image.open("Interface/images/progressive.jpeg")
+        self.allstate_img = Image.open("Interface/images/allstate.png")
 
 
     def support_page(self):
@@ -23,7 +24,7 @@ class SupportInterface:
 
         options_frame = CTkFrame(main_frame)
         geico_button = CTkButton(options_frame, text="Geico", command=lambda: print("Chat"), corner_radius=30, image=CTkImage(dark_image=self.geico_img, light_image=self.geico_img))
-        progressive_button = CTkButton(options_frame, text="Progressive", command=lambda: print("Chat"), corner_radius=30, image=CTkImage(dark_image=self.progressive_img, light_image=self.progressive_img))
+        progressive_button = CTkButton(options_frame, text="Progressive", command=self.progressive_button, corner_radius=30, image=CTkImage(dark_image=self.progressive_img, light_image=self.progressive_img))
         allstate_button = CTkButton(options_frame, text="Allstate", command=lambda: print("Chat"), corner_radius=30, image=CTkImage(dark_image=self.allstate_img, light_image=self.allstate_img))
 
 
@@ -32,3 +33,6 @@ class SupportInterface:
         progressive_button.pack(side=LEFT, padx=10)
         allstate_button.pack(side=LEFT, padx=10)
         self.window.mainloop()
+
+    def progressive_button(self):
+        LoginProgressive().login()

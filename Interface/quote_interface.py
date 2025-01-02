@@ -31,9 +31,9 @@ class QuoteInterface:
         self.checked_state = IntVar()
         check_button = CTkCheckBox(options_frame, text="Trello", text_color="white", variable=self.checked_state, corner_radius=36)
         
-        geico_button = CTkButton(options_frame, text="Geico", command=lambda: print("Geico"), corner_radius=30, image=CTkImage(dark_image=self.geico_img, light_image=self.geico_img))
+        geico_button = CTkButton(options_frame, text="Geico", command=self.geico_button, corner_radius=30, image=CTkImage(dark_image=self.geico_img, light_image=self.geico_img))
 
-        progressive_button = CTkButton(options_frame, text="Progressive", command=lambda: print("Progressive"), corner_radius=30, image=CTkImage(dark_image=self.progressive_img, light_image=self.progressive_img))
+        progressive_button = CTkButton(options_frame, text="Progressive", command=self.progressive_button, corner_radius=30, image=CTkImage(dark_image=self.progressive_img, light_image=self.progressive_img))
 
         allstate_button = CTkButton(options_frame, text="Allstate", command=lambda: print("Allstate"), corner_radius=30, image=CTkImage(dark_image=self.allstate_img, light_image=self.allstate_img))
 
@@ -57,7 +57,7 @@ class QuoteInterface:
             fazer_cotacao_only(opcao)
         self.window.destroy()
     
-    def quote_geico(self):
+    def geico_button(self):
         opcao = "geico"
         if self.checked_state.get() == 1:
             card_and_cotacao(opcao)
