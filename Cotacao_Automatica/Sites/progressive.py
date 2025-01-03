@@ -15,7 +15,7 @@ class Progressive():
 
         self.informacoes_basicas(first_name=data_dict["first_name"], last_name=data_dict["last_name"], email=data_dict["email"], date_birth=data_dict["date_birth"])
         
-        self.informacoes_endereco(address=data_dict["endereco"])
+        self.informacoes_endereco(street=data_dict["rua"], city=data_dict["cidade"], apt=data_dict["apt"])
 
         self.informacoes_veiculos(quantidade_veiculos=data_dict["lista_vin"], financiado=data_dict["financiado"])
 
@@ -50,11 +50,15 @@ class Progressive():
         self.page.get_by_role("button", name="Continue").click()
 
     #Informacoes do Endereco.
-    def informacoes_endereco(self, address):
+    def informacoes_endereco(self,street, city, apt=None):
         self.page.wait_for_load_state("load")
         self.page.get_by_label("Street number and name").click()
-        self.page.get_by_label("Street number and name").fill(address)
-        time.sleep(7)
+        self.page.get_by_label("Street number and name").fill(street)
+        self.page.get_by_label("Apt./Unit #").click()
+        if apt != None:
+            self.page.get_by_label("Apt./Unit #").fill(apt)
+            self.page.get_by_label("City").click()
+        self.page.get_by_label("City").fill(city)
         self.page.get_by_role("button", name="Ok, start my quote").click()
 
     #Informacoes do Veiculo.   
@@ -64,15 +68,12 @@ class Progressive():
             self.page.get_by_role("link", name="Enter by VIN").click()
             self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
             self.page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
-            time.sleep(0.7)
             if financiado == "Financiado":
                 self.page.get_by_label("Own or lease?").select_option("2")
             else:
                 self.page.get_by_label("Own or lease?").select_option("3")
-                time.sleep(0.7)
             try:
                 self.page.get_by_label("How long have you had this").select_option("D")
-                time.sleep(0.7)
                 self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
                 time.sleep(5)
             except:
@@ -94,6 +95,7 @@ class Progressive():
         self.page.get_by_label("Marital Status*").select_option("S")
 
         try:
+            self.page.locator("label:has-text('Primary Residence Insurance*')").wait_for(timeout=7000)
             self.page.get_by_label("Primary Residence Insurance*").select_option("T")
             if estado != "IT":
                 self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()

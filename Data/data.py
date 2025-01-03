@@ -35,11 +35,10 @@ class DataManager:
         print(response.status_code)
         response = response.json()["formResponses1"][0]
 
-        self.genero = response["genero"]
+        self.genero = response["genero"] 
         self.nome = response["nomeCompleto"]
         self.documento, self.estado_documento = separar_documento(response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"])
-        self.endereco = response["endereçoResidencialCompleto (comZipCode)"]
-        self.zipcode = self.endereco.split(" ")[-1]
+        self.rua, self.apt, self.cidade, self.zipcode = separar_endereco(response["endereçoResidencialCompleto (comZipCode)"])
         self.financiado = response["oVeículo éQuitadoOuFinanciado?"]
         self.tempo_de_seguro = response["tempoDeSeguro"]
         self.first_name, self.last_name = separar_nome(self.nome)
@@ -53,7 +52,9 @@ class DataManager:
                      "last_name": self.last_name,
                      "email": os.getenv("EMAIL"),
                      "date_birth": self.nascimento,
-                     "endereco": self.endereco,
+                     "rua": self.rua,
+                     "apt": self.apt,
+                     "cidade": self.cidade,
                      "lista_vin": self.lista_vin,
                      "financiado": self.financiado,
                      "estado": self.estado_documento,

@@ -3,7 +3,8 @@ from datetime import datetime
 
 def decodificar_vin(vin):
 
-    """pegar o(s) vins e escrever o nome do veiculo"""
+    """pegar o(s) vins e escrever o nome do veiculo
+        return Marca, Modelo, Ano / ..."""
 
     veiculos = ""
     lista_vin = vin.split(" / ")
@@ -20,7 +21,7 @@ def formatar_data(data):
     return nascimento
 
 def separar_nome(nome):
-    """separar o nome em first e last name"""
+    """return first_name, last_name"""
 
     parts = nome.split(" ")
     first_name = parts[0]
@@ -28,7 +29,17 @@ def separar_nome(nome):
     return (first_name, last_name)
 
 def separar_documento(documento_completo):
-    """separar documento em numero do documento e estado do documento"""
+    """return documento, estado"""
     documento, estado = documento_completo.split(" - ")
     return(documento, estado)
+
+
+def separar_endereco(endereco_completo):
+    """return endereco, apt, cidade, zipcode"""
+    if len(endereco_completo.split(", ")) == 3:
+        rua, cidade, zipcode = endereco_completo.split(", ")
+        return (rua, None, cidade, zipcode)
+    else:
+        rua, apt, cidade, zipcode = endereco_completo.split(", ")
+        return (rua, apt, cidade, zipcode)
 
