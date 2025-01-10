@@ -1,8 +1,8 @@
 from playwright.sync_api import sync_playwright
 
 from Data.data import DataManager
-from Cotacao_automatica.Sites.progressive import Progressive
-from Cotacao_automatica.Sites.geico import Geico
+from Automatizacao.progressive import Progressive
+from Automatizacao.geico import Geico
 
 
 data = DataManager()
@@ -31,5 +31,17 @@ def fazer_cotacao_only(opcao):
 def card_and_cotacao(opcao):
     card_only()
     fazer_cotacao_only(opcao=opcao)
+
+# Vai chamar o suporte no site da Progressive
+def suporte_progressive(user, password, mensagem):
+    progressive = Progressive()
+    with sync_playwright() as playwright:
+            progressive.suporte(playwright, user=user, password=password, mensagem=mensagem)
+
+# Vai chamar o suporte no site da Geico
+def suporte_geico(usuario, senha, mensagem, nome):
+    geico = Geico()
+    with sync_playwright() as playwright:
+            geico.suporte(playwright, usuario=usuario, senha=senha, mensagem=mensagem, nome=nome)
 
 

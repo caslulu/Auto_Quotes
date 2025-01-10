@@ -1,6 +1,6 @@
 from customtkinter import *
-from Interface.typeins_interface import TypeinsInterface
-from Interface.support_interface import SupportInterface
+from Interface.tipo_de_seguro import TypeinsInterface
+from Interface.suporte import SupportInterface
 from PIL import Image
 
 

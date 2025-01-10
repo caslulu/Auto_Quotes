@@ -1,3 +1,3 @@
-from Interface import main_interface
+from Interface import pagina_inicial
 
-main_interface.MainInterface().main_page()
+pagina_inicial.MainInterface().main_page()

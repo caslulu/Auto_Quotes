@@ -1,6 +1,41 @@
 import time
 
 class Geico:
+    # Suporte
+    def suporte(self, playwright, mensagem, usuario, senha, nome):
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context()
+        self.page = context.new_page()
+        self.page.goto("https://ecams.geico.com/login")
+        self.page.get_by_label("User ID / Email / Policy").click()
+        self.page.get_by_label("User ID / Email / Policy").fill(usuario)
+        self.page.get_by_label("Password").click()
+        self.page.get_by_label("Password").fill(senha)
+        self.page.get_by_role("button", name="Login").click()
+        try:
+            self.page.wait_for_load_state("networkidle")
+        except:
+            pass
+        self.page.get_by_label("Bring up More Info Menu.").click()
+        self.page.get_by_role("link", name="Start New Quote").click()
+        time.sleep(4)
+        self.page.locator(".gabby-g").click()
+        time.sleep(5)
+        self.page.get_by_placeholder("Type your message...").fill("live agent")
+        self.page.keyboard.press("Enter")
+        time.sleep(5)
+        self.page.get_by_role("button", name="Policy Details or Updates").click()
+        self.page.get_by_role("button", name="Auto").click()
+        time.sleep(50)
+        self.page.get_by_placeholder("Type your message...").fill(f"{nome}")
+        self.page.keyboard.press("Enter")
+        time.sleep(5)
+        self.page.get_by_placeholder("Type your message...").click()
+        self.page.get_by_placeholder("Type your message...").fill(mensagem)
+        self.page.keyboard.press("Enter")
+        time.sleep(4000)
+
+    # Junta todas as funcoes abaixo e faz a cotacao.
     def cotacao(self, playwright, data_dict):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()

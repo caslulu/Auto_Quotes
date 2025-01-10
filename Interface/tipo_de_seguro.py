@@ -1,6 +1,6 @@
 from customtkinter import *
 from PIL import Image
-from Interface.quote_interface import QuoteInterface
+from Interface.cotacao import QuoteInterface
 
 class TypeinsInterface:
     def __init__(self):

@@ -1,6 +1,29 @@
 import time
 
 class Progressive():
+    #Suporte
+    def suporte(self, playwright, mensagem, user, password):
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context()
+        self.page = context.new_page()
+        self.page.goto("https://account.apps.progressive.com/access/login?cntgrp=A&fd=accountHome")
+        self.page.get_by_placeholder("User ID").fill(user)
+        self.page.get_by_placeholder("Password").click()
+        self.page.get_by_placeholder("Password").fill(password)
+        self.page.get_by_role("button", name="Log In").click()
+        self.page.wait_for_load_state("networkidle")
+        self.page.goto("https://policyservicing.apps.progressive.com/app/account-home?brand=Progressive")
+        self.page.get_by_role("link", name="Contact Us").click()
+        self.page.get_by_role("link", name="Start chat").click()
+        self.page.get_by_placeholder("Enter a message...").fill("live agent")
+        self.page.get_by_role("button", name="Send").click()
+        self.page.get_by_label("Start Live Chat").click()
+        time.sleep(30)
+        self.page.get_by_placeholder("Enter a message...").fill(mensagem)
+        self.page.get_by_role("button", name="Send").click()
+        time.sleep(4000)
+
+    #Cotacao // Junta todas as funcoes abaixo para fazer a cotacao.
     def cotacao(self, playwright, data_dict):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
@@ -29,11 +52,11 @@ class Progressive():
 
     #Informacoes Zipcode
     def pagina_inicial(self, zipcode):
-        self.page.goto("https://www.progressive.com/")
-        self.page.get_by_role("link", name="Or, see all 30+ products").click()
-        self.page.get_by_role("option", name="Auto", exact=True).click()
-        self.page.get_by_role("textbox", name="Enter ZIP Code").fill(zipcode)
-        self.page.get_by_role("button", name="Get a quote").click()
+            self.page.goto("https://www.progressive.com/")
+            self.page.get_by_role("link", name="Or, see all 30+ products").click()
+            self.page.get_by_role("option", name="Auto", exact=True).click()
+            self.page.get_by_role("textbox", name="Enter ZIP Code").fill(zipcode)
+            self.page.get_by_role("button", name="Get a quote").click()
 
     #Informacoes Basicas
     def informacoes_basicas(self, first_name, last_name, email, date_birth):
