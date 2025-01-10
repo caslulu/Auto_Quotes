@@ -43,8 +43,9 @@ class DataManager:
         self.tempo_de_seguro = response["tempoDeSeguro"]
         self.first_name, self.last_name = separar_nome(self.nome)
         self.vin = response["vinDoVeículo"]
-        self.veiculos, self.lista_vin = decodificar_vin(vin=self.vin)
+        self.veiculos, self.lista_vin= decodificar_vin(vin=self.vin)
         self.nascimento = formatar_data(data=response["dataDeNascimento"])
+        self.endereco = f"{self.rua}, {self.apt}, {self.cidade}, {self.zipcode}"
 
         self.dict = {"genero" : self.genero,
                      "zipcode": self.zipcode,
@@ -58,7 +59,8 @@ class DataManager:
                      "lista_vin": self.lista_vin,
                      "financiado": self.financiado,
                      "estado": self.estado_documento,
-                     "tempo_seguro": self.tempo_de_seguro}
+                     "tempo_seguro": self.tempo_de_seguro,
+                     "veiculo": self.veiculos}
             
     def criar_card_trello(self):
 

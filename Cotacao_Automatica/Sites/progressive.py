@@ -70,15 +70,17 @@ class Progressive():
             self.page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
             if financiado == "Financiado":
                 self.page.get_by_label("Own or lease?").select_option("2")
+                time.sleep(1)
             else:
                 self.page.get_by_label("Own or lease?").select_option("3")
+                time.sleep(1)
             try:
                 self.page.get_by_label("How long have you had this").select_option("D")
+                time.sleep(1)
                 self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
                 time.sleep(5)
             except:
                 print("Nao foi possivel encotrar alguns botoes.")
-                time.sleep(7)
                 continue
             if len(quantidade_veiculos) >= 2:
                 if i < len(quantidade_veiculos):

@@ -6,3 +6,8 @@ suporte = Suporte()
 def support_progressive(user, password, mensagem):
     with sync_playwright() as playwright:
             suporte.progressive(playwright, user=user, password=password, mensagem=mensagem)
+
+
+def support_geico(user, password, mensagem, nome):
+    with sync_playwright() as playwright:
+            suporte.geico(playwright, user=user, password=password, mensagem=mensagem, nome=nome)

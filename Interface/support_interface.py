@@ -1,6 +1,7 @@
 from customtkinter import *
 from PIL import Image
 from Interface.login_progressive import LoginProgressive
+from Interface.login_geico import LoginGeico
 
 class SupportInterface:
     def __init__(self):
@@ -23,7 +24,7 @@ class SupportInterface:
         question_label.pack(side=TOP, pady=20)
 
         options_frame = CTkFrame(main_frame)
-        geico_button = CTkButton(options_frame, text="Geico", command=lambda: print("Chat"), corner_radius=30, image=CTkImage(dark_image=self.geico_img, light_image=self.geico_img))
+        geico_button = CTkButton(options_frame, text="Geico", command=self.geico_button, corner_radius=30, image=CTkImage(dark_image=self.geico_img, light_image=self.geico_img))
         progressive_button = CTkButton(options_frame, text="Progressive", command=self.progressive_button, corner_radius=30, image=CTkImage(dark_image=self.progressive_img, light_image=self.progressive_img))
         allstate_button = CTkButton(options_frame, text="Allstate", command=lambda: print("Chat"), corner_radius=30, image=CTkImage(dark_image=self.allstate_img, light_image=self.allstate_img))
 
@@ -36,3 +37,6 @@ class SupportInterface:
 
     def progressive_button(self):
         LoginProgressive().login()
+
+    def geico_button(self):
+        LoginGeico().login()

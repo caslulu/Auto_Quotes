@@ -10,9 +10,12 @@ def decodificar_vin(vin):
     lista_vin = vin.split(" / ")
     for veiculo in lista_vin:
         get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{veiculo}?format=json').json()['Results']
-        carro=f"{get_info[7]["Value"]}, {get_info[9]["Value"]}, {get_info[10]["Value"]} / "
+        marca = get_info[7]["Value"]
+        modelo = get_info[9]["Value"]
+        ano = get_info[10]["Value"]
+        carro=f"{marca}, {modelo}, {ano} / "
         veiculos = carro + veiculos
-    return (veiculos, lista_vin)
+    return (veiculos.rstrip(" / "), lista_vin)
 
 
 def formatar_data(data):
