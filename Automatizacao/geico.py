@@ -44,7 +44,7 @@ class Geico:
         self.pagina_nascimento(date_birth=data_dict["date_birth"])
         self.pagina_nome(first_name=data_dict["first_name"], last_name=data_dict["last_name"])
         self.pagina_endereco(rua=data_dict["rua"],  cidade=data_dict["cidade"],apt=data_dict["apt"])
-        #self.pagina_veiculo(veiculo = data_dict["veiculo"])
+        self.pagina_veiculo(vin = data_dict["lista_vin"], financiado = data_dict["financiado"])
 
         time.sleep(250)
         context.close()
@@ -83,5 +83,34 @@ class Geico:
             time.sleep(2)
         self.page.get_by_role("button", name="Next").click()
     
-    def pagina_veiculo (self, vin):
-        pass
+    def pagina_veiculo (self, vin, financiado):
+            try:
+                ## pergunta do drive easy
+                self.page.locator("#labelForYes").click()
+                self.page.get_by_role("button", name="Next").click()
+                ## pergunta se tem vin
+                self.page.locator("#labelForYes").click()
+                self.page.get_by_role("button", name="Next").click()
+                # insere o vin
+                self.page.get_by_placeholder("-----------------").fill(vin[0])
+                self.page.get_by_role("button", name="Next").click()
+            except:
+                time.sleep(5)
+                pass
+            self.page.locator("#labelForYes").click()
+            self.page.get_by_role("button", name="Next").click()
+            # se o veiculo é financiado ou quitado
+            if  financiado == "Financiado":
+                self.page.locator("#labelForF").click()
+            else:
+                self.page.locator("#labelForO").click()
+
+            # coloca o veiculo para o tempo mais antigo de compra possivel
+            i=5
+            while i > 0:
+                try:
+                    self.page.locator(f"#labelFor{i}").click()
+                    break
+                except:
+                    i -= 1
+            self.page.get_by_role("button", name="Next").click()
