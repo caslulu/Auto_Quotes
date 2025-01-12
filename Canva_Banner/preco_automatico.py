@@ -24,9 +24,3 @@ class PrecoAutomatico:
         a_vista = draw.text((850, 1695), a_vista, font=self.fonte_preco, fill="black")
         associado = draw.text((490, 1908), associado, font=self.fonte_associado, fill="white")
         self.completo.save("Imagens/completo_feito.png")
-
-
-
-
-preco = PrecoAutomatico()
-preco.escrever_preco_basico(seguradora="Geico", entrada="398.38", associado="Lucas Batista - 2 Veiculos", mensalidade="5x398.38", a_vista="3398.38")
