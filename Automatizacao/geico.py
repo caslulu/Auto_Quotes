@@ -45,6 +45,8 @@ class Geico:
         self.pagina_nome(first_name=data_dict["first_name"], last_name=data_dict["last_name"])
         self.pagina_endereco(rua=data_dict["rua"],  cidade=data_dict["cidade"],apt=data_dict["apt"])
         self.pagina_veiculo(vin = data_dict["lista_vin"], financiado = data_dict["financiado"])
+        self.pagina_informacoes(genero=data_dict["genero"], seguro=data_dict["tempo_seguro"])
+        print("fim")
 
         time.sleep(250)
         context.close()
@@ -84,33 +86,64 @@ class Geico:
         self.page.get_by_role("button", name="Next").click()
     
     def pagina_veiculo (self, vin, financiado):
-            try:
-                ## pergunta do drive easy
-                self.page.locator("#labelForYes").click()
-                self.page.get_by_role("button", name="Next").click()
-                ## pergunta se tem vin
-                self.page.locator("#labelForYes").click()
-                self.page.get_by_role("button", name="Next").click()
-                # insere o vin
-                self.page.get_by_placeholder("-----------------").fill(vin[0])
-                self.page.get_by_role("button", name="Next").click()
-            except:
-                time.sleep(5)
-                pass
+        try:
+            ## pergunta do drive easy
             self.page.locator("#labelForYes").click()
             self.page.get_by_role("button", name="Next").click()
-            # se o veiculo é financiado ou quitado
-            if  financiado == "Financiado":
-                self.page.locator("#labelForF").click()
-            else:
-                self.page.locator("#labelForO").click()
-
-            # coloca o veiculo para o tempo mais antigo de compra possivel
-            i=5
-            while i > 0:
-                try:
-                    self.page.locator(f"#labelFor{i}").click()
-                    break
-                except:
-                    i -= 1
+            ## pergunta se tem vin
+            self.page.locator("#labelForYes").click()
             self.page.get_by_role("button", name="Next").click()
+            # insere o vin
+            self.page.get_by_placeholder("-----------------").fill(vin[0])
+            self.page.get_by_role("button", name="Next").click()
+        except:
+            time.sleep(5)
+            pass
+
+            
+        # se o veiculo é financiado ou quitado
+        if  financiado == "Financiado":
+            self.page.locator("#labelForF").click()
+        else:
+            self.page.locator("#labelForO").click()
+        self.page.get_by_role("button", name="Next").click()
+
+        # coloca o veiculo para o tempo mais antigo de compra possivel
+        i=5
+        while i > 0:
+            self.page.set_default_timeout(1000)
+            try:
+                self.page.locator(f"#labelFor{i}").click()
+                self.page.set_default_timeout(30000)
+                break
+            except:
+                i -= 1
+        self.page.get_by_role("button", name="Next").click()
+
+
+    #pagina informacoes
+    def pagina_informacoes(self, genero, seguro):
+        if genero == "Feminino":
+            self.page.get_by_label("Gender").select_option("Female")
+        else:
+            self.page.get_by_label("Gender").select_option("Male")
+        self.page.get_by_role("button", name="Next").click()
+
+        #Social Security Pergunta
+        self.page.get_by_role("button", name="Next").click()
+
+        if seguro == "Nunca Teve":
+            self.page.get_by_text("No, I haven't needed insurance").click()
+            time.sleep(5)
+        else:
+            self.page.locator("#labelForO").click()
+            self.page.get_by_role("button", name="Next").click()
+            self.page.get_by_label("Please Select").get_by_text("Please Select").click()
+            self.page.get_by_role("option", name="State Farm - Other").click()
+            if seguro == "Menos De 1 Ano":
+                self.page.get_by_label("How many years have you been").select_option("Less than 1")
+            elif seguro == "1-3 Anos":
+                self.page.get_by_label("How many years have you been").select_option("1")
+            else:
+                self.page.get_by_label("How many years have you been").select_option("3")
+        self.page.get_by_role("button", name="Next").click()
