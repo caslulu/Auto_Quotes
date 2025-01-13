@@ -9,11 +9,11 @@ SIZE_ASSOCIADO = 45
 
 class PrecoAutomatico:
     def __init__(self):
-        self.basico_img = Image.open("Imagens/basico.png")
-        self.completo = Image.open("Imagens/full.png")
-        self.fonte_preco = ImageFont.truetype("Fonte/fonte.otf", size=SIZE_PRECO)
-        self.fonte_seguradora = ImageFont.truetype("Fonte/fonte.otf", size=SIZE_SEGURADORA)
-        self.fonte_associado = ImageFont.truetype("Fonte/fonte.otf", size=SIZE_ASSOCIADO)
+        self.basico_img = Image.open("Canva_Banner/Imagens/basico.png")
+        self.completo = Image.open("Canva_Banner/Imagens/full.png")
+        self.fonte_preco = ImageFont.truetype("Canva_Banner/Fonte/fonte.otf", size=SIZE_PRECO)
+        self.fonte_seguradora = ImageFont.truetype("Canva_Banner/Fonte/fonte.otf", size=SIZE_SEGURADORA)
+        self.fonte_associado = ImageFont.truetype("Canva_Banner/Fonte/fonte.otf", size=SIZE_ASSOCIADO)
 
     def financiado(self, entrada, mensalidade, a_vista, associado, seguradora):
         

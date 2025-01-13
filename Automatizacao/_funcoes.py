@@ -3,6 +3,7 @@ from playwright.sync_api import sync_playwright
 from Data.data import DataManager
 from Automatizacao.progressive import Progressive
 from Automatizacao.geico import Geico
+from Interface.preco import Preco
 
 
 data = DataManager()
@@ -19,11 +20,13 @@ def fazer_cotacao_only(opcao):
 
         if opcao == "progressive":
             progressive = Progressive()
-            progressive.cotacao(playwright=playwright, data_dict=data.dict)
+            preco = Preco()
+            progressive.cotacao(playwright=playwright, data_dict=data.dict, f1=preco.financiado, f2=preco.quitado)
 
         elif opcao == "geico":
+            preco = Preco()
             geico = Geico()
-            geico.cotacao(playwright=playwright, data_dict=data.dict)
+            geico.cotacao(playwright=playwright, data_dict=data.dict, f1=preco.financiado, f2=preco.quitado)
             
 
             

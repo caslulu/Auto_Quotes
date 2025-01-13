@@ -1,5 +1,5 @@
 from customtkinter import *
-from preco_automatico import PrecoAutomatico
+from Canva_Banner.preco_automatico import PrecoAutomatico
 
 
 class Preco:
@@ -121,11 +121,3 @@ class Preco:
             p = PrecoAutomatico()
             p.quitado(seguradora=seguradora, entrada_basico=entrada_basico, entrada_full=entrada_full, mensalidade_basico=mensalidade_basico, mensalidade_full=mensalidade_full,
                                  a_vista_basico=a_vista_basico, a_vista_full=a_vista_full, associado=associado)
-            
-
-
-preco = Preco()
-preco.quitado()
-
-
-
