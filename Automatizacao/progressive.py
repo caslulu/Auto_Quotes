@@ -48,7 +48,7 @@ class Progressive():
 
         time.sleep(30)
 
-        modelo(data_dict["financiado"])
+        modelo(data_dict["financiado"], opcao="progressive")
 
         context.close()
         browser.close()

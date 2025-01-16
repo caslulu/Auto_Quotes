@@ -6,7 +6,6 @@ SIZE_SEGURADORA = 40
 SIZE_ASSOCIADO = 45
 
 
-
 class PrecoAutomatico:
     def __init__(self):
         self.basico_img = Image.open("Canva_Banner/Imagens/basico.png")

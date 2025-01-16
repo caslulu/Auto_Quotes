@@ -3,7 +3,9 @@ from Canva_Banner.preco_automatico import PrecoAutomatico
 
 
 class Preco:
-    def tela(self, fin_ou_qui):
+    def tela(self, fin_ou_qui, opcao):
+        self.fin_ou_qui = fin_ou_qui
+        self.opcao = opcao
         window = CTk()
         window.geometry("660x400")
         set_appearance_mode("dark")
@@ -11,12 +13,7 @@ class Preco:
 
         main_frame = CTkFrame(window, border_color="white", border_width=2, corner_radius=20)
         main_frame.pack(fill=BOTH, expand=True)
-        self.seguradora_entry = CTkEntry(main_frame, placeholder_text="Seguradora")
         self.associado_entry = CTkEntry(main_frame, placeholder_text="Associado")
-        self.seguradora_entry.pack(side = TOP,pady=10)
-
-        
-        self.fin_ou_qui = fin_ou_qui
 
         if self.fin_ou_qui == "Quitado":
             basico_frame = CTkFrame(main_frame)
@@ -74,8 +71,11 @@ class Preco:
 
 
     def cotar(self):
+            if self.opcao == "progressive":
+                 seguradora = "Progressive"
+            elif self.opcao == "geico":
+                 seguradora = "Geico"
             p = PrecoAutomatico()
-            seguradora = self.seguradora_entry.get()
             associado = self.associado_entry.get()
 
             if self.fin_ou_qui == "Financiado":
