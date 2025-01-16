@@ -146,11 +146,12 @@ class Progressive():
             self.page.get_by_label("Primary Residence*").select_option("R")
             if estado =="IT":
                 self.page.get_by_label("U.S. License Type*").select_option("F")
-
-        self.page.get_by_label("Accidents, claims, or other damages you had to a vehicle?*e.g.: hitting a car/").get_by_label("No").check()
-        time.sleep(1)     
-        self.page.get_by_label("Tickets or Violations?*").get_by_label("No").check()
-        
+        try:
+            self.page.get_by_label("Accidents, claims, or other damages you had to a vehicle?*e.g.: hitting a car/").get_by_label("No").check()
+            time.sleep(1)     
+            self.page.get_by_label("Tickets or Violations?*").get_by_label("No").check()
+        except:
+            pass
         time.sleep(2)
         self.page.get_by_role("button", name="Continue").click()
 

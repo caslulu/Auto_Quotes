@@ -49,8 +49,6 @@ def separar_documento(documento_completo):
     except Exception as e:
         raise Exception(f"Verifique se o input esta na formatacao 'documento - estado': {e}")
 
-
-
 def separar_endereco(endereco_completo):
 
     try:

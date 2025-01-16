@@ -5,8 +5,6 @@ from Automatizacao.geico import *
 from Automatizacao.trello import *
 from Interface.preco import *
 
-
-
 trello = Trello()
 
 # vai apenas criar o card no trello
@@ -34,7 +32,7 @@ def fazer_cotacao_only(opcao):
 # vai fazer a cotacao e criar o card no trello
 def card_and_cotacao(opcao):
     card_only()
-    fazer_cotacao_only(opcao=opcao)
+    fazer_cotacao_only(opcao)
 
 # Vai chamar o suporte
 def chamar_suporte(opcao, usuario, senha, mensagem, nome = None):
