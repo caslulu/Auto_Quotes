@@ -6,36 +6,30 @@ from Automatizacao.trello import *
 from Interface.preco import *
 
 trello = Trello()
-data = DataManager()
 
-# vai apenas criar o card no trello
 def card_only():
-    trello.criar_card()
+    trello.criar_carta()
     
-# vai apenas fazer a cotacao
 def fazer_cotacao_only(opcao):
     
-    data.informacoes_para_cotacao()
+    trello.informacoes_para_cotacao()
     with sync_playwright() as playwright:
 
         if opcao == "progressive":
             progressive = Progressive()
             preco = Preco()
-            progressive.cotacao(playwright=playwright, data_dict=data.informacoes, f1=preco.financiado, f2=preco.quitado)
+            progressive.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela)
 
         elif opcao == "geico":
             preco = Preco()
             geico = Geico()
-            geico.cotacao(playwright=playwright, data_dict=data.informacoes, f1=preco.financiado, f2=preco.quitado)
+            geico.cotacao(playwright=playwright, data_dict=trello.informacoes, f1=preco.financiado, f2=preco.quitado)
             
 
-            
-# vai fazer a cotacao e criar o card no trello
 def card_and_cotacao(opcao):
     card_only()
     fazer_cotacao_only(opcao)
 
-# Vai chamar o suporte
 def chamar_suporte(opcao, usuario, senha, mensagem, nome = None):
     with sync_playwright() as playwright:
         if opcao == "Progressive":

@@ -24,7 +24,7 @@ class Progressive():
         time.sleep(4000)
 
     #Cotacao // Junta todas as funcoes abaixo para fazer a cotacao.
-    def cotacao(self, playwright, data_dict, f1, f2):
+    def cotacao(self, playwright, data_dict, modelo):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
@@ -46,12 +46,10 @@ class Progressive():
         
         self.informacoes_seguro_anterior(seguro=data_dict["tempo_seguro"])
 
-        if data_dict["financiado"] == "Financiado":
-            f1()
-        else:
-            f2()
-        
-        time.sleep(250)
+        time.sleep(30)
+
+        modelo(data_dict["financiado"])
+
         context.close()
         browser.close()
 

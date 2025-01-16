@@ -13,21 +13,22 @@ idList = os.getenv("TRELLO_ID_LIST")
 load_dotenv()
 
 
-class Trello():
+class Trello(DataManager):
     def __init__(self):
-        self.data = DataManager()
-        self.data.informacoes_para_cotacao()
+        super().__init__()
+        self.informacoes_para_cotacao()
 
-    def criar_card(self):   
-        
-        descricao_carta = f'doc: {self.data.documento} - {self.data.estado_documento} \n {self.data.endereco} \n vin: {self.data.vin} \n\
-           {self.data.financiado} \n {self.data.nascimento} \n tempo de seguro: {self.data.tempo_de_seguro} \n\
-            veiculo: {self.data.veiculos}'
+    def criar_descricao(self):
+        return (f'doc: {self.documento} - {self.estado_documento} \n {self.endereco} \n vin: {self.vin} \n\
+           {self.financiado} \n {self.nascimento} \n tempo de seguro: {self.tempo_de_seguro} \n veiculo: {self.veiculos}')
+    
+    def criar_carta(self):   
 
+        descricao_carta = self.criar_descricao()
 
         params_create = {"key": yourKey,
         "token": yourToken,
         "idList": idList,
-        "name": self.data.nome,
+        "name": self.nome,
         "desc": descricao_carta}
         requests.post(f"{URL_TRELLO}cards", params=params_create)
