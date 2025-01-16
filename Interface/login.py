@@ -1,6 +1,6 @@
 from customtkinter import *
 from PIL import Image
-from Automatizacao._funcoes import suporte_geico, suporte_progressive
+from Automatizacao._funcoes import chamar_suporte
 
 class Login:
 ## Interface para login na geico e logica do botao de login
@@ -31,7 +31,7 @@ class Login:
 
 
     def login_geico(self):
-        suporte_geico(self.username_entry.get(), self.password_entry.get(), self.message_entry.get(), nome=self.nome_entry.get())
+        chamar_suporte(usuario=self.username_entry.get(), senha=self.password_entry.get(), mensagem=self.message_entry.get(), nome=self.nome_entry.get(), opcao="Geico")
         self.window.destroy()
 
 
@@ -63,8 +63,7 @@ class Login:
         self.window.mainloop()
 
     def login_progessive(self):
-        suporte_progressive(self.username_entry.get(), self.password_entry.get(), self.message_entry.get())
-
+        chamar_suporte(usuario=self.username_entry.get(), senha=self.password_entry.get(), mensagem=self.message_entry.get(), opcao="Progressive")
         self.window.destroy()
 
 

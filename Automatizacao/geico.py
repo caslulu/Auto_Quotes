@@ -36,7 +36,7 @@ class Geico:
         time.sleep(4000)
 
     # Junta todas as funcoes abaixo e faz a cotacao.
-    def cotacao(self, playwright, data_dict):
+    def cotacao(self, playwright, data_dict, f1, f2):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
@@ -46,7 +46,11 @@ class Geico:
         self.pagina_endereco(rua=data_dict["rua"],  cidade=data_dict["cidade"],apt=data_dict["apt"])
         self.pagina_veiculo(vin = data_dict["lista_vin"], financiado = data_dict["financiado"])
         self.pagina_informacoes(genero=data_dict["genero"], seguro=data_dict["tempo_seguro"])
-        print("fim")
+        if data_dict["financiado"] == "Financiado":
+            f1()
+        else:
+            f2()
+        
 
         time.sleep(250)
         context.close()
@@ -107,6 +111,7 @@ class Geico:
         else:
             self.page.locator("#labelForO").click()
         self.page.get_by_role("button", name="Next").click()
+        time.sleep(15)
 
         # coloca o veiculo para o tempo mais antigo de compra possivel
         i=5

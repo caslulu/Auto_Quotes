@@ -23,7 +23,7 @@ class PrecoAutomatico:
         mensalidade = draw.text((885, 1545), mensalidade, font=self.fonte_associado, fill="black")
         a_vista = draw.text((850, 1695), a_vista, font=self.fonte_preco, fill="black")
         associado = draw.text((490, 1908), associado, font=self.fonte_associado, fill="white")
-        self.completo.save("Imagens/financiado_feito.png")
+        self.completo.save("Canva_Banner/Imagens/financiado_feito.png")
 
     
     def quitado(self, entrada_basico, entrada_full, mensalidade_basico, mensalidade_full, a_vista_basico, a_vista_full, associado, seguradora):
@@ -43,4 +43,4 @@ class PrecoAutomatico:
 
         associado = draw.text((490, 1890), associado, font=self.fonte_associado, fill="white")
 
-        self.basico_img.save("Imagens/quitado_feito.png")
+        self.basico_img.save("Canva_Banner/Imagens/quitado_feito.png")

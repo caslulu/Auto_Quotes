@@ -2,14 +2,14 @@ import time
 
 class Progressive():
     #Suporte
-    def suporte(self, playwright, mensagem, user, password):
+    def suporte(self, playwright, mensagem, usuario, senha):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
         self.page.goto("https://account.apps.progressive.com/access/login?cntgrp=A&fd=accountHome")
-        self.page.get_by_placeholder("User ID").fill(user)
+        self.page.get_by_placeholder("User ID").fill(usuario)
         self.page.get_by_placeholder("Password").click()
-        self.page.get_by_placeholder("Password").fill(password)
+        self.page.get_by_placeholder("Password").fill(senha)
         self.page.get_by_role("button", name="Log In").click()
         self.page.wait_for_load_state("networkidle")
         self.page.goto("https://policyservicing.apps.progressive.com/app/account-home?brand=Progressive")
@@ -132,7 +132,6 @@ class Progressive():
             else:
                 self.page.get_by_label("U.S. License Type*").select_option("F")
 
-
         except:
             self.page.get_by_label("Highest Level of Education*").select_option("2")
             self.page.get_by_label("Employment Status*").select_option("EM")
@@ -148,7 +147,11 @@ class Progressive():
             if estado =="IT":
                 self.page.get_by_label("U.S. License Type*").select_option("F")
 
-        time.sleep(5)
+        self.page.get_by_label("Accidents, claims, or other damages you had to a vehicle?*e.g.: hitting a car/").get_by_label("No").check()
+        time.sleep(1)     
+        self.page.get_by_label("Tickets or Violations?*").get_by_label("No").check()
+        
+        time.sleep(2)
         self.page.get_by_role("button", name="Continue").click()
 
     #Seguro Anterior
