@@ -49,7 +49,8 @@ class DataManager:
                      "financiado": self.financiado,
                      "estado": self.estado_documento,
                      "tempo_seguro": self.tempo_de_seguro,
-                     "veiculo": self.veiculos}
+                     "veiculo": self.veiculos,
+                     "documento": self.documento}
  
 
     
