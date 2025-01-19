@@ -17,11 +17,11 @@ def fazer_cotacao_only(opcao):
         preco = Preco()
         if opcao == "progressive":
             progressive = Progressive()
-            progressive.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela, delete=trello.delete_excel())
+            progressive.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela, delete=trello.delete_excel)
 
         elif opcao == "geico":
             geico = Geico()
-            geico.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela, delete=trello.delete_excel())
+            geico.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela, delete=trello.delete_excel)
             
 
 def card_and_cotacao(opcao):
