@@ -36,7 +36,7 @@ class Geico:
         time.sleep(4000)
 
     # Junta todas as funcoes abaixo e faz a cotacao.
-    def cotacao(self, playwright, data_dict, modelo):
+    def cotacao(self, playwright, data_dict, modelo, delete):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
@@ -48,7 +48,7 @@ class Geico:
         self.pagina_informacoes(genero=data_dict["genero"], seguro=data_dict["tempo_seguro"])
 
         time.sleep(30)
-        modelo(data_dict["financiado"], opcao="geico")
+        modelo(data_dict["financiado"], opcao="geico", delete=delete)
         
         context.close()
         browser.close()

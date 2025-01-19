@@ -24,7 +24,7 @@ class Progressive():
         time.sleep(4000)
 
     #Cotacao // Junta todas as funcoes abaixo para fazer a cotacao.
-    def cotacao(self, playwright, data_dict, modelo):
+    def cotacao(self, playwright, data_dict, modelo, delete):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
@@ -48,7 +48,7 @@ class Progressive():
 
         time.sleep(30)
 
-        modelo(data_dict["financiado"], opcao="progressive")
+        modelo(data_dict["financiado"], opcao="progressive", delete=delete)
 
         context.close()
         browser.close()
@@ -89,31 +89,47 @@ class Progressive():
 
     #Informacoes do Veiculo.   
     def informacoes_veiculos(self, quantidade_veiculos, financiado):
+        try:
+            self.page.set_default_timeout(7000)
+            self.page.get_by_role("button", name="No, I'll add my own").click()
+        except:
+            pass
+        self.page.set_default_timeout(30000)
         i = 1    
         for veiculo in quantidade_veiculos: 
             self.page.get_by_role("link", name="Enter by VIN").click()
             self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
             self.page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
+            time.sleep(1)
             if financiado == "Financiado":
                 self.page.get_by_label("Own or lease?").select_option("2")
                 time.sleep(1)
             else:
                 self.page.get_by_label("Own or lease?").select_option("3")
                 time.sleep(1)
+
             try:
+                self.page.set_default_timeout(7000)
                 self.page.get_by_label("How long have you had this").select_option("D")
                 time.sleep(1)
-                self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
-                time.sleep(5)
+                
             except:
-                print("Nao foi possivel encotrar alguns botoes.")
+                try:
+                    self.page.get_by_label("How long have you had this").select_option("C")
+                    time.sleep(1)
+                except:
+                    self.page.get_by_label("How long have you had this").select_option("B")
                 continue
+            self.page.set_default_timeout(30000)
+            self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
+            time.sleep(5)
+
+
             if len(quantidade_veiculos) >= 2:
                 if i < len(quantidade_veiculos):
                     self.page.get_by_role("button", name="+Add another vehicle?").click()
                     i += 1
         self.page.get_by_role("button", name="Continue").click()
-
     #Informacoes Pessoais 
     def informacoes_pessoais(self, genero, estado):
         if genero == "Masculino":
@@ -151,6 +167,7 @@ class Progressive():
         except:
             pass
         time.sleep(2)
+        self.page.get_by_role("button", name="Continue").click()
         self.page.get_by_role("button", name="Continue").click()
 
     #Seguro Anterior

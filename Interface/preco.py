@@ -3,9 +3,10 @@ from Canva_Banner.preco_automatico import PrecoAutomatico
 
 
 class Preco:
-    def tela(self, fin_ou_qui, opcao):
+    def tela(self, fin_ou_qui, opcao, delete):
         self.fin_ou_qui = fin_ou_qui
         self.opcao = opcao
+        self.delete = delete
         window = CTk()
         window.geometry("660x400")
         set_appearance_mode("dark")
@@ -71,27 +72,30 @@ class Preco:
 
 
     def cotar(self):
-            if self.opcao == "progressive":
-                 seguradora = "Progressive"
-            elif self.opcao == "geico":
-                 seguradora = "Geico"
-            p = PrecoAutomatico()
-            associado = self.associado_entry.get()
+        if self.opcao == "progressive":
+            seguradora = "Progressive"
+        elif self.opcao == "geico":
+            seguradora = "Geico"
+        p = PrecoAutomatico()
+        associado = self.associado_entry.get()
 
-            if self.fin_ou_qui == "Financiado":
-                entrada = self.entrada_entry.get()
-                mensalidade = self.mensalidade_entry.get()
-                a_vista = self.a_vista_entry.get()
+        if self.fin_ou_qui == "Financiado":
+            entrada = self.entrada_entry.get()
+            mensalidade = self.mensalidade_entry.get()
+            a_vista = self.a_vista_entry.get()
 
-                p.financiado(seguradora=seguradora, entrada=entrada, mensalidade=mensalidade, a_vista=a_vista, associado=associado)
+            p.financiado(seguradora=seguradora, entrada=entrada, mensalidade=mensalidade, a_vista=a_vista, associado=associado)
 
-            else:
-                entrada_basico = self.entrada_basico_entry.get()
-                mensalidade_basico = self.mensalidade_basico_entry.get()
-                a_vista_basico = self.a_vista_basico_entry.get()
+        else:
+            entrada_basico = self.entrada_basico_entry.get()
+            mensalidade_basico = self.mensalidade_basico_entry.get()
+            a_vista_basico = self.a_vista_basico_entry.get()
 
-                entrada_full = self.entrada_full_entry.get()
-                mensalidade_full = self.mensalidade_full_entry.get()
-                a_vista_full = self.a_vista_full_entry.get()
-                p.quitado(seguradora=seguradora, entrada_basico=entrada_basico, entrada_full=entrada_full, mensalidade_basico=mensalidade_basico, mensalidade_full=mensalidade_full,
+            entrada_full = self.entrada_full_entry.get()
+            mensalidade_full = self.mensalidade_full_entry.get()
+            a_vista_full = self.a_vista_full_entry.get()
+            p.quitado(seguradora=seguradora, entrada_basico=entrada_basico, entrada_full=entrada_full, mensalidade_basico=mensalidade_basico, mensalidade_full=mensalidade_full,
                                     a_vista_basico=a_vista_basico, a_vista_full=a_vista_full, associado=associado)
+            
+        self.delete()
+        
