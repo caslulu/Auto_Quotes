@@ -40,11 +40,11 @@ class Progressive():
         
         self.informacoes_endereco(street=data_dict["rua"], city=data_dict["cidade"], apt=data_dict["apt"])
 
-        self.informacoes_veiculos(quantidade_veiculos=data_dict["lista_vin"], financiado=data_dict["financiado"])
+        self.informacoes_veiculos(quantidade_veiculos=data_dict["lista_vin"], financiado=data_dict["financiado"], tempo_com_veiculo=data_dict["tempo_com_veiculo"])
 
         self.informacoes_pessoais(genero=data_dict["genero"], estado=data_dict["estado"])
         
-        self.informacoes_seguro_anterior(seguro=data_dict["tempo_seguro"])
+        self.informacoes_seguro_anterior(seguro=data_dict["tempo_seguro"], tempo_endereco=data_dict["tempo_no_endereco"])
 
         time.sleep(30)
 
@@ -88,7 +88,7 @@ class Progressive():
         self.page.get_by_role("button", name="Ok, start my quote").click()
 
     #Informacoes do Veiculo.   
-    def informacoes_veiculos(self, quantidade_veiculos, financiado):
+    def informacoes_veiculos(self, quantidade_veiculos, financiado, tempo_com_veiculo):
         try:
             self.page.set_default_timeout(7000)
             self.page.get_by_role("button", name="No, I'll add my own").click()
@@ -108,19 +108,14 @@ class Progressive():
                 self.page.get_by_label("Own or lease?").select_option("3")
                 time.sleep(1)
 
-            try:
-                self.page.set_default_timeout(7000)
+            if tempo_com_veiculo == "5 anos+":
+                self.page.get_by_label("How long have you had this").select_option("E")
+                time.sleep(1)
+            elif tempo_com_veiculo == "1-3 Anos": 
                 self.page.get_by_label("How long have you had this").select_option("D")
                 time.sleep(1)
-                
-            except:
-                try:
-                    self.page.get_by_label("How long have you had this").select_option("C")
-                    time.sleep(1)
-                except:
-                    self.page.get_by_label("How long have you had this").select_option("B")
-                continue
-            self.page.set_default_timeout(30000)
+            else:
+                self.page.get_by_label("How long have you had this").select_option("B")
             self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
             time.sleep(5)
 
@@ -171,7 +166,7 @@ class Progressive():
         self.page.get_by_role("button", name="Continue").click()
 
     #Seguro Anterior
-    def informacoes_seguro_anterior(self, seguro):
+    def informacoes_seguro_anterior(self, seguro, tempo_endereco):
         try:
             if seguro == "Nunca Teve":
                 self.page.get_by_label("Do you have auto insurance").get_by_label("No").check()
@@ -188,9 +183,19 @@ class Progressive():
                 self.page.get_by_label("How long have you been with").select_option("C")
             self.page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
             self.page.get_by_label("Have you had auto insurance").get_by_label("No").check()
+            try:
+                if tempo_endereco == "Mais de 1 Ano":
+                    self.page.get_by_label("How long have you lived at").select_option("C")
+                else:
+                    self.page.get_by_label("How long have you lived at").select_option("B")
+            except:
+                pass
             time.sleep(7)
             self.page.get_by_role("button", name="Continue").click()
-            self.page.get_by_label("Mobile app", exact=True).check()
+            try:
+                self.page.get_by_label("Mobile app", exact=True).check()
+            except:
+                self.page.get_by_label("Yes, please").check()
             self.page.get_by_role("button", name="Continue").click()
             self.page.get_by_role("button", name="No thanks, just auto").click()
         except:

@@ -32,6 +32,8 @@ class DataManager:
         self.veiculos, self.lista_vin= decodificar_vin(vin=self.vin)
         self.nascimento = formatar_data(data=self.response["dataDeNascimento"])
         self.endereco = f"{self.rua}, {self.apt}, {self.cidade}, {self.zipcode}"
+        self.tempo_com_veiculo = self.response["tempoComOVeiculo"]
+        self.tempo_no_endereco = self.response["tempoNoEndereco"]
         self.informacoes = self.lista_informacoes()
         return self.informacoes
 
@@ -50,7 +52,9 @@ class DataManager:
                      "estado": self.estado_documento,
                      "tempo_seguro": self.tempo_de_seguro,
                      "veiculo": self.veiculos,
-                     "documento": self.documento}
+                     "documento": self.documento,
+                     "tempo_no_endereco": self.tempo_no_endereco,
+                     "tempo_com_veiculo": self.tempo_com_veiculo}
  
 
     
