@@ -20,7 +20,8 @@ class Trello(DataManager):
 
     def criar_descricao(self):
         return (f'doc: {self.documento} - {self.estado_documento} \n {self.endereco} \n vin: {self.vin} \n\
-           {self.financiado} \n {self.nascimento} \n tempo de seguro: {self.tempo_de_seguro} \n veiculo: {self.veiculos}')
+           {self.financiado} \n {self.nascimento} \n tempo de seguro: {self.tempo_de_seguro} \n veiculo: {self.veiculos} \n tempo no endereco: {self.tempo_no_endereco} \n\
+            tempo com o veiculo: {self.tempo_com_veiculo}')
     
     def criar_carta(self):   
 
