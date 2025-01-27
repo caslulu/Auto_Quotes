@@ -9,6 +9,8 @@ load_dotenv()
 #EXCEL API INFOS
 header = {os.getenv("HEADER_KEY"): os.getenv("HEADER_VALUE")}
 URL_EXCEL = os.getenv("URL_EXCEL")
+
+
 class DataManager:
     def __init__(self) -> None:
         try:
@@ -34,28 +36,7 @@ class DataManager:
         self.endereco = f"{self.rua}, {self.apt}, {self.cidade}, {self.zipcode}"
         self.tempo_com_veiculo = self.response["tempoComOVeiculo"]
         self.tempo_no_endereco = self.response["tempoNoEndereco"]
-        self.informacoes = self.lista_informacoes()
-        return self.informacoes
-
-    def lista_informacoes(self):
-        return {"genero" : self.genero,
-                     "zipcode": self.zipcode,
-                     "first_name": self.first_name,
-                     "last_name": self.last_name,
-                     "email": os.getenv("EMAIL"),
-                     "date_birth": self.nascimento,
-                     "rua": self.rua,
-                     "apt": self.apt,
-                     "cidade": self.cidade,
-                     "lista_vin": self.lista_vin,
-                     "financiado": self.financiado,
-                     "estado": self.estado_documento,
-                     "tempo_seguro": self.tempo_de_seguro,
-                     "veiculo": self.veiculos,
-                     "documento": self.documento,
-                     "tempo_no_endereco": self.tempo_no_endereco,
-                     "tempo_com_veiculo": self.tempo_com_veiculo}
- 
+        self.email = os.getenv("EMAIL")
 
     
 

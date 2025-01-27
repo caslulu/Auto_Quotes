@@ -5,23 +5,20 @@ from Automatizacao.geico import *
 from Automatizacao.trello import *
 from Interface.preco import *
 
-trello = Trello()
-
 def card_only():
+    trello = Trello()
     trello.criar_carta()
     
 def fazer_cotacao_only(opcao):
-    
-    trello.informacoes_para_cotacao()
     with sync_playwright() as playwright:
         preco = Preco()
         if opcao == "progressive":
             progressive = Progressive()
-            progressive.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela, delete=trello.delete_excel)
+            progressive.cotacao(playwright=playwright, modelo=preco.tela, delete=progressive.delete_excel)
 
         elif opcao == "geico":
             geico = Geico()
-            geico.cotacao(playwright=playwright, data_dict=trello.informacoes, modelo=preco.tela, delete=trello.delete_excel)
+            geico.cotacao(playwright=playwright, modelo=preco.tela, delete=geico.delete_excel)
             
 
 def card_and_cotacao(opcao):
