@@ -51,7 +51,7 @@ class Geico(DataManager):
         self.pagina_endereco()
         self.pagina_veiculo()
         time.sleep(30)
-        modelo(data_dict["financiado"], opcao="geico", delete=delete)
+        modelo(self.financiado, opcao="geico", delete=delete)
         
         context.close()
         browser.close()
