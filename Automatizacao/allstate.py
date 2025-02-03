@@ -14,6 +14,7 @@ def run(playwright, apt):
     ## primeira pagina
     page.goto("https://www.allstate.com/")
     page.get_by_role("textbox", name="Enter ZIP", exact=True).fill("90802")
+    page.wait_for_load_state("networkidle")
     page.locator("#heroBundleGetQuote").click()
     page.get_by_role("button", name="start my quote").click()
     page.get_by_label("First name").click()
@@ -30,6 +31,7 @@ def run(playwright, apt):
     page.get_by_role("button", name="next").click()
 
     ## segunda pagina
+    page.wait_for_load_state("networkidle")
     page.get_by_role("span", name="VIN").click()
 
 

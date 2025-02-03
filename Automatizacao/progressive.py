@@ -44,12 +44,16 @@ class Progressive(DataManager):
         self.informacoes_basicas()
         
         self.informacoes_endereco()
+        try:
+            self.informacoes_veiculos1()
+            self.informacoes_pessoais1()
+            self.informacoes_seguro_anterior()
+        except:
+            self.informacoes_veiculo2()
+            self.informacoes_pessoais2()
+            self.informacoes_seguro_anterior()
 
-        self.informacoes_veiculos()
 
-        self.informacoes_pessoais()
-        
-        self.informacoes_seguro_anterior()
 
         time.sleep(30)
 
@@ -93,7 +97,7 @@ class Progressive(DataManager):
         self.page.get_by_role("button", name="Ok, start my quote").click()
 
     #Informacoes do Veiculo.   
-    def informacoes_veiculos(self):
+    def informacoes_veiculos1(self):
         try:
             self.page.set_default_timeout(7000)
             self.page.get_by_role("button", name="No, I'll add my own").click()
@@ -101,37 +105,39 @@ class Progressive(DataManager):
             pass
         self.page.set_default_timeout(30000)
         i = 1    
-        for veiculo in self.veiculos: 
+        for veiculo in self.lista_vin:
             self.page.get_by_role("link", name="Enter by VIN").click()
             self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
             self.page.get_by_label("Learn more aboutVehicle Use*").select_option("1")
             time.sleep(1)
             if self.financiado == "Financiado":
-                self.page.get_by_label("Own or lease?").select_option("2")
-                time.sleep(1)
+                self.page.get_by_label("Own or lease?").select_option("2") 
             else:
                 self.page.get_by_label("Own or lease?").select_option("3")
-                time.sleep(1)
+            time.sleep(1)
 
             if self.tempo_com_veiculo == "5 anos+":
                 self.page.get_by_label("How long have you had this").select_option("D")
-                time.sleep(1)
+
             elif self.tempo_com_veiculo == "1-3 Anos": 
                 self.page.get_by_label("How long have you had this").select_option("B")
-                time.sleep(1)
+
             else:
                 self.page.get_by_label("How long have you had this").select_option("E")
+
+            time.sleep(1)
             self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
+
             time.sleep(5)
 
 
-            if len(self.veiculos) >= 2:
-                if i < len(self.veiculos):
-                    self.page.get_by_role("button", name="+Add another vehicle?").click()
-                    i += 1
+            if len(self.lista_vin) >= 2 and i < len(self.lista_vin):
+                self.page.get_by_role("button", name="+Add another vehicle?").click()
+                i += 1
         self.page.get_by_role("button", name="Continue").click()
+    
     #Informacoes Pessoais 
-    def informacoes_pessoais(self):
+    def informacoes_pessoais1(self):
         if self.genero == "Masculino":
             self.page.get_by_label("Male", exact=True).check()
         else:
@@ -189,19 +195,88 @@ class Progressive(DataManager):
             self.page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
             self.page.get_by_label("Have you had auto insurance").get_by_label("No").check()
             try:
+                self.page.set_default_timeout(7000)
                 if self.tempo_no_endereco == "Mais de 1 Ano":
                     self.page.get_by_label("How long have you lived at").select_option("C")
                 else:
                     self.page.get_by_label("How long have you lived at").select_option("B")
             except:
                 pass
+            self.page.set_default_timeout(30000)
             self.page.get_by_role("button", name="Continue").click()
-            try:
-                self.page.get_by_label("Mobile app", exact=True).check()
-            except:
-                self.page.get_by_label("Yes, please").check()
-            self.page.get_by_role("button", name="Continue").click()
-            self.page.get_by_role("button", name="No thanks, just auto").click()
         except:
             print("Nao foi possivel encontrar alguns botoes")
             pass
+
+
+
+## Nova Interface
+    def informacoes_veiculo2(self):
+        i = 1
+        for veiculo in self.lista_vin:
+            self.page.get_by_role("link", name="Enter vehicle by VIN").click()
+            self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
+            self.page.get_by_label("Vehicle use", exact=True).select_option("1")
+            if self.financiado == "Financiado":
+                self.page.get_by_label("Own or lease?").select_option("2")
+            else:
+                self.page.get_by_label("Own or lease?").select_option("3")
+            if self.tempo_com_veiculo == "Menos de 1 ano":
+                self.page.get_by_label("How long have you had this").select_option("E")
+            elif self.tempo_com_veiculo == "1-3 anos":
+                self.page.get_by_label("How long have you had this").select_option("B")
+            else:
+                self.page.get_by_label("How long have you had this").select_option("D")
+            time.sleep(1)
+            self.page.get_by_label("Learn more aboutAnnual").select_option("0 - 3,999")
+            if len(self.lista_vin) >= 2 and i < len(self.lista_vin):
+                self.page.get_by_role("button", name="+Add another vehicle?").click()
+                i += 1
+        self.page.get_by_role("button", name="Continue").click()
+
+
+
+    def informacoes_pessoais2(self):
+        if self.genero == "Masculino":
+            self.page.get_by_label("Male", exact=True).check()
+        else:
+            self.page.get_by_label("Female").check()
+        self.page.get_by_label("Marital status").select_option("S")
+        self.page.get_by_label("Primary residence insurance", exact=True).select_option("T")
+        if self.estado_documento != "IT":
+            self.page.get_by_label("U.S. License type").select_option("O")
+            self.page.get_by_label("U.S. License status").select_option("V")
+            self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
+        else:
+            self.page.get_by_label("U.S. License type").select_option("F")
+        self.page.get_by_label("Accidents, claims, or other damages you had to a vehicle?*e.g.: hitting a car/").get_by_label("No").check()
+        self.page.get_by_label("Tickets or violations?*").get_by_label("No").check()
+        self.page.get_by_role("button", name="Continue").click()
+        self.page.get_by_role("button", name="Continue").click()
+
+        if self.tempo_de_seguro == "Nunca Teve":
+            self.page.get_by_label("Do you have auto insurance").get_by_label("No").check()
+            self.page.get_by_label("Have you had auto insurance in the last 31 days?*").get_by_label("No").check()
+        elif self.tempo_de_seguro == "Menos De 1 Ano":
+            self.page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+            self.page.get_by_label("How long have you been with").select_option("A")
+            self.page.get_by_label("Have you been insured for the").get_by_label("Yes").check()
+        elif self.tempo_de_seguro == "1-3 Anos":
+            self.page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+            self.page.get_by_label("How long have you been with").select_option("B")
+        else:
+            self.page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+            self.page.get_by_label("How long have you been with").select_option("C")
+        self.page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
+        self.page.get_by_label("Have you had auto insurance").get_by_label("No").check()
+        try:
+            self.page.set_default_timeout(7000)
+            if self.tempo_no_endereco == "Mais de 1 Ano":
+                self.page.get_by_label("How long have you lived at").select_option("C")
+            else:
+                self.page.get_by_label("How long have you lived at").select_option("B")
+        except:
+            pass
+        self.page.set_default_timeout(30000)
+        self.page.get_by_role("button", name="Continue").click()
+        self.page.get_by_role("button", name="Continue").click()
