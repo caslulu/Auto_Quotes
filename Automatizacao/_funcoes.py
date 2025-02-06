@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 
 from Automatizacao.progressive import *
 from Automatizacao.geico import *
+from Automatizacao.allstate import *
 from Automatizacao.trello import *
 from Interface.preco import *
 
@@ -19,6 +20,9 @@ def fazer_cotacao_only(opcao):
         elif opcao == "geico":
             geico = Geico()
             geico.cotacao(playwright=playwright, modelo=preco.tela, delete=geico.delete_excel)
+        elif opcao == "allstate":
+            allstate = Allstate()
+            allstate.cotacao(playwright=playwright, modelo=preco.tela, delete=allstate.delete_excel)
             
 
 def card_and_cotacao(opcao):
