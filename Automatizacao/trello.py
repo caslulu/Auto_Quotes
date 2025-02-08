@@ -29,7 +29,7 @@ class Trello(DataManager):
 
         params_create = {"key": yourKey,
         "token": yourToken,
-        "idList": idList,
+        "idList": "662d7f3ed2bd7931022f2ed6",
         "name": self.nome,
         "desc": descricao_carta}
-        requests.post(f"{URL_TRELLO}cards", params=params_create)
+        requests.post(f"{URL_TRELLO}", params=params_create)

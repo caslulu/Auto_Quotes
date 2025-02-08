@@ -33,6 +33,7 @@ class Progressive(DataManager):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
+        time.sleep(500000)
         
         self.pagina_inicial()
 
