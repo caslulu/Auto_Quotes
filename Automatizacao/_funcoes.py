@@ -20,6 +20,7 @@ def fazer_cotacao_only(opcao):
         elif opcao == "geico":
             geico = Geico()
             geico.cotacao(playwright=playwright, modelo=preco.tela, delete=geico.delete_excel)
+            
         elif opcao == "allstate":
             allstate = Allstate()
             allstate.cotacao(playwright=playwright, modelo=preco.tela, delete=allstate.delete_excel)

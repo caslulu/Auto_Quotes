@@ -17,9 +17,12 @@ class Allstate(DataManager):
         self.pagina_inicial()
 
         time.sleep(70)
-        modelo(self.financiado, opcao="progressive", delete=delete)
+        modelo(self.financiado, opcao="allstate", delete=delete)
         context.close()
         self.browser.close()
+
+
+
         ## primeira pagina
     def pagina_inicial(self):
         self.page.goto("https://www.allstate.com/")

@@ -12,30 +12,30 @@ URL_EXCEL = os.getenv("URL_EXCEL")
 
 
 class DataManager:
-    def __init__(self) -> None:
-        try:
-            self.response = requests.get(url=f"{URL_EXCEL}", headers=header)
-            self.response = self.response.json()["formResponses1"][0]
-            print(self.response)
-        except Exception as e:
-            raise IndexError(f"Nao possui nenhuma cotacao para ser feita no excel: {e}")
+    # def __init__(self) -> None:
+    #     try:
+    #         self.response = requests.get(url=f"{URL_EXCEL}", headers=header)
+    #         self.response = self.response.json()["formResponses1"]
+    #         print(self.response)
+    #     except Exception as e:
+    #         raise IndexError(f"Nao possui nenhuma cotacao para ser feita no excel: {e}")
             
 
     def informacoes_para_cotacao(self):
 
-        self.genero = self.response["genero"] 
-        self.nome = self.response["nomeCompleto"]
-        self.documento, self.estado_documento = separar_documento(self.response["documentoDeHabilitação (cnhDoBrasil,DriverLicenseOuPassaporte)"])
-        self.rua, self.apt, self.cidade, self.zipcode = separar_endereco(self.response["endereçoResidencialCompleto (comZipCode)"])
-        self.financiado = self.response["oVeículo éQuitadoOuFinanciado?"]
-        self.tempo_de_seguro = self.response["tempoDeSeguro"]
+        self.genero = input("Qual o Genero? ")
+        self.nome = input("Qual o Nome? ")
+        self.documento, self.estado_documento = separar_documento(input("Qual a Driver License? "))
+        self.rua, self.apt, self.cidade, self.zipcode = separar_endereco(input("Qual o endereco? "))
+        self.financiado = input("financiado ou quitado? ")
+        self.tempo_de_seguro = input("Quanto tempo de seguro? ")
         self.first_name, self.last_name = separar_nome(self.nome)
-        self.vin = self.response["vinDoVeículo"]
+        self.vin = input("Qual o vin?")
         self.veiculos, self.lista_vin= decodificar_vin(vin=self.vin)
-        self.nascimento = formatar_data(data=self.response["dataDeNascimento"])
+        self.nascimento = formatar_data(input("Qual a data de nascimento? "))
         self.endereco = f"{self.rua}, {self.apt}, {self.cidade}, {self.zipcode}"
-        self.tempo_com_veiculo = self.response["tempoComOVeiculo"]
-        self.tempo_no_endereco = self.response["tempoNoEndereco"]
+        self.tempo_com_veiculo = input("Quanto tempo com o veiculo? ")
+        self.tempo_no_endereco = input("Quanto tempo no endereco? ")
         self.email = os.getenv("EMAIL")
 
     
