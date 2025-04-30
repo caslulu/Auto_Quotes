@@ -1,0 +1,174 @@
+import time
+
+class Progressive():
+
+    # Cotacao // Junta todas as funcoes abaixo para fazer a cotacao.
+    def cotacao(self, playwright, zipcode, first_name, last_name, email, nascimento, rua, cidade, apt=None, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None):
+        browser = playwright.chromium.launch(headless=False)
+        context = browser.new_context()
+        self.page = context.new_page()
+
+        self.pagina_inicial(zipcode=zipcode)
+
+        try:
+            self.page.wait_for_load_state("networkidle")
+        except:
+            pass
+
+        self.informacoes_basicas( first_name=first_name, last_name=last_name, email=email, nascimento=nascimento)
+
+        self.informacoes_endereco(rua=rua, cidade=cidade, apt=apt)
+        self.informacoes_veiculos(lista_vin=lista_vin, financiado=financiado, tempo_com_veiculo=tempo_com_veiculo)
+        self.informacoes_pessoais(genero=genero, estado_documento=estado_documento)
+        self.informacoes_seguro_anterior(tempo_de_seguro=tempo_de_seguro, tempo_no_endereco=tempo_no_endereco)
+
+        time.sleep(3000)
+
+
+        context.close()
+        browser.close()
+
+    # Informacoes Zipcode
+    def pagina_inicial(self, zipcode):
+        self.page.goto("https://www.progressive.com/")
+        try:
+            self.page.get_by_role("link", name="Or, see all 30+ products").click()
+        except:
+            self.page.get_by_role("link", name="See all 30+ products").click()
+        self.page.get_by_role("option", name="Auto", exact=True).click()
+        self.page.get_by_role("textbox", name="Enter ZIP Code").fill(zipcode)
+        self.page.get_by_role("button", name="Get a quote").click()
+
+    # Informacoes Basicas
+    def informacoes_basicas(self, first_name, last_name, email, nascimento):
+        self.page.goto("https://autoinsurance1.progressivedirect.com/0/UQA/Quote")
+        self.page.goto("https://autoinsurance1.progressivedirect.com/0/UQA/Quote/NameEdit")
+        self.page.get_by_label("First Name").click()
+        self.page.get_by_label("First Name").fill(first_name)
+        self.page.get_by_label("Last Name").click()
+        self.page.get_by_label("Last Name").fill(last_name)
+        self.page.get_by_label("Primary email address").click()
+        self.page.get_by_label("Primary email address").fill(email)
+        self.page.get_by_label("Date of birth*").click()
+        self.page.get_by_label("Date of birth*").fill(nascimento)
+        self.page.get_by_role("button", name="Continue").click()
+
+    # Informacoes do Endereco.
+    def informacoes_endereco(self, rua, cidade, apt=None):
+        self.page.wait_for_load_state("load")
+        self.page.get_by_label("Street number and name").click()
+        self.page.get_by_label("Street number and name").fill(rua)
+        self.page.get_by_label("Apt./Unit #").click()
+        if apt != None:
+            self.page.get_by_label("Apt./Unit #").fill(apt)
+            self.page.get_by_label("City").click()
+        self.page.get_by_label("City").fill(cidade)
+        self.page.get_by_role("button", name="Ok, start my quote").click()
+
+    # Informacoes do Veiculo.
+    def informacoes_veiculos(self, lista_vin, financiado, tempo_com_veiculo):
+        self.nova_interface=None
+
+        try:
+            self.page.set_default_timeout(7000)
+            self.page.get_by_role("button", name="No, I'll add my own").click()
+        except:
+            pass
+        self.page.set_default_timeout(30000)
+        i = 1
+        if self.nova_interface is None:
+            self.nova_interface = self.page.is_visible("label:has-text('Vehicle use')")
+
+        for veiculo in lista_vin:
+            self.page.get_by_role("link", name="Enter by VIN").click()
+            self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
+            if self.nova_interface:
+                self.page.get_by_label("Vehicle use", exact=True).select_option("1")
+            else:
+                self.page.get_by_label("Vehicle use", exact=True).select_option("1")
+
+            if financiado == "Financiado":
+                self.page.get_by_label("Own or lease?").select_option("2")
+            else:
+                self.page.get_by_label("Own or lease?").select_option("3")
+
+            if tempo_com_veiculo == "Menos de 1 ano":
+                self.page.get_by_label("How long have you had this").select_option("E")
+            elif tempo_com_veiculo == "1-3 anos":
+                self.page.get_by_label("How long have you had this").select_option("B")
+            else:
+                self.page.get_by_label("How long have you had this").select_option("D")
+
+            if self.nova_interface:
+                self.page.get_by_label("Learn more aboutAnnual").select_option("0 - 3,999")
+            else:
+                self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
+
+            if len(lista_vin) >= 2 and i < len(lista_vin):
+                self.page.get_by_role("button", name="+Add another vehicle?").click()
+                i += 1
+
+        self.page.get_by_role("button", name="Continue").click()
+
+    # Informacoes Pessoais
+    def informacoes_pessoais(self, genero, estado_documento):
+        try:
+            if genero == "Masculino":
+                self.page.get_by_label("Male", exact=True).check()
+            else:
+                self.page.get_by_label("Female").check()
+
+            self.page.get_by_label("Marital status" if self.nova_interface else "Marital Status*").select_option("S")
+            self.page.get_by_label("Primary residence insurance" if self.nova_interface else "Primary Residence Insurance*", exact=True).select_option("T")
+
+            if estado_documento != "IT":
+                self.page.get_by_label("U.S. License type").select_option("O" if self.nova_interface else "F")
+                if self.nova_interface:
+                    self.page.get_by_label("U.S. License status").select_option("V")
+                self.page.get_by_label("Has your license been valid").get_by_label("Yes").check()
+            else:
+                self.page.get_by_label("U.S. License type").select_option("F")
+
+            self.page.get_by_label("Accidents, claims, or other damages you had to a vehicle?*e.g.: hitting a car/").get_by_label("No").check()
+            self.page.get_by_label("Tickets or violations?*").get_by_label("No").check()
+
+            self.page.get_by_role("button", name="Continue").click()
+            self.page.get_by_role("button", name="Continue").click()
+        except:
+            pass
+
+    # Seguro Anterior
+    def informacoes_seguro_anterior(self, tempo_de_seguro, tempo_no_endereco):
+        try:
+            if tempo_de_seguro == "Nunca Teve":
+                self.page.get_by_label("Do you have auto insurance").get_by_label("No").check()
+                self.page.get_by_label("Have you had auto insurance in the last 31 days?*").get_by_label("No").check()
+            elif tempo_de_seguro == "Menos De 1 Ano":
+                self.page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                self.page.get_by_label("How long have you been with").select_option("A")
+                self.page.get_by_label("Have you been insured for the").get_by_label("Yes").check()
+            elif tempo_de_seguro == "1-3 Anos":
+                self.page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                self.page.get_by_label("How long have you been with").select_option("B")
+            else:
+                self.page.get_by_label("Do you have auto insurance").get_by_label("Yes").check()
+                self.page.get_by_label("How long have you been with").select_option("C")
+
+            self.page.get_by_label("Do you have non-auto policies").get_by_label("No").check()
+            self.page.get_by_label("Have you had auto insurance").get_by_label("No").check()
+
+            try:
+                self.page.set_default_timeout(7000)
+                if tempo_no_endereco == "Mais de 1 Ano":
+                    self.page.get_by_label("How long have you lived at").select_option("C")
+                else:
+                    self.page.get_by_label("How long have you lived at").select_option("B")
+            except:
+                pass
+
+            self.page.set_default_timeout(30000)
+            self.page.get_by_role("button", name="Continue").click()
+        except:
+            print("Nao foi possivel encontrar alguns botoes")
+            pass
+

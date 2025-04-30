@@ -76,6 +76,8 @@ class Preco:
             seguradora = "Progressive"
         elif self.opcao == "geico":
             seguradora = "Geico"
+        elif self.opcao == "allstate":
+            seguradora = "allstate"
         p = PrecoAutomatico()
         associado = self.associado_entry.get()
 

@@ -1,0 +1,46 @@
+body, html {
+    height: 100%;
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.small-form input, .small-form select, .small-form textarea {
+    width: 400px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+
+/* Modo escuro e modo claro*/
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #252525;
+    color: #ffffff;
+}
+
+.form-container {
+    background-color: inherit;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(25, 25, 25, 0.2);
+}
+
+#theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+    padding: 10px 15px;
+    border-radius: 50px; /* Deixa o botão com bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra para destaque */
+}
+
