@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 from Automatizacao.progressive import *
 from Automatizacao.geico import *
 from Automatizacao.allstate import *
-from Automatizacao.trello import *
+from Web.trello import *
 from Interface.preco import *
 
 def card_only():

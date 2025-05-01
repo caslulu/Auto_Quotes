@@ -8,7 +8,8 @@ import os
 from forms import CotacaoForm
 from models import db, Cotacao
 from progressive import Progressive
-from data_funcoes import decodificar_vin, formatar_data, separar_nome, separar_documento, separar_endereco
+from data_funcoes import decodificar_vin, formatar_data, separar_nome, separar_documento, separar_endereco, veiculo_vin
+from trello import Trello
 load_dotenv()
 
 
@@ -32,7 +33,7 @@ def cotacao():
     if cotacao_form.validate_on_submit():
         genero = cotacao_form.genero.data
         nome = cotacao_form.nome.data
-        documento = cotacao_form.documento.data
+        documento, estado_documento = separar_documento(cotacao_form.documento.data)
         endereco = cotacao_form.endereco.data
         financiado = cotacao_form.financiado.data
         tempo_de_seguro = cotacao_form.tempo_de_seguro.data
@@ -40,6 +41,11 @@ def cotacao():
         data_nascimento = datetime.strptime(cotacao_form.data_nascimento.data, '%m/%d/%Y').date()
         tempo_com_veiculo = cotacao_form.tempo_com_veiculo.data
         tempo_no_endereco = cotacao_form.tempo_no_endereco.data
+        if cotacao_form.colocar_trello.data:
+            trello = Trello()
+            veiculos = veiculo_vin(vin)
+            trello.criar_carta(nome, estado_documento, veiculos, documento, endereco, vin, financiado, tempo_de_seguro, data_nascimento, tempo_no_endereco, tempo_com_veiculo)
+
 
         cotacao = Cotacao(
             genero=genero,
