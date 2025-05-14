@@ -1,6 +1,8 @@
-import tkinter 
-import os
-import dotenv
-import playwright.sync_api
-import requests
-import time
+Flask==2.3.2
+Flask-WTF==1.1.1
+Flask-SQLAlchemy==3.0.5
+Flask-Bootstrap==3.3.7.1
+SQLAlchemy==2.0.15
+WTForms==3.0.1
+Pillow==9.5.0
+playwright==1.36.0

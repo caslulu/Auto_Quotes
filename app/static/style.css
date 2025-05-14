@@ -1,0 +1,164 @@
+/* ===========================
+   1. Reset e Estilos Globais
+=========================== */
+body, html {
+    height: 100%;
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #252525;
+    color: #ffffff;
+}
+
+#theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ===========================
+   2. Layout Principal
+=========================== */
+.content-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.form-section {
+    width: 30%;
+    padding: 20px;
+    border-right: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.content-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: inherit;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(25, 25, 25, 0.2);
+}
+
+/* ===========================
+   3. Componentes
+=========================== */
+/* Botões */
+.btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Botão "Colocar Trello" */
+.form-group .form-check-input.small-button {
+    font-size: 10px;
+    padding: 2px 5px;
+    height: 20px;
+    width: 30px;
+    border-radius: 3px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #495057;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.form-group .form-check-input.small-button:hover {
+    background-color: #e2e6ea;
+    color: #212529;
+}
+
+.form-check-input.small-button.active {
+    background-color: #007bff;
+    color: #ffffff;
+    border-color: #0056b3;
+}
+
+/* Formulários */
+.form-control {
+    width: 450px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
+.d-flex .form-check-input {
+    margin-right: 10px; /* Espaçamento entre as opções */
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.vr {
+    background-color: #555555;
+    width: 1px;
+    height: 100%;
+}
+
+/* ===========================
+   4. Modos Temáticos
+=========================== */
+body.light-mode .form-container {
+    background-color: #ffffff;
+}
+
+body.dark-mode .form-container {
+    background-color: #333333;
+}
+
+/* ===========================
+   5. Estados e Interações
+=========================== */
+/* Adicione aqui estilos para estados como :hover, :focus, :active, etc. */

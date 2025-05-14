@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+{% from 'bootstrap5/form.html' import render_form %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Formulário Quitado -->
+        <div class="col-md-5">
+            <h4>Veículo Quitado</h4>
+            <form class="small-form" method="post">
+                <input type="hidden" name="form_type" value="quitado">
+                {{ render_form(form_quitado) }}
+            </form>
+        </div>
+
+        <!-- Linha Vertical -->
+        <div class="col-md-1 d-flex justify-content-center align-items-center">
+            <div class="vr"></div>
+        </div>
+
+        <!-- Formulário Financiado -->
+        <div class="col-md-5">
+            <h4>Veículo Financiado</h4>
+            <form class="small-form" method="post">
+                <input type="hidden" name="form_type" value="financiado">
+                {{ render_form(form_financiado) }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

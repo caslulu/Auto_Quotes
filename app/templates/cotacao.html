@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+    <div class="form-section">
+        <form class="small-form" method="post">
+            {{ form.hidden_tag() }}
+            <!-- Gênero -->
+            <div class="form-group">
+                <label for="genero">{{ form.genero.label }}</label>
+                <div class="d-flex">
+                    {% for subfield in form.genero %}
+                    <div class="form-check form-check-inline">
+                        {{ subfield(class="form-check-input") }}
+                        <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Nome -->
+            <div class="form-group">
+                <label for="nome">{{ form.nome.label }}</label>
+                {{ form.nome(class="form-control") }}
+                {% if form.nome.errors %}
+                    <small class="text-danger">{{ form.nome.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <!-- Documento -->
+            <div class="form-group">
+                <label for="documento">{{ form.documento.label }}</label>
+                {{ form.documento(class="form-control") }}
+                {% if form.nome.errors %}
+                    <small class="text-danger">{{ form.documento.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <!-- Endereço -->
+            <div class="form-group">
+                <label for="endereco">{{ form.endereco.label }}</label>
+                {{ form.endereco(class="form-control") }}
+                {% if form.nome.errors %}
+                    <small class="text-danger">{{ form.endereco.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <!-- Financiado -->
+            <div class="form-group">
+                <label for="financiado">{{ form.financiado.label }}</label>
+                {{ form.financiado(class="form-control") }}
+            </div>
+
+            <!-- Tempo de Seguro -->
+            <div class="form-group">
+                <label for="tempo_de_seguro">{{ form.tempo_de_seguro.label }}</label>
+                {{ form.tempo_de_seguro(class="form-control") }}
+            </div>
+
+            <!-- VIN -->
+            <div class="form-group">
+                <label for="vin">{{ form.vin.label }}</label>
+                {{ form.vin(class="form-control") }}
+                {% if form.nome.errors %}
+                    <small class="text-danger">{{ form.vin.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="form-group">
+                <label for="data_nascimento">{{ form.data_nascimento.label }}</label>
+                {{ form.data_nascimento(class="form-control") }}
+                {% if form.nome.errors %}
+                    <small class="text-danger">{{ form.data_nascimento.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <!-- Tempo com Veículo -->
+            <div class="form-group">
+                <label for="tempo_com_veiculo">{{ form.tempo_com_veiculo.label }}</label>
+                {{ form.tempo_com_veiculo(class="form-control") }}
+            </div>
+
+            <!-- Tempo no Endereço -->
+            <div class="form-group">
+                <label for="tempo_no_endereco">{{ form.tempo_no_endereco.label }}</label>
+                {{ form.tempo_no_endereco(class="form-control") }}
+            </div>
+
+            <!-- Colocar Trello -->
+            <div class="form-group">
+                <label for="colocar_trello">{{ form.colocar_trello.label }}</label>
+                {{ form.colocar_trello(class="form-check-input small-button", id="colocar-trello") }}
+            </div>
+
+            <!-- Botões -->
+            <div class="button-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+            </div>
+    </div>
+    <div class="content-section">
+    {% for cotacao in cotacoes %}
+
+
+        <div class="form-group">
+                <label for="genero">{{ form_seguradora.seguradora.label }}</label>
+                <div class="d-flex">
+                    {% for subfield in form_seguradora.seguradora %}
+                    <div class="form-check form-check-inline">
+                        {{ subfield(class="form-check-input") }}
+                        <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+    <div class="row py-3">
+        
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ cotacao.nome }}</h5>
+                    <p><strong>Gênero:</strong> {{ cotacao.genero }}</p>
+                    <p><strong>Documento:</strong> {{ cotacao.documento }}</p>
+                    <p><strong>Endereço:</strong> {{ cotacao.endereco }}</p>
+                    <p><strong>Data de Nascimento:</strong> {{ cotacao.data_nascimento }}</p>
+                    <div class="d-flex gap-2">
+                        
+                        <form id="cotar-form-{{ cotacao.id }}" action="{{ url_for('cotar.cotar', cotacao_id=cotacao.id) }}" method="POST">
+                            <input type="hidden" name="seguradora" id="seguradora-input-{{ cotacao.id }}">
+                            <button type="button" class="btn btn-primary" onclick="submitCotarForm({{ cotacao.id }})">Cotar</button>
+                        </form>
+                        <form action="{{ url_for('apagar.apagarCotacao', cotacao_id=cotacao.id) }}" method="POST">
+                            <button type="submit" class="btn btn-danger">Apagar Cotação</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+{% endblock %}

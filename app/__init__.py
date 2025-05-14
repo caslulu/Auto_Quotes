@@ -1,0 +1,25 @@
+from flask import Flask
+from app.extensions import db, bootstrap
+from app.routes.cotacao_routes import cotacao_bp
+from app.routes.cotar_routes import cotar_bp
+from app.routes.preco_routes import colocarPreco_bp
+from app.routes.apagar_routes import apagar_bp
+from app.config import Config
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+
+    db.init_app(app)
+    bootstrap.init_app(app)
+
+    app.register_blueprint(cotacao_bp, url_prefix='/')
+    app.register_blueprint(cotar_bp)
+    app.register_blueprint(colocarPreco_bp)
+    app.register_blueprint(apagar_bp, url_prefix='/')
+
+    with app.app_context():
+        db.create_all()
+
+    return app
