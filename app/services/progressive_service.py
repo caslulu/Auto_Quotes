@@ -85,10 +85,10 @@ class Progressive():
         for veiculo in lista_vin:
             self.page.get_by_role("link", name="Enter by VIN").click()
             self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
-            if self.nova_interface:
-                self.page.get_by_label("Vehicle use", exact=True).select_option("1")
-            else:
-                self.page.get_by_label("Vehicle use", exact=True).select_option("1")
+            try:
+                self.page.get_by_label("Learn more aboutVehicle use*").select_option("1")
+            except:
+                pass
             time.sleep(2)
 
             if financiado == "Financiado":

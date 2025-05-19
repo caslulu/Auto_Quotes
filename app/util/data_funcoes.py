@@ -69,3 +69,17 @@ def decodificar_vin(vin):
         return lista_vin
     except Exception as e:
         raise ValueError(f"Verifique se o vin number esta correto: {e}")
+
+
+
+def formatar_com_virgula(numero):
+    # Garante que seja string com parte decimal sempre visível (duas casas)
+    numero_str = f"{float(numero):.2f}"
+    
+    # Separa parte inteira e decimal
+    parte_inteira, parte_decimal = numero_str.split('.')
+
+    if len(parte_inteira) > 3:
+        parte_inteira = f"{parte_inteira[0]},{parte_inteira[1:]}"
+    
+    return f"{parte_inteira}.{parte_decimal}"

@@ -1,7 +1,7 @@
 import time
 class Allstate():
     
-    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None):
+    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None):
         self.browser = playwright.chromium.launch(
             headless=False,
             args=[
@@ -36,7 +36,7 @@ class Allstate():
         self.page.get_by_label("Date of birth").fill(data_nascimento)
         self.page.get_by_label("Street address").click()
         self.page.get_by_label("Street address").fill(rua)
-        if self.apt != None:
+        if apt != None:
             self.page.get_by_label("Apt/unit").click()
             self.page.get_by_label("Apt/unit").fill(apt)
         self.page.get_by_role("button", name="next").click()

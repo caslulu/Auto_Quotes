@@ -40,7 +40,7 @@ class Geico():
     #pagina endereco
     def pagina_endereco(self, rua, cidade, apt):   
         self.page.get_by_placeholder("Enter a location").fill(f"{rua}, {cidade}")
-        if self.apt != None:
+        if apt != None:
             self.page.get_by_label("Apt #").click()
             self.page.get_by_label("Apt #").fill(apt)
             time.sleep(2)

@@ -1,4 +1,4 @@
-from app.util.data_funcoes import decodificar_vin, formatar_data, separar_nome, separar_documento, separar_endereco, veiculo_vin
+from app.util.data_funcoes import decodificar_vin, formatar_data, separar_nome, separar_documento, separar_endereco, veiculo_vin, formatar_com_virgula
 def extrair_dados_formulario(cotacao_form):
     return {
         "genero": cotacao_form.genero.data,
@@ -43,14 +43,20 @@ def processar_cotacao(primeiro):
 
 
 def processar_preco_quitado(preco_form):
-    entrada_basico = preco_form.entrada_basico.data
+    entrada_basico = float(preco_form.entrada_basico.data.replace(",", "")) + 320.00
     mensal_basico = preco_form.mensal_basico.data
-    valor_total_basico = preco_form.valor_total_basico.data
-    entrada_completo = preco_form.entrada_completo.data
+    valor_total_basico = float(preco_form.valor_total_basico.data.replace(",", "")) + 320.00
+    entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + 320.00
     mensal_completo = preco_form.mensal_completo.data
-    valor_total_completo = preco_form.valor_total_completo.data
+    valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + 320.00
     nome = preco_form.nome.data
     seguradora = preco_form.seguradora.data
+
+    entrada_basico = formatar_com_virgula(entrada_basico)
+    valor_total_basico = formatar_com_virgula(valor_total_basico)
+    entrada_completo = formatar_com_virgula(entrada_completo)
+    valor_total_completo = formatar_com_virgula(valor_total_completo)
+    
     return {
         "entrada_basico": entrada_basico,
         "mensal_basico": mensal_basico,
@@ -63,11 +69,13 @@ def processar_preco_quitado(preco_form):
     }
 
 def processar_preco_financiado(preco_form):
-    entrada_completo = preco_form.entrada_completo.data
+    entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + 320.00
     mensal_completo = preco_form.mensal_completo.data
-    valor_total_completo = preco_form.valor_total_completo.data
+    valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + 320.00
     nome = preco_form.nome.data
     seguradora = preco_form.seguradora.data
+    entrada_completo = formatar_com_virgula(entrada_completo)
+    valor_total_completo = formatar_com_virgula(valor_total_completo)
     return {
         "entrada_completo": entrada_completo,
         "mensal_completo": mensal_completo,

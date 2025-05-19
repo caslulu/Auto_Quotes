@@ -8,7 +8,6 @@ Garantir que todos os métodos utilizem **kwargs onde aplicável para maior flex
 2. Funcionalidades
 Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
 Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
-Criar uma funcionalidade para exportar os dados gerados (ex.: imagens ou relatórios) em formatos como PDF ou CSV.
 Adicionar uma página de histórico para listar cotações anteriores salvas no banco de dados.
 Implementar autenticação e autorização para proteger rotas sensíveis.
 
@@ -40,7 +39,6 @@ Implementar cache para evitar chamadas repetidas a APIs externas (ex.: decodific
 Adicionar logs detalhados para monitorar o comportamento do sistema em produção.
 
 8. Segurança
-Proteger as chaves de API (ex.: Trello) usando variáveis de ambiente.
 Implementar validação de entrada para evitar ataques como SQL Injection ou XSS.
 Configurar HTTPS para proteger a comunicação entre o cliente e o servidor.
 
@@ -49,7 +47,6 @@ Criar um README detalhado com instruções de instalação, configuração e uso
 Adicionar exemplos de uso para cada funcionalidade principal.
 Documentar as dependências no requirements.txt e garantir que ele esteja atualizado.
 
-10. Funcionalidades Futuras
-Adicionar suporte para múltiplos usuários e perfis.
+10. Funcionalidades Futuras.
 Implementar uma API REST para permitir integração com outros sistemas.
 Criar um painel administrativo para gerenciar cotações, usuários e configurações.
