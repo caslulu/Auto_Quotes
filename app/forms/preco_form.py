@@ -3,8 +3,8 @@ from wtforms import StringField, SubmitField, SelectField, BooleanField, RadioFi
 
 
 class PrecoForm_quitado(FlaskForm):
-    seguradora = RadioField('Seguradora', choices=[('Progressive', 'Progressive'), ('Geico', 'Geico'), ('Allstate', 'Allstate')])
     nome = StringField('Nome')
+    
     entrada_basico = StringField('Entrada')
     mensal_basico = StringField('Mensal')
     valor_total_basico = StringField('Valor Total')
@@ -16,7 +16,6 @@ class PrecoForm_quitado(FlaskForm):
     submit = SubmitField('Enviar')
 
 class PrecoForm_financiado(FlaskForm):
-    seguradora = RadioField('Seguradora', choices=[('Progressive', 'Progressive'), ('Geico', 'Geico'), ('Allstate', 'Allstate')])
     nome = StringField('Nome')
 
     entrada_completo = StringField('Entrada Completo')

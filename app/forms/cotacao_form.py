@@ -15,7 +15,3 @@ class CotacaoForm(FlaskForm):
     tempo_no_endereco = SelectField('Tempo no Endereço', choices=[('Menos de 1 Ano', 'Menos de 1 ano'), ('Mais de 1 Ano', 'Mais de 1 Ano')], validators=[DataRequired()])
     colocar_trello = BooleanField('Colocar Trello')
     submit = SubmitField('Enviar')
-
-
-class SeguradoraForm(FlaskForm):
-    seguradora = RadioField('Seguradora', choices=[('Progressive', 'Progressive'), ('Geico', 'Geico'), ('Allstate', 'Allstate')])

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
-from app.forms.cotacao_form import CotacaoForm, SeguradoraForm
+from app.forms.cotacao_form import CotacaoForm
+from app.forms.seguradora_form import SeguradoraForm
 from app.models.cotacao_db import Cotacao
 from app.services.cotacao_service import extrair_dados_formulario
 from app.services.trello_service import Trello
