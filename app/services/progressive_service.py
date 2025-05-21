@@ -127,7 +127,22 @@ class Progressive():
             self.page.pause()
 
             self.page.get_by_label("Marital status").select_option("S")
-            self.page.locator("#DriversAddPniDetails_embedded_questions_list_PrimaryResidence").select_option("T")
+            try:
+                self.page.set_default_timeout(7000)
+                self.page.locator("#DriversAddPniDetails_embedded_questions_list_PrimaryResidence").select_option("T")
+            except:
+                self.page.get_by_label("Highest level of education*").select_option("2")
+                time.sleep(2)
+                self.page.get_by_label("Employment status*").select_option("EM")
+                time.sleep(2)
+                self.page.get_by_role("combobox", name="Occupation view entire list").click()
+                time.sleep(2)
+                self.page.get_by_role("combobox", name="Occupation view entire list").fill("worker")
+                time.sleep(2)
+                self.page.get_by_text("Worker: All Other").click()
+                time.sleep(2)
+                self.page.get_by_label("Primary residence*").select_option("R")
+            self.page.set_default_timeout(30000)
 
             if estado_documento != "IT":
                 self.page.get_by_role("group", name="Has your license been valid").get_by_label("Yes").check()

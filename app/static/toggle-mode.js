@@ -78,6 +78,8 @@ function syncSeguradoraHiddenFields() {
     });
 }
 
+
+
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
     toggleThemeMode();
