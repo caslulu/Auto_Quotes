@@ -22,7 +22,8 @@ def cotacao():
             print("Checkbox 'Colocar Trello' marcado.")
             trello = Trello()
             veiculos = veiculo_vin(dados["vin"])
-            trello.criar_carta(**dados, veiculos=veiculos)
+            email = f"{dados["nome"].lower().replace(" ", "")}@outlook.com"
+            trello.criar_carta(**dados, veiculos=veiculos, email=email)
             print("Carta criada no Trello.")
 
         cotacao = Cotacao(**dados)

@@ -21,7 +21,8 @@ class Trello():
             f"{kwargs['financiado']} \n {kwargs['data_nascimento']} \n"
             f"tempo de seguro: {kwargs['tempo_de_seguro']} \n veiculo: {kwargs['veiculos']} \n"
             f"tempo no endereco: {kwargs['tempo_no_endereco']} \n"
-            f"tempo com o veiculo: {kwargs['tempo_com_veiculo']}"
+            f"tempo com o veiculo: {kwargs['tempo_com_veiculo']} \n"
+            f"email: {kwargs['email']} \n"
         )
 
         params_create = {"key": yourKey,
