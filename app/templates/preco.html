@@ -1,91 +1,94 @@
 {% extends "base.html" %}
 {% block content %}
-{% from 'bootstrap5/form.html' import render_form %}
-<div class="container mt-4">
-    <div class="row">
-
-        <!-- Seleção única de Cotação/Carta -->
-        <div class="col-12 mb-4">
-            <label for="cotacao_id_topo"><strong>Selecione a Cotação/Carta:</strong></label>
-            <select id="cotacao_id_topo" class="form-select" required>
-                <option value="" disabled selected>Escolha...</option>
-                {% for cot in cotacoes %}
-                    <option value="{{ cot.id }}">
-                        {{ cot.nome }} | {{ cot.documento }}
-                    </option>
+<div class="container py-5">
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="mb-4">
+                <label for="cotacao_id_topo" class="form-label blue-label">Selecione a Cotação/Carta:</label>
+                <select id="cotacao_id_topo" class="form-select form-select-lg" required>
+                    <option value="" disabled selected>Escolha...</option>
+                    {% for cot in cotacoes %}
+                        <option value="{{ cot.id }}">{{ cot.nome }} | {{ cot.documento }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-4 text-center">
+                <label class="blue-label">Seguradora:</label><br>
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+                {% for subfield in form_seguradora.seguradora %}
+                    <label class="form-check form-check-inline">
+                        {{ subfield(class="form-check-input") }}
+                        {{ subfield.label(class="form-check-label") }}
+                    </label>
                 {% endfor %}
-            </select>
+                </div>
+            </div>
         </div>
-
-        <!-- Seguradoras -->
-        <div class="col-12 mb-3 text-center">
-            {{ form_seguradora.seguradora.label }}<br>
-            {% for subfield in form_seguradora.seguradora %}
-            <label class="form-check form-check-inline">
-                {{ subfield(class="form-check-input") }}
-                {{ subfield.label(class="form-check-label") }}
-            </label>
-            {% endfor %}
-        </div>
-
+    </div>
+    <div class="row g-5 align-items-stretch justify-content-center">
         <!-- Formulário Quitado -->
-        <div class="col-md-5">
-            <h4>Veículo Quitado</h4>
-            <form class="small-form" method="post">
-                {{ form_quitado.hidden_tag() }}
-                <input type="hidden" name="form_type" value="quitado">
-                <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
-                <input type="hidden" name="seguradora" id="seguradora_quitado"
-                    value="{{ form_seguradora.seguradora.data }}">
-                <div class="row mb-2">
-                    <div class="col-12 text-center">
-                        {{ form_quitado.nome.label }}
-                        {{ form_quitado.nome(class="form-control d-inline-block", style="max-width:300px;") }}
+        <div class="col-12 col-lg-5 mb-4 mb-lg-0">
+            <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
+                <h4 class="section-title">Veículo Quitado</h4>
+                <form method="post" class="flex-grow-1 d-flex flex-column">
+                    {{ form_quitado.hidden_tag() }}
+                    <input type="hidden" name="form_type" value="quitado">
+                    <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
+                    <input type="hidden" name="seguradora" id="seguradora_quitado" value="{{ form_seguradora.seguradora.data }}">
+                    <div class="mb-3">
+                        {{ form_quitado.nome.label(class="form-label blue-label") }}
+                        {{ form_quitado.nome(class="form-control form-control-lg") }}
                     </div>
-                </div>
-                <div class="row">
-                    <!-- Básico -->
-                    <div class="col-6">
-                        <h6>Básico</h6>
-                        {{ form_quitado.entrada_basico.label }}
-                        {{ form_quitado.entrada_basico(class="form-control") }}
-                        {{ form_quitado.mensal_basico.label }}
-                        {{ form_quitado.mensal_basico(class="form-control") }}
-                        {{ form_quitado.valor_total_basico.label }}
-                        {{ form_quitado.valor_total_basico(class="form-control") }}
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 class="blue-label">Básico</h6>
+                            {{ form_quitado.entrada_basico.label(class="form-label") }}
+                            {{ form_quitado.entrada_basico(class="form-control") }}
+                            {{ form_quitado.mensal_basico.label(class="form-label") }}
+                            {{ form_quitado.mensal_basico(class="form-control") }}
+                            {{ form_quitado.valor_total_basico.label(class="form-label") }}
+                            {{ form_quitado.valor_total_basico(class="form-control") }}
+                        </div>
+                        <div class="col-6">
+                            <h6 class="blue-label">Completo</h6>
+                            {{ form_quitado.entrada_completo.label(class="form-label") }}
+                            {{ form_quitado.entrada_completo(class="form-control") }}
+                            {{ form_quitado.mensal_completo.label(class="form-label") }}
+                            {{ form_quitado.mensal_completo(class="form-control") }}
+                            {{ form_quitado.valor_total_completo.label(class="form-label") }}
+                            {{ form_quitado.valor_total_completo(class="form-control") }}
+                        </div>
                     </div>
-                    <!-- Completo -->
-                    <div class="col-6">
-                        <h6>Completo</h6>
-                        {{ form_quitado.entrada_completo.label }}
-                        {{ form_quitado.entrada_completo(class="form-control") }}
-                        {{ form_quitado.mensal_completo.label }}
-                        {{ form_quitado.mensal_completo(class="form-control") }}
-                        {{ form_quitado.valor_total_completo.label }}
-                        {{ form_quitado.valor_total_completo(class="form-control") }}
+                    <div class="d-grid mt-4">
+                        {{ form_quitado.submit(class="btn blue-btn btn-lg") }}
                     </div>
-                </div>
-                <div class="mt-2">
-                    {{ form_quitado.submit(class="btn btn-primary") }}
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-
-        <!-- Linha Vertical -->
-        <div class="col-md-1 d-flex justify-content-center align-items-center">
-            <div class="vr"></div>
+        <!-- Divisor -->
+        <div class="col-1 d-none d-lg-flex align-items-center justify-content-center">
+            <div class="blue-divider"></div>
         </div>
-
         <!-- Formulário Financiado -->
-        <div class="col-md-5">
-            <h4>Veículo Financiado</h4>
-            <form class="small-form" method="post">
-                <input type="hidden" name="form_type" value="financiado">
-                <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
-                <input type="hidden" name="seguradora" id="seguradora_financiado"
-                    value="{{ form_seguradora.seguradora.data }}">
-                {{ render_form(form_financiado) }}
-            </form>
+        <div class="col-12 col-lg-5">
+            <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
+                <h4 class="section-title">Veículo Financiado</h4>
+                <form method="post" class="flex-grow-1 d-flex flex-column">
+                    <input type="hidden" name="form_type" value="financiado">
+                    <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
+                    <input type="hidden" name="seguradora" id="seguradora_financiado" value="{{ form_seguradora.seguradora.data }}">
+                    {{ form_financiado.hidden_tag() }}
+                    {% for field in form_financiado if field.type not in ['CSRFToken', 'SubmitField', 'HiddenField', 'Hidden'] and field.name != 'csrf_token' %}
+                        <div class="mb-3">
+                            {{ field.label(class="form-label blue-label") }}
+                            {{ field(class="form-control") }}
+                        </div>
+                    {% endfor %}
+                    <div class="d-grid mt-4">
+                        {{ form_financiado.submit(class="btn blue-btn btn-lg") }}
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

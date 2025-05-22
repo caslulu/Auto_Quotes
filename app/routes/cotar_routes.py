@@ -26,7 +26,7 @@ def cotar(cotacao_id):
 
 def executar_cotacao(cotacao, seguradora):
     dados = processar_cotacao(cotacao)
-    email = f"{dados['first_name'].lower()}.{dados['last_name'].lower()}@outlook.com"
+    email = f"{dados['first_name'].lower()}{dados['last_name'].lower()}@outlook.com"
     if seguradora == "Progressive":
         p = Progressive()
     elif seguradora == "Geico":

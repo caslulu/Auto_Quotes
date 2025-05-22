@@ -1,29 +1,18 @@
 /**
- * Alterna entre os modos claro e escuro do site.
+ * Alterna entre os modos claro e escuro do site com transição suave e ícone dinâmico.
  */
+function setTheme(mode) {
+    document.body.classList.remove('light-mode', 'dark-mode');
+    document.body.classList.add(mode);
+    localStorage.setItem('theme-mode', mode);
+    // Atualiza o ícone
+    const icon = document.getElementById('theme-icon');
+    if (icon) icon.textContent = mode === 'dark-mode' ? '☀️' : '🌙';
+}
+
 function toggleThemeMode() {
-    const toggleButton = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    // Aplica o modo salvo ao carregar
-    const savedMode = localStorage.getItem('theme-mode');
-    if (savedMode === 'dark') {
-        body.classList.add('dark-mode');
-        body.classList.remove('light-mode');
-        toggleButton.textContent = 'Modo Claro';
-    } else {
-        body.classList.add('light-mode');
-        body.classList.remove('dark-mode');
-        toggleButton.textContent = 'Modo Escuro';
-    }
-
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        body.classList.toggle('light-mode');
-        const isDark = body.classList.contains('dark-mode');
-        toggleButton.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
-        localStorage.setItem('theme-mode', isDark ? 'dark' : 'light');
-    });
+    const current = document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
+    setTheme(current === 'dark-mode' ? 'light-mode' : 'dark-mode');
 }
 
 /**
@@ -78,26 +67,30 @@ function syncSeguradoraHiddenFields() {
     });
 }
 
-
-// Sincroniza o select único de cotação com os campos hidden dos dois formulários
+/**
+ * Sincroniza o select de cotação do topo com os campos hidden dos dois formulários.
+ */
 function syncCotacaoIdHiddenFields() {
-    const select = document.getElementById('cotacao_id_topo');
-    const inputQuitado = document.getElementById('cotacao_id_quitado');
-    const inputFinanciado = document.getElementById('cotacao_id_financiado');
-    if (!select) return;
-    select.addEventListener('change', function() {
-        if (inputQuitado) inputQuitado.value = this.value;
-        if (inputFinanciado) inputFinanciado.value = this.value;
-    });
+    const selectCotacao = document.getElementById('cotacao_id_topo');
+    const hiddenQuitado = document.getElementById('cotacao_id_quitado');
+    const hiddenFinanciado = document.getElementById('cotacao_id_financiado');
+    if (selectCotacao && hiddenQuitado && hiddenFinanciado) {
+        selectCotacao.addEventListener('change', function() {
+            hiddenQuitado.value = this.value;
+            hiddenFinanciado.value = this.value;
+        });
+    }
 }
-
-
-
-
 
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
-    toggleThemeMode();
+    // Tema claro/escuro com ícone dinâmico
+    const saved = localStorage.getItem('theme-mode') || 'light-mode';
+    setTheme(saved);
+
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.addEventListener('click', toggleThemeMode);
+
     setupTrelloButton();
     setupCotarFormSubmission();
     syncSeguradoraHiddenFields();

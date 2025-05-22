@@ -15,10 +15,10 @@ def anexar_imagem_a_cotacao(trello, cotacao, image_path):
     """Anexa uma imagem à carta do Trello vinculada à cotação e retorna True/False."""
     if cotacao and cotacao.trello_card_id:
         response = trello.anexar_imagem_trello(cotacao.trello_card_id, image_path)
-        if response and response.status_code == 200:
+        if response and (getattr(response, 'status_code', None) == 200 or response.get('status_code', None) == 200):
             return True
         else:
-            print(f"Erro ao anexar imagem ao Trello: {getattr(response, 'text', None)}")
+            print(f"Erro ao anexar imagem ao Trello: {getattr(response, 'text', response)}")
     return False
 
 @colocarPreco_bp.route('/colocarPreco', methods=['GET', 'POST'])

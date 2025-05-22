@@ -1,124 +1,93 @@
-/* ===========================
-   1. Reset e Estilos Globais
-=========================== */
+/* 1. Reset e Globais */
 body, html {
     height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    transition: background 0.5s, color 0.5s;
 }
 
+/* 2. Tema Claro/Escuro (Sunrise/Sunset) */
 body.light-mode {
-    background-color: #ffffff;
-    color: #000000;
+    background: linear-gradient(135deg, #eaf3fb 0%, #f7fbff 100%);
+    color: #174ea6;
 }
-
 body.dark-mode {
-    background-color: #252525;
-    color: #ffffff;
+    background: linear-gradient(135deg, #101c2c 0%, #1a2740 100%);
+    color: #eaf3fb;
 }
 
-#theme-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    padding: 10px 15px;
-    border-radius: 50px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+/* 3. Cartões */
+.blue-card {
+    background: #fff;
+    border: 2px solid #b3d1f7;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(23, 78, 166, 0.06);
+    transition: background 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.2s;
+}
+.blue-card:hover {
+    box-shadow: 0 8px 32px rgba(23, 78, 166, 0.13);
+}
+body.dark-mode .blue-card {
+    background: #1a2740;
+    border-color: #2563eb;
+    color: #eaf3fb;
 }
 
-/* ===========================
-   2. Layout Principal
-=========================== */
-.content-container {
-    display: flex;
+/* 4. Divisor */
+.blue-divider {
+    border-left: 2px solid #b3d1f7;
     height: 100%;
-    width: 100%;
+    margin: 0 2vw;
+    transition: border-color 0.5s;
+}
+body.dark-mode .blue-divider {
+    border-color: #2563eb;
 }
 
-.form-section {
-    width: 30%;
-    padding: 20px;
-    border-right: 2px solid #ccc;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+/* 5. Labels, Títulos e Texto */
+.blue-label, .section-title {
+    color: #174ea6;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: color 0.5s;
+}
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+body.dark-mode .blue-label, body.dark-mode .section-title {
+    color: #b3d1f7;
 }
 
-.content-section {
-    flex: 1;
-    padding: 20px;
-}
-
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    background-color: inherit;
-    padding: 20px;
+/* 6. Botões */
+.blue-btn {
+    background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+    color: #fff;
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(25, 25, 25, 0.2);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+    transition: background 0.5s, color 0.5s, box-shadow 0.5s;
+}
+.blue-btn:hover, .blue-btn:focus {
+    background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.18);
+    color: #fff;
+}
+body.dark-mode .blue-btn {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    color: #fff;
 }
 
-/* ===========================
-   3. Componentes
-=========================== */
-/* Botões */
-.btn-primary {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+/* 7. Formulários */
+.form-label {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
 }
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-/* Botão "Colocar Trello" */
-.form-group .form-check-input.small-button {
-    font-size: 10px;
-    padding: 2px 5px;
-    height: 20px;
-    width: 30px;
-    border-radius: 3px;
-    background-color: #f8f9fa;
-    border: 1px solid #ced4da;
-    color: #495057;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.form-group .form-check-input.small-button:hover {
-    background-color: #e2e6ea;
-    color: #212529;
-}
-
-.form-check-input.small-button.active {
-    background-color: #007bff;
-    color: #ffffff;
-    border-color: #0056b3;
-}
-
-/* Formulários */
 .form-control {
     width: 100%;
     padding: 10px;
@@ -126,62 +95,177 @@ body.dark-mode {
     border: 1px solid #ced4da;
     border-radius: 5px;
     margin-bottom: 15px;
+    background: #fff;
+    color: #174ea6;
+    transition: background 0.5s, color 0.5s, border-color 0.5s;
+}
+body.dark-mode .form-control {
+    background: #232f45;
+    color: #eaf3fb;
+    border-color: #2563eb;
 }
 
-.form-check-input {
+/* 8. Botão de Tema */
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 9999;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.theme-toggle-btn:hover {
+    background: #1e40af;
+}
+#theme-icon {
+    pointer-events: none;
+    transition: color 0.3s;
+}
+
+/* 9. Responsividade */
+@media (max-width: 991px) {
+    .blue-divider {
+        display: none;
+    }
+    .blue-card {
+        margin-bottom: 24px;
+    }
+}
+
+/* 10. Outros componentes e ajustes */
+.d-flex .form-check-input {
     margin-right: 10px;
 }
-.d-flex .form-check-input {
-    margin-right: 10px; /* Espaçamento entre as opções */
-}
-
 .button-group {
     display: flex;
     gap: 10px;
     margin-top: 15px;
 }
-
 .vr {
     background-color: #555555;
     width: 1px;
     height: 100%;
 }
 
-/* ===========================
-   4. Modos Temáticos
-=========================== */
-body.light-mode .form-container {
-    background-color: #ffffff;
+/* Cotação: layout split com form à esquerda e cards à direita */
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    min-height: 70vh;
 }
-
-body.dark-mode .form-container {
-    background-color: #333333;
+.form-section {
+    width: 340px;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 32px 24px 24px 24px;
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: none;
+    margin-right: 32px;
 }
-
-/* ===========================
-   5. Estados e Interações
-=========================== */
-/* Adicione aqui estilos para estados como :hover, :focus, :active, etc. */
-
-
+.content-section {
+    flex: 1;
+    padding: 0 12px;
+}
 .card-container {
     position: relative;
-
+    padding: 0;
+    margin-bottom: 24px;
+    transition: z-index 0.2s;
+    overflow: visible; /* Garante que o scale não corte rádios */
 }
-
-.card,
+.card {
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(23, 78, 166, 0.08);
+    border: 1.5px solid #b3d1f7;
+    background: #fff;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+    z-index: 1; /* Card sempre abaixo dos rádios */
+}
+body.dark-mode .card {
+    background: #1a2740;
+    border-color: #2563eb;
+    color: #eaf3fb;
+}
+.card-body {
+    padding: 18px 14px 14px 14px;
+}
 .card-container .seguradora-radios {
     transition: transform 0.2s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
     margin-bottom: 18px;
     transform-origin: top center;
+    position: relative;
+    z-index: 2; /* Rádios sempre acima do card */
 }
-
 .card-container:hover .card,
 .card-container:hover .seguradora-radios {
     transform: scale(1.07);
-    z-index: 2;
 }
-
 .card-container:hover .card {
     box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    /* pointer-events: none; Removido para permitir clique nos botões */
+}
+.card-container .seguradora-radios input,
+.card-container .seguradora-radios label {
+    pointer-events: auto;
+    position: relative;
+    z-index: 3;
+}
+@media (max-width: 991px) {
+    .content-container {
+        flex-direction: column;
+    }
+    .form-section {
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 32px;
+    }
+    .content-section {
+        padding: 0;
+    }
+}
+/* Cards em grid responsivo */
+.content-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+.content-section .col-md-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+@media (max-width: 1200px) {
+    .content-section .col-md-3 {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+    }
+}
+@media (max-width: 900px) {
+    .content-section .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+@media (max-width: 600px) {
+    .content-section .col-md-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
