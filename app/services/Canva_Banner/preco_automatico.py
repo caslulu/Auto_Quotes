@@ -21,7 +21,9 @@ class PrecoAutomatico:
         draw.text((885, 1545), kwargs.get("mensal_completo", ""), font=self.fonte_associado, fill="black")
         draw.text((850, 1695), kwargs.get("valor_total_completo", ""), font=self.fonte_preco, fill="black")
         draw.text((490, 1908), kwargs.get("nome", ""), font=self.fonte_associado, fill="white")
-        self.completo.save("app/services/Canva_Banner/Imagens/financiado_feito.png")
+        caminho = "app/services/Canva_Banner/Imagens/financiado_feito.png"
+        self.completo.save(caminho)
+        return caminho
 
     def quitado(self, seguradora, **kwargs):
         draw = ImageDraw.Draw(self.basico_img)
@@ -36,4 +38,6 @@ class PrecoAutomatico:
         draw.text((1090, 1655), kwargs.get("valor_total_completo", ""), font=self.fonte_preco, fill="black")
         draw.text((490, 1890), kwargs.get("nome", ""), font=self.fonte_associado, fill="white")
 
-        self.basico_img.save("app/services/Canva_Banner/Imagens/quitado_feito.png")
+        caminho = "app/services/Canva_Banner/Imagens/quitado_feito.png"
+        self.basico_img.save(caminho)
+        return caminho

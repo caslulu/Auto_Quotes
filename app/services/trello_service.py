@@ -30,4 +30,24 @@ class Trello():
         "idList": "662d7f3ed2bd7931022f2ed6",
         "name": kwargs['nome'],
         "desc": descricao_carta}
-        requests.post(f"{URL_TRELLO}", params=params_create)
+        response = requests.post(f"{URL_TRELLO}", params=params_create)
+        if response.ok:
+            return response.json().get("id")
+        return None
+    
+    def anexar_imagem_trello(self, card_id, image_path):
+        print("Tentando anexar imagem:", image_path)
+        print("Card ID:", card_id)
+        print("Arquivo existe?", os.path.exists(image_path))
+        url = f"https://api.trello.com/1/cards/{card_id}/attachments"
+        query = {
+            'key': yourKey,
+            'token': yourToken
+        }
+        with open(image_path, 'rb') as image_file:
+            files = {
+                'file': image_file
+            }
+            response = requests.post(url, params=query, files=files)
+        print("Resposta Trello:", response.status_code, response.text)
+        return response.json()

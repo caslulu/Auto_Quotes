@@ -14,23 +14,16 @@ def cotacao():
     cotacao_form = CotacaoForm()
     seguradora_form = SeguradoraForm()
     if cotacao_form.validate_on_submit():
-        print("Formulário enviado com sucesso!")
         dados = extrair_dados_formulario(cotacao_form)
-        print("Dados extraídos:", dados)
-
+        trello_card_id = None
         if cotacao_form.colocar_trello.data:
-            print("Checkbox 'Colocar Trello' marcado.")
             trello = Trello()
             veiculos = veiculo_vin(dados["vin"])
-            email = f"{dados["nome"].lower().replace(" ", "")}@outlook.com"
-            trello.criar_carta(**dados, veiculos=veiculos, email=email)
-            print("Carta criada no Trello.")
-
-        cotacao = Cotacao(**dados)
+            email = f"{dados['nome'].lower().replace(' ', '')}@outlook.com"
+            trello_card_id = trello.criar_carta(**dados, veiculos=veiculos, email=email)
+        cotacao = Cotacao(**dados, trello_card_id=trello_card_id)
         db.session.add(cotacao)
         db.session.commit()
-        print("Dados salvos no banco de dados.")
-
         return redirect(url_for('cotacao.cotacao'))
     else:
         print("Erro na validação do formulário:", cotacao_form.errors)

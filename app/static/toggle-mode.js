@@ -79,6 +79,21 @@ function syncSeguradoraHiddenFields() {
 }
 
 
+// Sincroniza o select único de cotação com os campos hidden dos dois formulários
+function syncCotacaoIdHiddenFields() {
+    const select = document.getElementById('cotacao_id_topo');
+    const inputQuitado = document.getElementById('cotacao_id_quitado');
+    const inputFinanciado = document.getElementById('cotacao_id_financiado');
+    if (!select) return;
+    select.addEventListener('change', function() {
+        if (inputQuitado) inputQuitado.value = this.value;
+        if (inputFinanciado) inputFinanciado.value = this.value;
+    });
+}
+
+
+
+
 
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,4 +101,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTrelloButton();
     setupCotarFormSubmission();
     syncSeguradoraHiddenFields();
+    syncCotacaoIdHiddenFields();
 });

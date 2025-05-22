@@ -14,3 +14,5 @@ class Cotacao(db.Model):
     data_nascimento = db.Column(db.String(50), nullable=False)
     tempo_com_veiculo = db.Column(db.String(50), nullable=False)
     tempo_no_endereco = db.Column(db.String(50), nullable=False)
+    trello_card_id = db.Column(db.String(100))
+    

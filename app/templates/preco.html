@@ -4,6 +4,19 @@
 <div class="container mt-4">
     <div class="row">
 
+        <!-- Seleção única de Cotação/Carta -->
+        <div class="col-12 mb-4">
+            <label for="cotacao_id_topo"><strong>Selecione a Cotação/Carta:</strong></label>
+            <select id="cotacao_id_topo" class="form-select" required>
+                <option value="" disabled selected>Escolha...</option>
+                {% for cot in cotacoes %}
+                    <option value="{{ cot.id }}">
+                        {{ cot.nome }} | {{ cot.documento }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
         <!-- Seguradoras -->
         <div class="col-12 mb-3 text-center">
             {{ form_seguradora.seguradora.label }}<br>
@@ -21,9 +34,9 @@
             <form class="small-form" method="post">
                 {{ form_quitado.hidden_tag() }}
                 <input type="hidden" name="form_type" value="quitado">
+                <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
                 <input type="hidden" name="seguradora" id="seguradora_quitado"
                     value="{{ form_seguradora.seguradora.data }}">
-                <!-- Nome centralizado -->
                 <div class="row mb-2">
                     <div class="col-12 text-center">
                         {{ form_quitado.nome.label }}
@@ -68,6 +81,7 @@
             <h4>Veículo Financiado</h4>
             <form class="small-form" method="post">
                 <input type="hidden" name="form_type" value="financiado">
+                <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
                 <input type="hidden" name="seguradora" id="seguradora_financiado"
                     value="{{ form_seguradora.seguradora.data }}">
                 {{ render_form(form_financiado) }}
