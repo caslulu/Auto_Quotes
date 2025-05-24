@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired
 
 class CotacaoForm(FlaskForm):
     genero = RadioField('Gênero', choices=[('Masculino', 'Masculino'), ('Feminino', 'Feminino')], validators=[DataRequired()])
+    estado_civil = RadioField('Estado Civil', choices=[('Solteiro', 'Solteiro'), ('Casado', 'Casado')], validators=[DataRequired()])
     nome = StringField('Nome Completo', validators=[DataRequired()])
     documento = StringField('Driver License', validators=[DataRequired()])
     endereco = StringField('Endereço', validators=[DataRequired()])

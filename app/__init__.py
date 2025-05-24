@@ -1,5 +1,5 @@
 from flask import Flask
-from app.extensions import db, bootstrap
+from app.extensions import db, bootstrap, migrate
 from app.routes.cotacao_routes import cotacao_bp
 from app.routes.cotar_routes import cotar_bp
 from app.routes.preco_routes import colocarPreco_bp
@@ -14,6 +14,7 @@ def create_app():
 
     db.init_app(app)
     bootstrap.init_app(app)
+    migrate.init_app(app, db)
 
     app.register_blueprint(cotacao_bp, url_prefix='/')
     app.register_blueprint(cotar_bp)

@@ -13,6 +13,7 @@ def extrair_dados_formulario(cotacao_form):
         "data_nascimento": cotacao_form.data_nascimento.data,
         "tempo_com_veiculo": cotacao_form.tempo_com_veiculo.data,
         "tempo_no_endereco": cotacao_form.tempo_no_endereco.data,
+        "estado_civil": cotacao_form.estado_civil.data,
     }
 # Processa os dados do formulário de cotação
 def processar_cotacao(primeiro):
