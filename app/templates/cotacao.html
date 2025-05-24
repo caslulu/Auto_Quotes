@@ -43,14 +43,33 @@
                 <small class="text-danger">{{ form.data_nascimento.errors[0] }}</small>
                 {% endif %}
             </div>
-
-            <!-- Documento -->
             <div class="form-group">
                 <label for="documento">{{ form.documento.label }}</label>
                 {{ form.documento(class="form-control") }}
                 {% if form.documento.errors %}
                 <small class="text-danger">{{ form.documento.errors[0] }}</small>
                 {% endif %}
+            </div>
+
+            <!-- Linha divisória visual -->
+            <hr id="linha-conjuge" style="display:none; border-top:2px solid #2563eb; margin: 24px 0;">
+
+            <!-- Campos do Cônjuge (aparecem só se Casado)-->
+            <div id="campos-conjuge" style="display:none;">
+                <h5 class="section-title">Informações do Cônjuge</h5>
+                <div class="form-group">
+                    <label for="nome_conjuge">{{ form.nome_conjuge.label }}</label>
+                    {{ form.nome_conjuge(class="form-control", id="nome_conjuge") }}
+                </div>
+                <div class="form-group">
+                    <label for="data_nascimento_conjuge">{{ form.data_nascimento_conjuge.label }}</label>
+                    {{ form.data_nascimento_conjuge(class="form-control", id="data_nascimento_conjuge") }}
+                </div>
+                <div class="form-group">
+                    <label for="documento_conjuge">{{ form.documento_conjuge.label }}</label>
+                    {{ form.documento_conjuge(class="form-control", id="documento_conjuge") }}
+                </div>
+                <hr id="linha-conjuge-baixo" style="border-top:2px solid #2563eb; margin: 24px 0;">
             </div>
 
             <!-- Endereço -->
@@ -101,53 +120,60 @@
             </div>
         </form>
     </div>
-</div>
-<div class="content-section">
-    <div class="row py-3">
-        {% for cotacao in cotacoes %}
-        <div class="col-md-3 mb-4">
-            <div class="card-container px-3">
-                <div class="seguradora-radios">
-                    <div class="form-group">
-                        <label for="genero">{{ form_seguradora.seguradora.label }}</label>
-                        <div class="d-flex">
-                            {% for subfield in form_seguradora.seguradora %}
-                            <div class="form-check form-check-inline">
-                                {{ subfield(class="form-check-input") }}
-                                <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+    <div class="content-section">
+        <div class="row py-3">
+            {% for cotacao in cotacoes %}
+            <div class="col-md-3 mb-4">
+                <div class="card-container px-3">
+                    <div class="seguradora-radios">
+                        <div class="form-group">
+                            <label for="genero">{{ form_seguradora.seguradora.label }}</label>
+                            <div class="d-flex">
+                                {% for subfield in form_seguradora.seguradora %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield(class="form-check-input") }}
+                                    <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
                         </div>
-                    </div>
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ cotacao.nome }}</h5>
-                            <p><strong>Gênero:</strong> {{ cotacao.genero }}</p>
-                            <p><strong>Estado Civil:</strong> {{ cotacao.estado_civil }}</p>
-                            <p><strong>Documento:</strong> {{ cotacao.documento }}</p>
-                            <p><strong>Endereço:</strong> {{ cotacao.endereco }}</p>
-                            <p><strong>Data de Nascimento:</strong> {{ cotacao.data_nascimento }}</p>
-                            <div class="d-flex gap-2">
-                                <form id="cotar-form-{{ cotacao.id }}"
-                                    action="{{ url_for('cotar.cotar', cotacao_id=cotacao.id) }}" method="POST">
-                                    <input type="hidden" name="seguradora" id="seguradora-input-{{ cotacao.id }}">
-                                    <button type="button" class="btn btn-primary"
-                                        onclick="submitCotarForm({{ cotacao.id }})">Cotar</button>
-                                </form>
-                                <a href="{{ url_for('editar.editarCotacao', cotacao_id=cotacao.id) }}" class="btn btn-warning">
-                                    Editar Cotação
-                                </a>
-                                <form action="{{ url_for('apagar.apagarCotacao', cotacao_id=cotacao.id) }}"
-                                    method="POST">
-                                    <button type="submit" class="btn btn-danger">Apagar Cotação</button>
-                                </form>
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ cotacao.nome }}</h5>
+                                <p><strong>Gênero:</strong> {{ cotacao.genero }}</p>
+                                <p><strong>Estado Civil:</strong> {{ cotacao.estado_civil }}</p>
+                                <p><strong>Documento:</strong> {{ cotacao.documento }}</p>
+                                <p><strong>Endereço:</strong> {{ cotacao.endereco }}</p>
+                                <p><strong>Data de Nascimento:</strong> {{ cotacao.data_nascimento }}</p>
+                                {% if cotacao.nome_conjuge or cotacao.data_nascimento_conjuge or cotacao.documento_conjuge %}
+                                <hr>
+                                <h6 class="section-title" style="font-size:1.1rem; margin-bottom:0.5rem;">Cônjuge</h6>
+                                <p><strong>Nome do Cônjuge:</strong> {{ cotacao.nome_conjuge or '-' }}</p>
+                                <p><strong>Data de Nascimento do Cônjuge:</strong> {{ cotacao.data_nascimento_conjuge or '-' }}</p>
+                                <p><strong>Driver do Cônjuge:</strong> {{ cotacao.documento_conjuge or '-' }}</p>
+                                {% endif %}
+                                <div class="d-flex gap-2">
+                                    <form id="cotar-form-{{ cotacao.id }}"
+                                        action="{{ url_for('cotar.cotar', cotacao_id=cotacao.id) }}" method="POST">
+                                        <input type="hidden" name="seguradora" id="seguradora-input-{{ cotacao.id }}">
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="submitCotarForm({{ cotacao.id }})">Cotar</button>
+                                    </form>
+                                    <a href="{{ url_for('editar.editarCotacao', cotacao_id=cotacao.id) }}" class="btn btn-warning">
+                                        Editar Cotação
+                                    </a>
+                                    <form action="{{ url_for('apagar.apagarCotacao', cotacao_id=cotacao.id) }}"
+                                        method="POST">
+                                        <button type="submit" class="btn btn-danger">Apagar Cotação</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

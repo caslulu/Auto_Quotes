@@ -3,9 +3,7 @@ from app.models.cotacao_db import Cotacao
 from app.forms.preco_form import PrecoForm_quitado, PrecoForm_financiado
 from app.forms.seguradora_form import SeguradoraForm
 from app.services.trello_service import Trello
-
 from app.services.Canva_Banner.preco_automatico import PrecoAutomatico
-
 from app.services.cotacao_service import processar_preco_quitado, processar_preco_financiado
 from sqlalchemy.orm.exc import NoResultFound
 

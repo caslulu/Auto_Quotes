@@ -1,6 +1,5 @@
 from app.util.data_funcoes import decodificar_vin, formatar_data, separar_nome, separar_documento, separar_endereco, veiculo_vin, formatar_com_virgula
 
-# Extrai dados do formulário de cotação
 def extrair_dados_formulario(cotacao_form):
     return {
         "genero": cotacao_form.genero.data,
@@ -14,8 +13,11 @@ def extrair_dados_formulario(cotacao_form):
         "tempo_com_veiculo": cotacao_form.tempo_com_veiculo.data,
         "tempo_no_endereco": cotacao_form.tempo_no_endereco.data,
         "estado_civil": cotacao_form.estado_civil.data,
+        "nome_conjuge": cotacao_form.nome_conjuge.data,
+        "data_nascimento_conjuge": cotacao_form.data_nascimento_conjuge.data,
+        "documento_conjuge": cotacao_form.documento_conjuge.data,
     }
-# Processa os dados do formulário de cotação
+
 def processar_cotacao(primeiro):
     genero = primeiro.genero
     first_name, last_name = separar_nome(primeiro.nome)
@@ -42,9 +44,12 @@ def processar_cotacao(primeiro):
         "data_nascimento": data_nascimento,
         "tempo_com_veiculo": tempo_com_veiculo,
         "tempo_no_endereco": tempo_no_endereco,
+        "estado_civil": getattr(primeiro, 'estado_civil', None),
+        "nome_conjuge": getattr(primeiro, 'nome_conjuge', None),
+        "data_nascimento_conjuge": getattr(primeiro, 'data_nascimento_conjuge', None),
+        "documento_conjuge": getattr(primeiro, 'documento_conjuge', None),
     }
 
-# Processa os dados do formulário de preço quitado
 def processar_preco_quitado(preco_form, seguradora_form):
     entrada_basico = float(preco_form.entrada_basico.data.replace(",", "")) + 320.00
     mensal_basico = preco_form.mensal_basico.data
@@ -68,7 +73,7 @@ def processar_preco_quitado(preco_form, seguradora_form):
         "valor_total_completo": valor_total_completo,
         "nome": nome
     }
-# Processa os dados do formulário de preço financiado
+
 def processar_preco_financiado(preco_form, seguradora_form):
     entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + 320.00
     mensal_completo = preco_form.mensal_completo.data

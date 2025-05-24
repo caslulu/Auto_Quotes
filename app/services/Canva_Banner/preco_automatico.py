@@ -29,7 +29,6 @@ class PrecoAutomatico:
         draw = ImageDraw.Draw(self.basico_img)
         draw.text((370, 543), seguradora, font=self.fonte_seguradora, fill="white")
         draw.text((1030, 543), seguradora, font=self.fonte_seguradora, fill="white")
-
         draw.text((440, 1375), kwargs.get("entrada_basico", ""), font=self.fonte_preco, fill="black")
         draw.text((1090, 1375), kwargs.get("entrada_completo", ""), font=self.fonte_preco, fill="black")
         draw.text((480, 1525), kwargs.get("mensal_basico", ""), font=self.fonte_associado, fill="black")
@@ -37,7 +36,6 @@ class PrecoAutomatico:
         draw.text((440, 1655), kwargs.get("valor_total_basico", ""), font=self.fonte_preco, fill="black")
         draw.text((1090, 1655), kwargs.get("valor_total_completo", ""), font=self.fonte_preco, fill="black")
         draw.text((490, 1890), kwargs.get("nome", ""), font=self.fonte_associado, fill="white")
-
         caminho = "app/services/Canva_Banner/Imagens/quitado_feito.png"
         self.basico_img.save(caminho)
         return caminho

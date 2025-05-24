@@ -3,6 +3,7 @@ from app.models.cotacao_db import Cotacao
 from app.extensions import db
 
 apagar_bp = Blueprint('apagar', __name__)
+
 @apagar_bp.route('/apagar_cotacao/<cotacao_id>', methods=['POST'])
 def apagarCotacao(cotacao_id):
     cotacao = Cotacao.query.get_or_404(cotacao_id)

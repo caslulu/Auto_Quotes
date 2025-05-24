@@ -82,6 +82,27 @@ function syncCotacaoIdHiddenFields() {
     }
 }
 
+/**
+ * Mostra ou esconde os campos do cônjuge conforme o estado civil selecionado.
+ */
+function toggleCamposConjuge() {
+    const casado = document.querySelector('input[name="estado_civil"]:checked');
+    const div = document.getElementById('campos-conjuge');
+    const linha = document.getElementById('linha-conjuge');
+    if (div) {
+        if (casado && casado.value === 'Casado') {
+            div.style.display = '';
+            if (linha) linha.style.display = '';
+        } else {
+            div.style.display = 'none';
+            if (linha) linha.style.display = 'none';
+            if (document.getElementById('nome_conjuge')) document.getElementById('nome_conjuge').value = '';
+            if (document.getElementById('data_nascimento_conjuge')) document.getElementById('data_nascimento_conjuge').value = '';
+            if (document.getElementById('documento_conjuge')) document.getElementById('documento_conjuge').value = '';
+        }
+    }
+}
+
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Tema claro/escuro com ícone dinâmico
@@ -95,4 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setupCotarFormSubmission();
     syncSeguradoraHiddenFields();
     syncCotacaoIdHiddenFields();
+
+    // Adiciona o controle dos campos do cônjuge se existir o campo de estado civil
+    const radios = document.querySelectorAll('input[name="estado_civil"]');
+    if (radios.length > 0) {
+        radios.forEach(r => r.addEventListener('change', toggleCamposConjuge));
+        toggleCamposConjuge();
+    }
 });
