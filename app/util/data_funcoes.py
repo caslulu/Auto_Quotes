@@ -18,7 +18,7 @@ def veiculo_vin(vin):
                 veiculos = veiculos + carro
         return veiculos.rstrip(" / ")
     except Exception as e:
-        raise ValueError(f"Verifique se o vin number esta correto: {e}")
+        pass
 
 def formatar_data(data):
     nascimento = datetime.strptime(data, "%m/%d/%Y").strftime("%m/%d/%Y")

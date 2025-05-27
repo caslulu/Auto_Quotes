@@ -1,7 +1,7 @@
 import time
 
 class Geico():
-    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None):
+    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()

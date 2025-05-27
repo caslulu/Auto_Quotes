@@ -6,3 +6,8 @@ SQLAlchemy==2.0.15
 WTForms==3.0.1
 Pillow==9.5.0
 playwright==1.36.0
+python-dotenv
+pytest
+pytest-flask
+Flask-Migrate
+requests

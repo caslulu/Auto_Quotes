@@ -1,7 +1,7 @@
 import time
 class Allstate():
     
-    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None):
+    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None):
         self.browser = playwright.chromium.launch(
             headless=False,
             args=[
@@ -10,7 +10,10 @@ class Allstate():
         
         context = self.browser.new_context()
         self.page = context.new_page()
-        self.pagina_inicial(zipcode=zipcode, first_name=first_name,last_name=last_name, data_nascimento=data_nascimento, rua=rua, apt=apt)
+        try:
+            self.pagina_inicial(zipcode=zipcode, first_name=first_name,last_name=last_name, data_nascimento=data_nascimento, rua=rua, apt=apt)
+        except:
+            pass
 
         time.sleep(7000)
         context.close()

@@ -49,21 +49,20 @@ class Progressive():
 
     def informacoes_basicas(self, first_name, last_name, email, data_nascimento):
         """Preenche informações básicas do usuário seguindo apenas cliques e waits, com timeout menor e debug."""
-        print("[DEBUG] Aguardando campo 'First Name'...")
-        try:
-            self.page.wait_for_selector("label:has-text('First Name')", timeout=15000)
-        except Exception:
-            print("[ERRO] Campo 'First Name' não encontrado em 15s. Verifique se houve redirecionamento inesperado.")
-            raise
         print("[DEBUG] Preenchendo campos básicos...")
+        # Tenta preencher usando variações de label
         self.page.get_by_label("First Name").click()
         self.page.get_by_label("First Name").fill(first_name)
+
         self.page.get_by_label("Last Name").click()
         self.page.get_by_label("Last Name").fill(last_name)
+
         self.page.get_by_label("Primary email address").click()
         self.page.get_by_label("Primary email address").fill(email)
+
         self.page.get_by_label("Date of birth*").click()
         self.page.get_by_label("Date of birth*").fill(data_nascimento)
+
         self.page.get_by_role("button", name="Continue").click()
 
     def informacoes_endereco(self, rua, cidade, apt=None):

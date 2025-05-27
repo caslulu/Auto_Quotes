@@ -40,34 +40,33 @@ def colocarPreco():
     cotacao_id = request.form.get('cotacao_id')
 
     if request.method == 'POST':
-        if not cotacao_id:
-            flash('Selecione uma cotação antes de enviar o preço.', 'warning')
-            return render_template('preco.html', **context)
-        cotacao = Cotacao.query.get(cotacao_id)
-        if not cotacao:
-            flash('Cotação não encontrada.', 'danger')
-            return render_template('preco.html', **context)
-
+        cotacao = Cotacao.query.get(cotacao_id) if cotacao_id else None
         if form_type == 'financiado' and preco_form_financiado.validate_on_submit():
             dados = processar_preco_financiado(preco_form_financiado, seguradora_form=seguradora_form)
             seguradora = request.form.get('seguradora')
             image_path = imagem.financiado(**dados, seguradora=seguradora)
-            sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
-            if sucesso:
-                flash('Imagem anexada ao Trello com sucesso!', 'success')
+            if cotacao:
+                sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
+                if sucesso:
+                    flash('Imagem anexada ao Trello com sucesso!', 'success')
+                else:
+                    flash('Falha ao anexar imagem ao Trello.', 'danger')
             else:
-                flash('Falha ao anexar imagem ao Trello.', 'danger')
+                flash('Imagem gerada, mas nenhum card do Trello foi selecionado. Imagem não anexada.', 'warning')
             return redirect(url_for('colocarPreco.colocarPreco'))
 
         elif form_type == 'quitado' and preco_form_quitado.validate_on_submit():
             seguradora = request.form.get('seguradora')
             dados = processar_preco_quitado(preco_form_quitado, seguradora_form=seguradora_form)
             image_path = imagem.quitado(**dados, seguradora=seguradora)
-            sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
-            if sucesso:
-                flash('Imagem anexada ao Trello com sucesso!', 'success')
+            if cotacao:
+                sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
+                if sucesso:
+                    flash('Imagem anexada ao Trello com sucesso!', 'success')
+                else:
+                    flash('Falha ao anexar imagem ao Trello.', 'danger')
             else:
-                flash('Falha ao anexar imagem ao Trello.', 'danger')
+                flash('Imagem gerada, mas nenhum card do Trello foi selecionado. Imagem não anexada.', 'warning')
             return redirect(url_for('colocarPreco.colocarPreco'))
         else:
             flash('Preencha corretamente o formulário.', 'warning')

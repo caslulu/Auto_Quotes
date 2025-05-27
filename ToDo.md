@@ -52,3 +52,12 @@
 - Visualização dos anexos e comentários do Trello diretamente no sistema.
 - Exportação de dados para análise externa.
 - Histórico detalhado e auditoria de alterações em cotações e preços.
+
+# 9. Manutenção e Boas Práticas
+- Documentar e padronizar variáveis de ambiente (ex: .env para segredos e configs sensíveis).
+- Automatizar backup do banco de dados periodicamente.
+- Adicionar testes para rotas protegidas e autenticação.
+- Revisar dependências periodicamente para evitar vulnerabilidades.
+
+# 10. Tarefas Concluídas
+- (Liste aqui as tarefas já finalizadas para acompanhamento)
