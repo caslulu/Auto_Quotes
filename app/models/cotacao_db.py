@@ -8,11 +8,8 @@ class Cotacao(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     documento = db.Column(db.String(50), nullable=False)
     endereco = db.Column(db.String(200), nullable=False)
-    financiado = db.Column(db.String(50), nullable=False)
     tempo_de_seguro = db.Column(db.String(50), nullable=False)
-    vin = db.Column(db.String(50), nullable=False)
     data_nascimento = db.Column(db.String(50), nullable=False)
-    tempo_com_veiculo = db.Column(db.String(50), nullable=False)
     tempo_no_endereco = db.Column(db.String(50), nullable=False)
     trello_card_id = db.Column(db.String(100))
     estado_civil = db.Column(db.String(20), nullable=False, default='Solteiro')
@@ -20,3 +17,4 @@ class Cotacao(db.Model):
     nome_conjuge = db.Column(db.String(100))
     data_nascimento_conjuge = db.Column(db.String(50))
     documento_conjuge = db.Column(db.String(50))
+    vehicles_json = db.Column(db.Text, nullable=False)  # Armazena lista de veículos em JSON

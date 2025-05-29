@@ -85,22 +85,57 @@
                 {{ form.tempo_no_endereco(class="form-control") }}
             </div>
 
-            <!-- Veículo -->
-            <div class="form-group">
-                <label for="vin">{{ form.vin.label }}</label>
-                {{ form.vin(class="form-control") }}
-                {% if form.vin.errors %}
-                <small class="text-danger">{{ form.vin.errors[0] }}</small>
-                {% endif %}
+            <!-- Veículos -->
+            <div id="veiculos-list">
+                {% for veiculo_form in form.veiculos %}
+                <div class="veiculo-item border rounded p-2 mb-2">
+                    <div class="form-group">
+                        <label>{{ veiculo_form.vin.label }}</label>
+                        {{ veiculo_form.vin(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ veiculo_form.tempo_com_veiculo.label }}</label>
+                        {{ veiculo_form.tempo_com_veiculo(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ veiculo_form.financiado.label }}</label>
+                        {{ veiculo_form.financiado(class="form-control") }}
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm remove-veiculo">Remover</button>
+                </div>
+                {% endfor %}
             </div>
-            <div class="form-group">
-                <label for="financiado">{{ form.financiado.label }}</label>
-                {{ form.financiado(class="form-control") }}
+            <button type="button" class="btn btn-secondary btn-sm" id="add-veiculo">Adicionar Veículo</button>
+
+            <!-- Template oculto para clonagem, com names WTForms compatíveis -->
+            <div id="veiculo-template" style="display:none;">
+                <div class="veiculo-item border rounded p-2 mb-2">
+                    <div class="form-group">
+                        <label>VIN</label>
+                        <input type="text" name="veiculos-__index__-vin" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tempo com Veículo</label>
+                        <select name="veiculos-__index__-tempo_com_veiculo" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="Menos de 1 ano">Menos de 1 ano</option>
+                            <option value="1-3 Anos">Entre 1 e 3 anos</option>
+                            <option value="Mais de 5 Anos">5 Anos ou mais</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado do Veículo</label>
+                        <select name="veiculos-__index__-financiado" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="Financiado">Financiado</option>
+                            <option value="Quitado">Quitado</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm remove-veiculo">Remover</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="tempo_com_veiculo">{{ form.tempo_com_veiculo.label }}</label>
-                {{ form.tempo_com_veiculo(class="form-control") }}
-            </div>
+
+            <!-- O JS de veículos foi movido para static/toggle-mode.js -->
 
             <!-- Seguro -->
             <div class="form-group">

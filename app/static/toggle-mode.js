@@ -123,4 +123,27 @@ document.addEventListener('DOMContentLoaded', () => {
         radios.forEach(r => r.addEventListener('change', toggleCamposConjuge));
         toggleCamposConjuge();
     }
+
+    // --- Adição dinâmica de veículos (cotacao.html) ---
+    const addBtn = document.getElementById('add-veiculo');
+    const veiculosList = document.getElementById('veiculos-list');
+    const template = document.getElementById('veiculo-template');
+
+    if (addBtn && veiculosList && template) {
+        addBtn.addEventListener('click', function() {
+            const total = veiculosList.children.length;
+            const html = template.innerHTML.replace(/__index__/g, total);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            veiculosList.appendChild(tempDiv.firstElementChild);
+        });
+
+        veiculosList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-veiculo')) {
+                if (veiculosList.children.length > 1) {
+                    e.target.closest('.veiculo-item').remove();
+                }
+            }
+        });
+    }
 });

@@ -1,21 +1,28 @@
 from app.util.data_funcoes import decodificar_vin, formatar_data, separar_nome, separar_documento, separar_endereco, veiculo_vin, formatar_com_virgula
+import json
 
 def extrair_dados_formulario(cotacao_form):
+    # Extrai lista de veículos do FieldList
+    veiculos = []
+    for veiculo_form in cotacao_form.veiculos.entries:
+        veiculos.append({
+            'vin': veiculo_form.vin.data,
+            'tempo_com_veiculo': veiculo_form.tempo_com_veiculo.data,
+            'financiado': veiculo_form.financiado.data
+        })
     return {
         "genero": cotacao_form.genero.data,
         "nome": cotacao_form.nome.data,
         "documento": cotacao_form.documento.data,
         "endereco": cotacao_form.endereco.data,
-        "financiado": cotacao_form.financiado.data,
         "tempo_de_seguro": cotacao_form.tempo_de_seguro.data,
-        "vin": cotacao_form.vin.data,
         "data_nascimento": cotacao_form.data_nascimento.data,
-        "tempo_com_veiculo": cotacao_form.tempo_com_veiculo.data,
         "tempo_no_endereco": cotacao_form.tempo_no_endereco.data,
         "estado_civil": cotacao_form.estado_civil.data,
         "nome_conjuge": cotacao_form.nome_conjuge.data,
         "data_nascimento_conjuge": cotacao_form.data_nascimento_conjuge.data,
         "documento_conjuge": cotacao_form.documento_conjuge.data,
+        "veiculos": veiculos
     }
 
 def processar_cotacao(primeiro):
