@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, BooleanField, RadioField, FieldList, FormField
 from wtforms.validators import DataRequired
 from app.forms.veiculo_form import VeiculoForm
+from app.forms.pessoa_form import PessoaForm
 
 class CotacaoForm(FlaskForm):
     class Meta:
@@ -22,3 +23,4 @@ class CotacaoForm(FlaskForm):
     colocar_trello = BooleanField('Colocar Trello')
     submit = SubmitField('Enviar')
     veiculos = FieldList(FormField(VeiculoForm), min_entries=1, label='Veículos')
+    pessoas = FieldList(FormField(PessoaForm), min_entries=0, label='Pessoas adicionais')

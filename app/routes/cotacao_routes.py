@@ -47,7 +47,8 @@ def cotacao():
             nome_conjuge=dados['nome_conjuge'],
             data_nascimento_conjuge=dados['data_nascimento_conjuge'],
             documento_conjuge=dados['documento_conjuge'],
-            vehicles_json=json.dumps(dados['veiculos']),
+            vehicles_json=json.dumps(dados['veiculos']),  # Salva apenas veículos
+            pessoas_json=json.dumps(dados.get('pessoas', [])),  # Salva pessoas extras em campo separado
             trello_card_id=trello_card_id
         )
         db.session.add(cotacao)

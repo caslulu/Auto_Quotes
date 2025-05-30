@@ -101,6 +101,10 @@
                         <label>{{ veiculo_form.financiado.label }}</label>
                         {{ veiculo_form.financiado(class="form-control") }}
                     </div>
+                    <div class="form-group">
+                        <label>{{ veiculo_form.placa.label }}</label>
+                        {{ veiculo_form.placa(class="form-control") }}
+                    </div>
                     <button type="button" class="btn btn-danger btn-sm remove-veiculo">Remover</button>
                 </div>
                 {% endfor %}
@@ -141,12 +145,88 @@
                 {{ form.tempo_de_seguro(class="form-control") }}
             </div>
 
+
+
+            <!-- Pessoas Adicionais -->
+            <div id="pessoas-list">
+                {% for pessoa_form in form.pessoas %}
+                <div class="pessoa-item border rounded p-2 mb-2">
+                    <div class="form-group">
+                        <label>{{ pessoa_form.nome.label }}</label>
+                        {{ pessoa_form.nome(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ pessoa_form.genero.label }}</label>
+                        <div class="d-flex">
+                            {% for subfield in pessoa_form.genero %}
+                            <div class="form-check form-check-inline">
+                                {{ subfield(class="form-check-input") }}
+                                <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ pessoa_form.documento.label }}</label>
+                        {{ pessoa_form.documento(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ pessoa_form.data_nascimento.label }}</label>
+                        {{ pessoa_form.data_nascimento(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ pessoa_form.parentesco.label }}</label>
+                        {{ pessoa_form.parentesco(class="form-control") }}
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm remove-pessoa">Remover</button>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="add-pessoa">Adicionar Pessoa</button>
+
+            <!-- Template oculto para clonagem, com names WTForms compatíveis -->
+            <div id="pessoa-template" style="display:none;">
+                <div class="pessoa-item border rounded p-2 mb-2">
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" name="pessoas-__index__-nome" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Gênero</label>
+                        <div class="d-flex">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pessoas-__index__-genero" value="Masculino"> Masculino
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pessoas-__index__-genero" value="Feminino"> Feminino
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Documento</label>
+                        <input type="text" name="pessoas-__index__-documento" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Data de Nascimento</label>
+                        <input type="text" name="pessoas-__index__-data_nascimento" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Parentesco</label>
+                        <select name="pessoas-__index__-parentesco" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="Filho(a)">Filho(a)</option>
+                            <option value="Pai/Mãe">Pai/Mãe</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm remove-pessoa">Remover</button>
+                </div>
+            </div>
             <!-- Colocar Trello -->
             <div class="form-group">
                 <label for="colocar_trello">{{ form.colocar_trello.label }}</label>
                 {{ form.colocar_trello(class="form-check-input small-button", id="colocar-trello") }}
             </div>
-
             <!-- Botões -->
             <div class="button-group">
                 {{ form.submit(class="btn btn-primary") }}

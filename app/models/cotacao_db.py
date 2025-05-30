@@ -13,8 +13,12 @@ class Cotacao(db.Model):
     tempo_no_endereco = db.Column(db.String(50), nullable=False)
     trello_card_id = db.Column(db.String(100))
     estado_civil = db.Column(db.String(20), nullable=False, default='Solteiro')
+    
     # Campos para cônjuge
     nome_conjuge = db.Column(db.String(100))
     data_nascimento_conjuge = db.Column(db.String(50))
     documento_conjuge = db.Column(db.String(50))
-    vehicles_json = db.Column(db.Text, nullable=False)  # Armazena lista de veículos em JSON
+
+    # Campos para veículos e pessoas
+    vehicles_json = db.Column(db.Text, nullable=False)
+    pessoas_json = db.Column(db.Text, nullable=False, default='[]') 

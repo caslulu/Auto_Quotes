@@ -4,7 +4,7 @@ class Progressive():
     """
     Classe para automação de cotação no site da Progressive usando Playwright.
     """
-    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, lista_vin=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, financiado=None, tempo_com_veiculo=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None):
+    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, veiculos=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
@@ -16,10 +16,12 @@ class Progressive():
                 print(f"[WARN] Falha ao esperar networkidle: {e}")
             self.informacoes_basicas(first_name=first_name, last_name=last_name, email=email, data_nascimento=data_nascimento)
             self.informacoes_endereco(rua=rua, cidade=cidade, apt=apt)
-            try:
-                self.informacoes_veiculos(lista_vin=lista_vin, financiado=financiado, tempo_com_veiculo=tempo_com_veiculo)
-            except Exception as e:
-                print(f"[WARN] Falha ao preencher veículos: {e}")
+            # Passa a lista completa de veículos
+            if veiculos:
+                try:
+                    self.informacoes_veiculos(veiculos=veiculos)
+                except:
+                    pass
             self.informacoes_pessoais(genero=genero, estado_documento=estado_documento, estado_civil=estado_civil, nome_conjuge=nome_conjuge, data_nascimento_conjuge=data_nascimento_conjuge)
             self.informacoes_seguro_anterior(tempo_de_seguro=tempo_de_seguro, tempo_no_endereco=tempo_no_endereco)
             time.sleep(300)
@@ -77,8 +79,8 @@ class Progressive():
         self.page.get_by_label("City").fill(cidade)
         self.page.get_by_role("button", name="Ok, start my quote").click()
 
-    def informacoes_veiculos(self, lista_vin, financiado, tempo_com_veiculo):
-        """Preenche informações dos veículos."""
+    def informacoes_veiculos(self, veiculos):
+        """Preenche informações de todos os veículos."""
         self.nova_interface = None
         try:
             self.page.set_default_timeout(7000)
@@ -86,25 +88,35 @@ class Progressive():
         except Exception:
             pass
         self.page.set_default_timeout(30000)
-        i = 1
         if self.nova_interface is None:
             self.nova_interface = self.page.is_visible("label:has-text('Vehicle use')")
-        for veiculo in lista_vin or []:
-            self.page.get_by_role("link", name="Enter by VIN").click()
-            self.page.get_by_label("Vehicle Identification Number").fill(veiculo)
+        for idx, veiculo in enumerate(veiculos):
+            # Corrige caso veiculos seja uma string (ex: 'veiculos') ao invés de lista de dicts
+            if isinstance(veiculo, dict):
+                vin_val = veiculo.get('vin', '')
+            elif hasattr(veiculo, 'vin'):
+                vin_val = getattr(veiculo, 'vin', '')
+            else:
+                continue  # Pula esse item inválido
+            if idx > 0:
+                self.page.get_by_role("button", name="+Add another vehicle").click()
+            self.page.wait_for_selector("a:has-text('Enter by VIN')", timeout=10000)
+            self.page.click("a:has-text('Enter by VIN')")
+            self.page.wait_for_selector("input[name='VehiclesNew_embedded_questions_list_Vin']", timeout=10000)
+            self.page.fill("input[name='VehiclesNew_embedded_questions_list_Vin']", vin_val)
             try:
                 self.page.get_by_label("Learn more aboutVehicle use*").select_option("1")
             except Exception:
                 pass
             time.sleep(2)
-            if financiado == "Financiado":
+            if veiculo.get('financiado') == "Financiado":
                 self.page.get_by_label("Own or lease?").select_option("2")
             else:
                 self.page.get_by_label("Own or lease?").select_option("3")
             time.sleep(2)
-            if tempo_com_veiculo == "Menos de 1 ano":
+            if veiculo.get('tempo_com_veiculo') == "Menos de 1 ano":
                 self.page.get_by_label("How long have you had this").select_option("A")
-            elif tempo_com_veiculo == "1-3 anos":
+            elif veiculo.get('tempo_com_veiculo') == "1-3 anos":
                 self.page.get_by_label("How long have you had this").select_option("B")
             else:
                 self.page.get_by_label("How long have you had this").select_option("C")
@@ -114,9 +126,6 @@ class Progressive():
             else:
                 self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
             time.sleep(2)
-            if lista_vin and len(lista_vin) >= 2 and i < len(lista_vin):
-                self.page.get_by_role("button", name="+Add another vehicle").click()
-                i += 1
         self.page.get_by_role("button", name="Continue").click()
 
     def informacoes_pessoais(self, genero, estado_documento, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None):

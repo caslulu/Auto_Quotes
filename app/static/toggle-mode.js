@@ -146,4 +146,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Adição dinâmica de pessoas (cotacao.html) ---
+    const addPessoaBtn = document.getElementById('add-pessoa');
+    const pessoasList = document.getElementById('pessoas-list');
+    const pessoaTemplate = document.getElementById('pessoa-template');
+
+    if (addPessoaBtn && pessoasList && pessoaTemplate) {
+        addPessoaBtn.addEventListener('click', function() {
+            const total = pessoasList.children.length;
+            const html = pessoaTemplate.innerHTML.replace(/__index__/g, total);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            pessoasList.appendChild(tempDiv.firstElementChild);
+        });
+
+        pessoasList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-pessoa')) {
+                e.target.closest('.pessoa-item').remove();
+            }
+        });
+    }
 });
