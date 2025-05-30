@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app.models.cotacao_db import Cotacao
+from app.models.cotacao_preco_ml import CotacaoPrecoML
 from app.forms.preco_form import PrecoForm_quitado, PrecoForm_financiado
 from app.forms.seguradora_form import SeguradoraForm
 from app.services.trello_service import Trello
@@ -41,9 +42,43 @@ def colocarPreco():
 
     if request.method == 'POST':
         cotacao = Cotacao.query.get(cotacao_id) if cotacao_id else None
+        if cotacao:
+            # Salva/atualiza registro no novo banco ML ao preencher preço
+            dados_cotacao = {
+                'genero': cotacao.genero,
+                'nome': cotacao.nome,
+                'documento': cotacao.documento,
+                'endereco': cotacao.endereco,
+                'tempo_de_seguro': cotacao.tempo_de_seguro,
+                'data_nascimento': cotacao.data_nascimento,
+                'tempo_no_endereco': cotacao.tempo_no_endereco,
+                'estado_civil': cotacao.estado_civil,
+                'nome_conjuge': cotacao.nome_conjuge,
+                'data_nascimento_conjuge': cotacao.data_nascimento_conjuge,
+                'documento_conjuge': cotacao.documento_conjuge,
+                'veiculos': cotacao.vehicles_json,
+                'pessoas': getattr(cotacao, 'pessoas_json', '[]')
+            }
         if form_type == 'financiado' and preco_form_financiado.validate_on_submit():
             dados = processar_preco_financiado(preco_form_financiado, seguradora_form=seguradora_form)
             seguradora = request.form.get('seguradora')
+            usar_previsao = request.form.get('usar_previsao') == 'on'
+            if usar_previsao:
+                from ml.predict_endpoint import model as ml_model
+                import json as _json
+                # Monta dados para ML (ajuste conforme seu pipeline)
+                ml_input = dict(dados_cotacao)
+                ml_input['veiculos'] = _json.loads(ml_input['veiculos']) if isinstance(ml_input['veiculos'], str) else ml_input['veiculos']
+                ml_input['pessoas'] = _json.loads(ml_input['pessoas']) if isinstance(ml_input['pessoas'], str) else ml_input['pessoas']
+                ml_input['num_veiculos'] = len(ml_input.get('veiculos', []))
+                ml_input['num_pessoas'] = len(ml_input.get('pessoas', []))
+                for k in ['veiculos', 'pessoas', 'nome', 'documento', 'data_nascimento', 'nome_conjuge', 'data_nascimento_conjuge', 'documento_conjuge']:
+                    ml_input.pop(k, None)
+                import pandas as pd
+                preco_previsto = ml_model.predict(pd.DataFrame([ml_input]))[0]
+                preco_previsto_final = 400 + preco_previsto * 1.2  # taxa + 20% margem
+                # Adiciona na imagem (exemplo: campo mensal_completo)
+                dados['mensal_completo'] = f"R$ {preco_previsto_final:,.2f} (previsto)"
             image_path = imagem.financiado(**dados, seguradora=seguradora)
             if cotacao:
                 sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
@@ -58,6 +93,21 @@ def colocarPreco():
         elif form_type == 'quitado' and preco_form_quitado.validate_on_submit():
             seguradora = request.form.get('seguradora')
             dados = processar_preco_quitado(preco_form_quitado, seguradora_form=seguradora_form)
+            usar_previsao = request.form.get('usar_previsao') == 'on'
+            if usar_previsao:
+                from ml.predict_endpoint import model as ml_model
+                import json as _json
+                ml_input = dict(dados_cotacao)
+                ml_input['veiculos'] = _json.loads(ml_input['veiculos']) if isinstance(ml_input['veiculos'], str) else ml_input['veiculos']
+                ml_input['pessoas'] = _json.loads(ml_input['pessoas']) if isinstance(ml_input['pessoas'], str) else ml_input['pessoas']
+                ml_input['num_veiculos'] = len(ml_input.get('veiculos', []))
+                ml_input['num_pessoas'] = len(ml_input.get('pessoas', []))
+                for k in ['veiculos', 'pessoas', 'nome', 'documento', 'data_nascimento', 'nome_conjuge', 'data_nascimento_conjuge', 'documento_conjuge']:
+                    ml_input.pop(k, None)
+                import pandas as pd
+                preco_previsto = ml_model.predict(pd.DataFrame([ml_input]))[0]
+                preco_previsto_final = 400 + preco_previsto * 1.2  # taxa + 20% margem
+                dados['mensal_basico'] = f"R$ {preco_previsto_final:,.2f} (previsto)"
             image_path = imagem.quitado(**dados, seguradora=seguradora)
             if cotacao:
                 sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
