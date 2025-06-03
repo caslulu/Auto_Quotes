@@ -59,12 +59,6 @@
                             {{ form_quitado.valor_total_completo(class="form-control") }}
                         </div>
                     </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" name="usar_previsao" id="usar_previsao_quitado">
-                        <label class="form-check-label" for="usar_previsao_quitado">
-                            Usar previsão automática de preço (ML)
-                        </label>
-                    </div>
                     <div class="d-grid mt-4">
                         {{ form_quitado.submit(class="btn blue-btn btn-lg") }}
                     </div>
@@ -90,12 +84,6 @@
                             {{ field(class="form-control") }}
                         </div>
                     {% endfor %}
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" name="usar_previsao" id="usar_previsao_financiado">
-                        <label class="form-check-label" for="usar_previsao_financiado">
-                            Usar previsão automática de preço (ML)
-                        </label>
-                    </div>
                     <div class="d-grid mt-4">
                         {{ form_financiado.submit(class="btn blue-btn btn-lg") }}
                     </div>

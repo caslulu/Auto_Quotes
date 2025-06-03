@@ -1,6 +1,8 @@
 import requests
 import os
+import json
 from dotenv import load_dotenv
+from app.util.data_funcoes import veiculo_vin
 
 
 class Trello:
@@ -21,10 +23,8 @@ class Trello:
         nome_conjuge = kwargs.get('nome_conjuge')
         data_nascimento_conjuge = kwargs.get('data_nascimento_conjuge')
         documento_conjuge = kwargs.get('documento_conjuge')
-        from app.util.data_funcoes import veiculo_vin
         veiculos_lista = []
         pessoas_lista = []
-        import json
         # Suporte para dict com veiculos e pessoas
         if isinstance(veiculos, str):
             try:
@@ -125,4 +125,6 @@ class Trello:
             }
             response = requests.post(url, params=query, files=files)
         print("Resposta Trello:", response.status_code, response.text)
-        return response.json()
+        if response.ok:
+            return response.json()
+        return None

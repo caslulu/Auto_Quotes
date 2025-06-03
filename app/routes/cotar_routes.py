@@ -5,7 +5,6 @@ from app.services.progressive_service import Progressive
 from app.services.geico_services import Geico
 from app.services.allstate_services import Allstate
 from playwright.sync_api import sync_playwright
-import os
 
 cotar_bp = Blueprint('cotar', __name__)
 

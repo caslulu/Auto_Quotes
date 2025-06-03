@@ -4,7 +4,7 @@ class Progressive():
     """
     Classe para automação de cotação no site da Progressive usando Playwright.
     """
-    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, veiculos=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None):
+    def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, veiculos=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None, cotacao_obj=None):
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         self.page = context.new_page()
@@ -22,7 +22,31 @@ class Progressive():
                     self.informacoes_veiculos(veiculos=veiculos)
                 except:
                     pass
-            self.informacoes_pessoais(genero=genero, estado_documento=estado_documento, estado_civil=estado_civil, nome_conjuge=nome_conjuge, data_nascimento_conjuge=data_nascimento_conjuge)
+            # --- NOVO: buscar pessoas extras do banco ---
+            pessoas_extras = []
+            if cotacao_obj and hasattr(cotacao_obj, 'pessoas_json'):
+                import json
+                try:
+                    pessoas_extras = json.loads(cotacao_obj.pessoas_json)
+                except Exception:
+                    pessoas_extras = []
+            # Remove titular e cônjuge da lista de pessoas extras, se presentes
+            titular_nome = first_name
+            titular_sobrenome = last_name
+            conjuge_nome = nome_conjuge if nome_conjuge else None
+            pessoas_filtradas = []
+            for p in pessoas_extras:
+                nome_p = p.get('nome', '').strip()
+                if nome_p and nome_p.lower() not in [titular_nome.lower(), (conjuge_nome or '').lower()]:
+                    pessoas_filtradas.append(p)
+            self.informacoes_pessoais(
+                genero=genero,
+                estado_documento=estado_documento,
+                estado_civil=estado_civil,
+                nome_conjuge=nome_conjuge,
+                data_nascimento_conjuge=data_nascimento_conjuge,
+                pessoas_extras=pessoas_filtradas
+            )
             self.informacoes_seguro_anterior(tempo_de_seguro=tempo_de_seguro, tempo_no_endereco=tempo_no_endereco)
             time.sleep(300)
         except Exception as e:
@@ -128,8 +152,8 @@ class Progressive():
             time.sleep(2)
         self.page.get_by_role("button", name="Continue").click()
 
-    def informacoes_pessoais(self, genero, estado_documento, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None):
-        """Preenche informações pessoais do usuário e, se casado, do cônjuge."""
+    def informacoes_pessoais(self, genero, estado_documento, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, pessoas_extras=None):
+        from app.util.data_funcoes import separar_nome
         try:
             # Motorista principal
             if genero == "Masculino":
@@ -188,6 +212,30 @@ class Progressive():
                 self.page.get_by_role("group", name="Accidents, claims, or other").get_by_label("No").check()
                 self.page.get_by_role("group", name="Tickets or violations?").get_by_label("No").check()
                 self.page.get_by_role("button", name="Continue").click()
+
+            # Preencher pessoas extras (exceto titular e cônjuge)
+            if pessoas_extras:
+                for pessoa in pessoas_extras:
+                    first_name, last_name = separar_nome(pessoa.get("nome", ""))
+                    self.page.get_by_role("button", name="Add another person").click()
+                    self.page.get_by_role("textbox", name="First name").click()
+                    self.page.get_by_role("textbox", name="First name").fill(first_name)
+                    self.page.get_by_role("textbox", name="Last name").click()
+                    self.page.get_by_role("textbox", name="Last name").fill(last_name)
+                    genero_p = pessoa.get("genero", "Feminino")
+                    if genero_p == "Masculino":
+                        self.page.get_by_role("radio", name="Male").check()
+                    else:
+                        self.page.get_by_role("radio", name="Female").check()
+                    self.page.get_by_role("textbox", name="Date of birth").click()
+                    self.page.get_by_role("textbox", name="Date of birth").fill(pessoa.get("data_nascimento"))
+                    self.page.get_by_label("Marital status*").select_option("S")
+                    self.page.get_by_label("Relationship to Teste (Driver").select_option("O")
+                    self.page.get_by_role("group", name="Has this driver's license").get_by_label("Yes").check()
+                    self.page.get_by_role("group", name="Any license suspensions in").get_by_label("No").check()
+                    self.page.get_by_role("group", name="Accidents, claims, or other").get_by_label("No").check()
+                    self.page.get_by_role("group", name="Tickets or violations?").get_by_label("No").check()
+                    self.page.get_by_role("button", name="Continue").click()
         except Exception as e:
             print(f"[WARN] Falha ao preencher informações pessoais: {e}")
 
