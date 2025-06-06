@@ -43,5 +43,6 @@ class Allstate():
             self.page.get_by_label("Apt/unit").click()
             self.page.get_by_label("Apt/unit").fill(apt)
         self.page.get_by_role("button", name="next").click()
+        self.page.pause()
         
         

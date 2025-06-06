@@ -150,6 +150,10 @@ class Progressive():
             else:
                 self.page.get_by_label("Learn more aboutAnnual").select_option(index=1)
             time.sleep(2)
+            # Após preencher o veículo, clique em Continue para liberar o próximo formulário
+            if idx < len(veiculos) - 1:
+                self.page.get_by_role("button", name="+Add another vehicle").click()
+        # Após todos os veículos, clique em Continue final
         self.page.get_by_role("button", name="Continue").click()
 
     def informacoes_pessoais(self, genero, estado_documento, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, pessoas_extras=None):

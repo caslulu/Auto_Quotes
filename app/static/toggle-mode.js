@@ -103,6 +103,36 @@ function toggleCamposConjuge() {
     }
 }
 
+/**
+ * Exibe um alerta global no topo da tela para seleção de seguradora.
+ */
+function mostrarAlertaTopoSeguradora() {
+    var alerta = document.getElementById('alert-topo-seguradora');
+    if (alerta) {
+        alerta.classList.remove('d-none');
+        // Some automaticamente após 3s
+        clearTimeout(alerta._timeoutId);
+        alerta._timeoutId = setTimeout(function() {
+            alerta.classList.add('d-none');
+        }, 3000);
+    }
+}
+
+/**
+ * Valida se uma seguradora foi selecionada antes de submeter o formulário de preço.
+ */
+function validarSeguradoraAntesDeEnviar(e) {
+    var radios = document.querySelectorAll('input[name="seguradora"]');
+    var algumSelecionado = false;
+    radios.forEach(function(r) { if (r.checked) algumSelecionado = true; });
+    if (!algumSelecionado) {
+        mostrarAlertaTopoSeguradora();
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+}
+
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Tema claro/escuro com ícone dinâmico
@@ -167,4 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Validação de seguradora ao submeter qualquer formulário de preço
+    document.querySelectorAll('.preco-form').forEach(function(form) {
+        form.addEventListener('submit', validarSeguradoraAntesDeEnviar);
+    });
+    // Esconde alerta ao trocar seguradora
+    document.querySelectorAll('input[name="seguradora"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            var alerta = document.getElementById('alert-topo-seguradora');
+            if (alerta) alerta.classList.add('d-none');
+        });
+    });
 });

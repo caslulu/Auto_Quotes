@@ -1,7 +1,7 @@
 from app.util.data_funcoes import formatar_data, separar_nome, separar_documento, separar_endereco, formatar_com_virgula
 import json
 
-TAXA = 400.00
+TAXA = 320.00
 
 def extrair_dados_formulario(cotacao_form):
     veiculos = [

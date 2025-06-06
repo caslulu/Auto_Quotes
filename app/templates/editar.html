@@ -7,30 +7,208 @@
     <h2>Editar Cotação</h2>
     <form method="POST">
         {{ form.hidden_tag() }}
-            {% for field in form if field.name != 'colocar_trello' and field.type != 'CSRFTokenField' and field.type != 'HiddenField' and field.name != 'submit' %}
+        <!-- Campos principais -->
+        <div class="row">
+            <div class="col-md-6">
                 <div class="mb-3">
-                    {{ field.label(class="form-label") }}
-                    {% if field.type == 'RadioField' %}
-                        <div class="d-flex">
-                            {% for subfield in field %}
+                    {{ form.nome.label(class="form-label") }}
+                    {{ form.nome(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.genero.label(class="form-label") }}
+                    <div class="d-flex">
+                        {% for subfield in form.genero %}
+                        <div class="form-check form-check-inline">
+                            {{ subfield(class="form-check-input") }}
+                            <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{ form.data_nascimento.label(class="form-label") }}
+                    {{ form.data_nascimento(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.documento.label(class="form-label") }}
+                    {{ form.documento(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.endereco.label(class="form-label") }}
+                    {{ form.endereco(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.tempo_no_endereco.label(class="form-label") }}
+                    {{ form.tempo_no_endereco(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.tempo_de_seguro.label(class="form-label") }}
+                    {{ form.tempo_de_seguro(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.estado_civil.label(class="form-label") }}
+                    <div class="d-flex">
+                        {% for subfield in form.estado_civil %}
+                        <div class="form-check form-check-inline">
+                            {{ subfield(class="form-check-input") }}
+                            <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Campos do cônjuge sempre visíveis para evitar erro de renderização -->
+                <div id="campos-conjuge">
+                    <div class="mb-3">
+                        {{ form.nome_conjuge.label(class="form-label") }}
+                        {{ form.nome_conjuge(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.data_nascimento_conjuge.label(class="form-label") }}
+                        {{ form.data_nascimento_conjuge(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.documento_conjuge.label(class="form-label") }}
+                        {{ form.documento_conjuge(class="form-control") }}
+                    </div>
+                </div>
+            </div>
+            <!-- Veículos -->
+            <div class="col-md-6">
+                <h5>Veículos</h5>
+                <div id="veiculos-list">
+                    {% for veiculo_form in form.veiculos %}
+                    <div class="veiculo-item border rounded p-2 mb-2">
+                        <div class="mb-2">
+                            {{ veiculo_form.vin.label(class="form-label") }}
+                            {{ veiculo_form.vin(class="form-control") }}
+                        </div>
+                        <div class="mb-2">
+                            {{ veiculo_form.tempo_com_veiculo.label(class="form-label") }}
+                            {{ veiculo_form.tempo_com_veiculo(class="form-control") }}
+                        </div>
+                        <div class="mb-2">
+                            {{ veiculo_form.financiado.label(class="form-label") }}
+                            {{ veiculo_form.financiado(class="form-control") }}
+                        </div>
+                        <div class="mb-2">
+                            {{ veiculo_form.placa.label(class="form-label") }}
+                            {{ veiculo_form.placa(class="form-control") }}
+                        </div>
+                         <button type="button" class="btn btn-danger btn-sm remove-veiculo">Remover</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="add-veiculo">Adicionar Veículo</button>
+                <!-- Template oculto para clonagem -->
+                <div id="veiculo-template" style="display:none;">
+                    <div class="veiculo-item border rounded p-2 mb-2">
+                        <div class="mb-2">
+                            <label>VIN</label>
+                            <input type="text" name="veiculos-__index__-vin" class="form-control" />
+                        </div>
+                        <div class="mb-2">
+                            <label>Tempo com Veículo</label>
+                            <select name="veiculos-__index__-tempo_com_veiculo" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="Menos de 1 ano">Menos de 1 ano</option>
+                                <option value="1-3 Anos">Entre 1 e 3 anos</option>
+                                <option value="Mais de 5 Anos">5 Anos ou mais</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>Estado do Veiculo</label>
+                            <select name="veiculos-__index__-financiado" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="Financiado">Financiado</option>
+                                <option value="Quitado">Quitado</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>Placa</label>
+                            <input type="text" name="veiculos-__index__-placa" class="form-control" />
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-veiculo">Remover</button>
+                    </div>
+                </div>
+                <hr>
+                <h5>Pessoas Adicionais</h5>
+                <div id="pessoas-list">
+                    {% for pessoa_form in form.pessoas %}
+                    <div class="pessoa-item border rounded p-2 mb-2">
+                        <div class="mb-2">
+                            {{ pessoa_form.nome.label(class="form-label") }}
+                            {{ pessoa_form.nome(class="form-control") }}
+                        </div>
+                        <div class="mb-2">
+                            {{ pessoa_form.genero.label(class="form-label") }}
+                            <div class="d-flex">
+                                {% for subfield in pessoa_form.genero %}
                                 <div class="form-check form-check-inline">
                                     {{ subfield(class="form-check-input") }}
                                     <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
                                 </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
-                    {% else %}
-                        {{ field(class="form-control") }}
-                    {% endif %}
-                    {% if field.errors %}
-                        <div class="text-danger small">
-                            {{ field.errors|join(', ') }}
+                        <div class="mb-2">
+                            {{ pessoa_form.documento.label(class="form-label") }}
+                            {{ pessoa_form.documento(class="form-control") }}
                         </div>
-                    {% endif %}
+                        <div class="mb-2">
+                            {{ pessoa_form.data_nascimento.label(class="form-label") }}
+                            {{ pessoa_form.data_nascimento(class="form-control") }}
+                        </div>
+                        <div class="mb-2">
+                            {{ pessoa_form.parentesco.label(class="form-label") }}
+                            {{ pessoa_form.parentesco(class="form-control") }}
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-pessoa">Remover</button>
+                    </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        <button type="submit" class="btn btn-success">Salvar Alterações</button>
-        <a href="{{ url_for('cotacao.cotacao') }}" class="btn btn-secondary">Cancelar</a>
+                <button type="button" class="btn btn-secondary btn-sm" id="add-pessoa">Adicionar Pessoa</button>
+                <!-- Template oculto para clonagem -->
+                <div id="pessoa-template" style="display:none;">
+                    <div class="pessoa-item border rounded p-2 mb-2">
+                        <div class="mb-2">
+                            <label>Nome</label>
+                            <input type="text" name="pessoas-__index__-nome" class="form-control" />
+                        </div>
+                        <div class="mb-2">
+                            <label>Gênero</label>
+                            <div class="d-flex">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="pessoas-__index__-genero" value="Masculino"> Masculino
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="pessoas-__index__-genero" value="Feminino"> Feminino
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label>Documento</label>
+                            <input type="text" name="pessoas-__index__-documento" class="form-control" />
+                        </div>
+                        <div class="mb-2">
+                            <label>Data de Nascimento</label>
+                            <input type="text" name="pessoas-__index__-data_nascimento" class="form-control" />
+                        </div>
+                        <div class="mb-2">
+                            <label>Parentesco</label>
+                            <select name="pessoas-__index__-parentesco" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="Filho(a)">Filho(a)</option>
+                                <option value="Pai/Mãe">Pai/Mãe</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-pessoa">Remover</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-3">Salvar Alterações</button>
+        <a href="{{ url_for('cotacao.cotacao') }}" class="btn btn-secondary mt-3">Cancelar</a>
     </form>
 </div>
 {% endblock %}

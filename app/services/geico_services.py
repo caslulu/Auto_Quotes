@@ -20,7 +20,7 @@ class Geico():
         self.page.goto("https://www.geico.com/auto-insurance/")
         self.page.get_by_label("Enter your ZIP code").click()
         self.page.get_by_label("Enter your ZIP code").fill(zipcode)
-        self.page.get_by_role("button", name="Review Your Quote").click()
+        self.page.get_by_role("button", name="Get Your Quote").click()
 
     #pagina nascimento
     def pagina_nascimento(self, data_nascimento):

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- ALERTA TOPO GLOBAL -->
+<div id="alert-topo-seguradora" class="alert alert-danger d-none" role="alert" style="position:fixed;top:0;left:0;width:100%;z-index:2000;text-align:center;">
+    Por favor, selecione uma seguradora antes de enviar o formulário.
+</div>
 <div class="container py-5">
     <div class="row justify-content-center mb-4">
         <div class="col-12 col-lg-8">
@@ -30,11 +34,15 @@
         <div class="col-12 col-lg-5 mb-4 mb-lg-0">
             <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
                 <h4 class="section-title">Veículo Quitado</h4>
-                <form method="post" class="flex-grow-1 d-flex flex-column">
+                <form method="post" class="flex-grow-1 d-flex flex-column preco-form">
                     {{ form_quitado.hidden_tag() }}
                     <input type="hidden" name="form_type" value="quitado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
                     <input type="hidden" name="seguradora" id="seguradora_quitado" value="{{ form_seguradora.seguradora.data }}">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="apenas_prever" id="apenas_prever_quitado">
+                        <label class="form-check-label" for="apenas_prever_quitado">Somente prever preço (ML)</label>
+                    </div>
                     <div class="mb-3">
                         {{ form_quitado.nome.label(class="form-label blue-label") }}
                         {{ form_quitado.nome(class="form-control form-control-lg") }}
@@ -73,10 +81,14 @@
         <div class="col-12 col-lg-5">
             <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
                 <h4 class="section-title">Veículo Financiado</h4>
-                <form method="post" class="flex-grow-1 d-flex flex-column">
+                <form method="post" class="flex-grow-1 d-flex flex-column preco-form">
                     <input type="hidden" name="form_type" value="financiado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
                     <input type="hidden" name="seguradora" id="seguradora_financiado" value="{{ form_seguradora.seguradora.data }}">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="apenas_prever" id="apenas_prever_financiado">
+                        <label class="form-check-label" for="apenas_prever_financiado">Somente prever preço (ML)</label>
+                    </div>
                     {{ form_financiado.hidden_tag() }}
                     {% for field in form_financiado if field.type not in ['CSRFToken', 'SubmitField', 'HiddenField', 'Hidden'] and field.name != 'csrf_token' %}
                         <div class="mb-3">
@@ -92,4 +104,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app.models.cotacao_db import Cotacao
+from app.models.cotacao_preco_ml import CotacaoPrecoML
 from app.forms.preco_form import PrecoForm_quitado, PrecoForm_financiado
 from app.forms.seguradora_form import SeguradoraForm
 from app.services.trello_service import Trello
@@ -42,22 +43,55 @@ def colocarPreco():
     if request.method == 'POST':
         cotacao = Cotacao.query.get(cotacao_id) if cotacao_id else None
         seguradora = request.form.get('seguradora')
+        apenas_prever = bool(request.form.get('apenas_prever'))
         if form_type == 'financiado' and preco_form_financiado.validate_on_submit():
             dados = processar_preco_financiado(preco_form_financiado, seguradora_form=seguradora_form)
             image_path = imagem.financiado(**dados, seguradora=seguradora)
+            preco_basico = None
+            preco_full = float(dados.get('valor_total_completo', '0').replace(',', '').replace('R$', ''))
+            tipo_veiculo = 'financiado'
         elif form_type == 'quitado' and preco_form_quitado.validate_on_submit():
             dados = processar_preco_quitado(preco_form_quitado, seguradora_form=seguradora_form)
             image_path = imagem.quitado(**dados, seguradora=seguradora)
+            preco_basico = float(dados.get('valor_total_basico', '0').replace(',', '').replace('R$', ''))
+            preco_full = float(dados.get('valor_total_completo', '0').replace(',', '').replace('R$', ''))
+            tipo_veiculo = 'quitado'
         else:
             flash('Preencha corretamente o formulário.', 'warning')
             return render_template('preco.html', **context)
 
-        if cotacao:
+        if not apenas_prever and cotacao:
             sucesso = anexar_imagem_a_cotacao(trello, cotacao, image_path)
             if sucesso:
                 flash('Imagem anexada ao Trello com sucesso!', 'success')
             else:
                 flash('Falha ao anexar imagem ao Trello.', 'danger')
+            # Salva no banco de dados ML
+            cot_ml = CotacaoPrecoML(
+                genero=cotacao.genero,
+                nome=cotacao.nome,
+                documento=cotacao.documento,
+                endereco=cotacao.endereco,
+                tempo_de_seguro=cotacao.tempo_de_seguro,
+                data_nascimento=cotacao.data_nascimento,
+                tempo_no_endereco=cotacao.tempo_no_endereco,
+                estado_civil=cotacao.estado_civil,
+                nome_conjuge=cotacao.nome_conjuge,
+                data_nascimento_conjuge=cotacao.data_nascimento_conjuge,
+                documento_conjuge=cotacao.documento_conjuge,
+                vehicles_json=cotacao.vehicles_json,
+                pessoas_json=cotacao.pessoas_json,
+                trello_card_id=cotacao.trello_card_id,
+                preco_basico=preco_basico,
+                preco_full=preco_full,
+                tipo_veiculo=tipo_veiculo
+            )
+            from app.extensions import db
+            db.session.add(cot_ml)
+            db.session.commit()
+        elif apenas_prever:
+            # Apenas previsão: salva imagem no disco, mas não salva no banco nem anexa ao Trello
+            flash('Cotação prevista (ML). Imagem gerada e salva, mas não foi salva no banco nem anexada ao Trello.', 'info')
         else:
             flash('Imagem gerada, mas nenhum card do Trello foi selecionado. Imagem não anexada.', 'warning')
         return redirect(url_for('colocarPreco.colocarPreco'))
