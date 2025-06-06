@@ -82,13 +82,14 @@ def processar_cotacao(primeiro):
         "veiculos": veiculos
     }
 
-def processar_preco_quitado(preco_form, seguradora_form):
-    entrada_basico = float(preco_form.entrada_basico.data.replace(",", "")) + TAXA
+def processar_preco_quitado(preco_form, seguradora_form, taxa=None):
+    taxa = float(taxa) if taxa is not None else TAXA
+    entrada_basico = float(preco_form.entrada_basico.data.replace(",", "")) + taxa
     mensal_basico = preco_form.mensal_basico.data
-    valor_total_basico = float(preco_form.valor_total_basico.data.replace(",", "")) + TAXA
-    entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + TAXA
+    valor_total_basico = float(preco_form.valor_total_basico.data.replace(",", "")) + taxa
+    entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + taxa
     mensal_completo = preco_form.mensal_completo.data
-    valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + TAXA
+    valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + taxa
     nome = preco_form.nome.data
 
     return {
@@ -101,10 +102,11 @@ def processar_preco_quitado(preco_form, seguradora_form):
         "nome": nome
     }
 
-def processar_preco_financiado(preco_form, seguradora_form):
-    entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + TAXA
+def processar_preco_financiado(preco_form, seguradora_form, taxa=None):
+    taxa = float(taxa) if taxa is not None else TAXA
+    entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + taxa
     mensal_completo = preco_form.mensal_completo.data
-    valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + TAXA
+    valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + taxa
     nome = preco_form.nome.data
     return {
         "entrada_completo": formatar_com_virgula(entrada_completo),

@@ -16,6 +16,24 @@
                     {% endfor %}
                 </select>
             </div>
+            <!-- Radios de Taxa -->
+            <div class="mb-4 text-center">
+                <label class="blue-label">Taxa da Cotação:</label><br>
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="taxa_cotacao" value="320.00" checked>
+                        <span class="form-check-label">R$ 320,00</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="taxa_cotacao" value="400.00">
+                        <span class="form-check-label">R$ 400,00</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="taxa_cotacao" value="500.00">
+                        <span class="form-check-label">R$ 500,00</span>
+                    </label>
+                </div>
+            </div>
             <div class="mb-4 text-center">
                 <label class="blue-label">Seguradora:</label><br>
                 <div class="d-flex justify-content-center flex-wrap gap-2">
@@ -39,6 +57,8 @@
                     <input type="hidden" name="form_type" value="quitado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
                     <input type="hidden" name="seguradora" id="seguradora_quitado" value="{{ form_seguradora.seguradora.data }}">
+                    <!-- Campo hidden para taxa -->
+                    <input type="hidden" name="taxa_cotacao" id="taxa_cotacao_quitado" value="320.00">
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" name="apenas_prever" id="apenas_prever_quitado">
                         <label class="form-check-label" for="apenas_prever_quitado">Somente prever preço (ML)</label>
@@ -85,6 +105,8 @@
                     <input type="hidden" name="form_type" value="financiado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
                     <input type="hidden" name="seguradora" id="seguradora_financiado" value="{{ form_seguradora.seguradora.data }}">
+                    <!-- Campo hidden para taxa -->
+                    <input type="hidden" name="taxa_cotacao" id="taxa_cotacao_financiado" value="320.00">
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" name="apenas_prever" id="apenas_prever_financiado">
                         <label class="form-check-label" for="apenas_prever_financiado">Somente prever preço (ML)</label>
@@ -105,4 +127,9 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='toggle-mode.js') }}"></script>
 {% endblock %}

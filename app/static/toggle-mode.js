@@ -133,6 +133,44 @@ function validarSeguradoraAntesDeEnviar(e) {
     }
 }
 
+/**
+ * Valida se uma taxa foi selecionada antes de submeter o formulário de preço.
+ */
+function validarTaxaAntesDeEnviar(e) {
+    var radios = document.querySelectorAll('input[name="taxa_cotacao"]');
+    var algumSelecionado = false;
+    radios.forEach(function(r) { if (r.checked) algumSelecionado = true; });
+    if (!algumSelecionado) {
+        alert('Por favor, selecione uma taxa antes de enviar o formulário.');
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+}
+
+// Atualiza o campo hidden de taxa conforme o radio selecionado
+function atualizarTaxaHidden(valor) {
+    const quitado = document.getElementById('taxa_cotacao_quitado');
+    const financiado = document.getElementById('taxa_cotacao_financiado');
+    if (quitado) quitado.value = valor;
+    if (financiado) financiado.value = valor;
+}
+
+// Adiciona event listener aos radios de taxa
+function setupTaxaRadios() {
+    const radiosTaxa = document.querySelectorAll('input[name="taxa_cotacao"]');
+    radiosTaxa.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                atualizarTaxaHidden(this.value);
+            }
+        });
+    });
+    // Garante valor inicial correto
+    const radioInicial = document.querySelector('input[name="taxa_cotacao"]:checked');
+    if (radioInicial) atualizarTaxaHidden(radioInicial.value);
+}
+
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Tema claro/escuro com ícone dinâmico
@@ -201,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Validação de seguradora ao submeter qualquer formulário de preço
     document.querySelectorAll('.preco-form').forEach(function(form) {
         form.addEventListener('submit', validarSeguradoraAntesDeEnviar);
+        form.addEventListener('submit', validarTaxaAntesDeEnviar);
     });
     // Esconde alerta ao trocar seguradora
     document.querySelectorAll('input[name="seguradora"]').forEach(function(radio) {
@@ -209,4 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (alerta) alerta.classList.add('d-none');
         });
     });
+
+    setupTaxaRadios();
 });

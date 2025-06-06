@@ -43,15 +43,16 @@ def colocarPreco():
     if request.method == 'POST':
         cotacao = Cotacao.query.get(cotacao_id) if cotacao_id else None
         seguradora = request.form.get('seguradora')
+        taxa_cotacao = request.form.get('taxa_cotacao')
         apenas_prever = bool(request.form.get('apenas_prever'))
         if form_type == 'financiado' and preco_form_financiado.validate_on_submit():
-            dados = processar_preco_financiado(preco_form_financiado, seguradora_form=seguradora_form)
+            dados = processar_preco_financiado(preco_form_financiado, seguradora_form=seguradora_form, taxa=taxa_cotacao)
             image_path = imagem.financiado(**dados, seguradora=seguradora)
             preco_basico = None
             preco_full = float(dados.get('valor_total_completo', '0').replace(',', '').replace('R$', ''))
             tipo_veiculo = 'financiado'
         elif form_type == 'quitado' and preco_form_quitado.validate_on_submit():
-            dados = processar_preco_quitado(preco_form_quitado, seguradora_form=seguradora_form)
+            dados = processar_preco_quitado(preco_form_quitado, seguradora_form=seguradora_form, taxa=taxa_cotacao)
             image_path = imagem.quitado(**dados, seguradora=seguradora)
             preco_basico = float(dados.get('valor_total_basico', '0').replace(',', '').replace('R$', ''))
             preco_full = float(dados.get('valor_total_completo', '0').replace(',', '').replace('R$', ''))
