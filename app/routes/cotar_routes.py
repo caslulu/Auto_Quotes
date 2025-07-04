@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from app.models.cotacao_db import Cotacao
-from app.services.cotacao_service import processar_cotacao
+from app.services.cotacao_service import CotacaoService
 from app.services.progressive_service import Progressive
 from app.services.geico_services import Geico
 from app.services.allstate_services import Allstate
 from playwright.sync_api import sync_playwright
 
 cotar_bp = Blueprint('cotar', __name__)
+cotar_service = CotacaoService()
 
 @cotar_bp.route('/cotar/<cotacao_id>', methods=['POST'])
 def cotar(cotacao_id):
@@ -24,8 +25,7 @@ def cotar(cotacao_id):
 
 
 def executar_cotacao(cotacao, seguradora):
-    dados = processar_cotacao(cotacao)
-    email = f"{dados['first_name'].lower()}{dados['last_name'].lower()}@outlook.com"
+    dados = cotar_service.processar_cotacao(cotacao)
     if seguradora == "Progressive":
         p = Progressive()
     elif seguradora == "Geico":
@@ -33,4 +33,4 @@ def executar_cotacao(cotacao, seguradora):
     else:
         p = Allstate()
     with sync_playwright() as playwright:
-        p.cotacao(playwright, email=email, **dados)
+        p.cotacao(playwright, **dados)

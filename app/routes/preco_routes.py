@@ -5,10 +5,11 @@ from app.forms.preco_form import PrecoForm_quitado, PrecoForm_financiado
 from app.forms.seguradora_form import SeguradoraForm
 from app.services.trello_service import Trello
 from app.services.Canva_Banner.preco_automatico import PrecoAutomatico
-from app.services.cotacao_service import processar_preco_quitado, processar_preco_financiado
+from app.services.cotacao_service import CotacaoService
 from sqlalchemy.orm.exc import NoResultFound
 
 colocarPreco_bp = Blueprint('colocarPreco', __name__)
+cotacao_service = CotacaoService()
 
 def anexar_imagem_a_cotacao(trello, cotacao, image_path):
     """Anexa uma imagem à carta do Trello vinculada à cotação e retorna True/False."""
@@ -46,13 +47,13 @@ def colocarPreco():
         taxa_cotacao = request.form.get('taxa_cotacao')
         apenas_prever = bool(request.form.get('apenas_prever'))
         if form_type == 'financiado' and preco_form_financiado.validate_on_submit():
-            dados = processar_preco_financiado(preco_form_financiado, seguradora_form=seguradora_form, taxa=taxa_cotacao)
+            dados = cotacao_service.processar_preco_financiado(preco_form_financiado, taxa=taxa_cotacao)
             image_path = imagem.financiado(**dados, seguradora=seguradora)
             preco_basico = None
             preco_full = float(dados.get('valor_total_completo', '0').replace(',', '').replace('R$', ''))
             tipo_veiculo = 'financiado'
         elif form_type == 'quitado' and preco_form_quitado.validate_on_submit():
-            dados = processar_preco_quitado(preco_form_quitado, seguradora_form=seguradora_form, taxa=taxa_cotacao)
+            dados = cotacao_service.processar_preco_quitado(preco_form_quitado, taxa=taxa_cotacao)
             image_path = imagem.quitado(**dados, seguradora=seguradora)
             preco_basico = float(dados.get('valor_total_basico', '0').replace(',', '').replace('R$', ''))
             preco_full = float(dados.get('valor_total_completo', '0').replace(',', '').replace('R$', ''))

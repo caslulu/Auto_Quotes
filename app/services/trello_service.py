@@ -1,8 +1,6 @@
 import requests
 import os
-import json
 from dotenv import load_dotenv
-from app.util.data_funcoes import veiculo_vin
 
 
 class Trello:
@@ -18,34 +16,20 @@ class Trello:
         Cria uma carta no Trello. Se houver dados de cônjuge, inclui na descrição.
         """
         veiculos = kwargs.get('veiculos', '')
-        pessoas = kwargs.get('pessoas', '')
         email = kwargs.get('email', '')
         nome_conjuge = kwargs.get('nome_conjuge')
         data_nascimento_conjuge = kwargs.get('data_nascimento_conjuge')
         documento_conjuge = kwargs.get('documento_conjuge')
+        from app.util.data_funcoes import veiculo_vin
         veiculos_lista = []
-        pessoas_lista = []
-        # Suporte para dict com veiculos e pessoas
+        import json
         if isinstance(veiculos, str):
             try:
-                vehicles_data = json.loads(veiculos)
-                if isinstance(vehicles_data, dict):
-                    veiculos_lista = vehicles_data.get('veiculos', [])
-                    pessoas_lista = vehicles_data.get('pessoas', [])
-                else:
-                    veiculos_lista = vehicles_data
-            except Exception:
-                veiculos_lista = []
-                pessoas_lista = []
-        elif isinstance(veiculos, list):
-            veiculos_lista = veiculos
-        if isinstance(pessoas, str):
-            try:
-                pessoas_lista = json.loads(pessoas)
+                veiculos_lista = json.loads(veiculos)
             except Exception:
                 pass
-        elif isinstance(pessoas, list):
-            pessoas_lista = pessoas
+        elif isinstance(veiculos, list):
+            veiculos_lista = veiculos
         # Monta descrição dos veículos, cada info em uma linha
         veiculos_desc = ''
         if veiculos_lista:
@@ -53,7 +37,6 @@ class Trello:
                 vin = v.get('vin', '-')
                 financiado = v.get('financiado', '-')
                 tempo = v.get('tempo_com_veiculo', '-')
-                placa = v.get('placa', '-')
                 marca_modelo_ano = '-'
                 if vin and vin != '-':
                     try:
@@ -65,22 +48,10 @@ class Trello:
                     f"\n  VIN: {vin}"
                     f"\n  {marca_modelo_ano}"
                     f"\n  Estado: {financiado}"
-                    f"\n  Tempo: {tempo}"
-                    f"\n  Placa: {placa}\n"
+                    f"\n  Tempo: {tempo}\n"
                 )
         else:
             veiculos_desc = str(veiculos)
-        # Monta descrição das pessoas, cada info em uma linha
-        pessoas_desc = ''
-        if pessoas_lista:
-            for idx, p in enumerate(pessoas_lista, 1):
-                pessoas_desc += (
-                    f"\n-- {p.get('parentesco', '-')} --"
-                    f"\n  Nome: {p.get('nome', '-') }"
-                    f"\n  Gênero: {p.get('genero', '-') }"
-                    f"\n  Documento: {p.get('documento', '-') }"
-                    f"\n  Data de Nascimento: {p.get('data_nascimento', '-') }\n"
-                )
         descricao = (
             f"doc: {kwargs.get('documento', '')}\n"
             f"{kwargs.get('endereco', '')}\n"
@@ -89,7 +60,6 @@ class Trello:
             f"tempo no endereco: {kwargs.get('tempo_no_endereco', '')}\n"
             f"email: {email}\n"
             f"{veiculos_desc}\n"
-            f"{pessoas_desc}\n"
         )
         if nome_conjuge:
             desc_conjuge = (
@@ -125,6 +95,4 @@ class Trello:
             }
             response = requests.post(url, params=query, files=files)
         print("Resposta Trello:", response.status_code, response.text)
-        if response.ok:
-            return response.json()
-        return None
+        return response.json()
