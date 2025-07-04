@@ -6,48 +6,108 @@
         {{ form.hidden_tag() }}
         <hr>
         <h3>Informações do Veículo</h3>
-        <div class="form-group">
-            {{ form.vin.label }} {{ form.vin(class_='form-control') }}
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.vin.label }} {{ form.vin(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.body_style.label }} {{ form.body_style(class_='form-control') }}
+            </div>
         </div>
-        <div class="form-group">
-            {{ form.body_style.label }} {{ form.body_style(class_='form-control') }}
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.year.label }} {{ form.year(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.make.label }} {{ form.make(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.model.label }} {{ form.model(class_='form-control') }}
+            </div>
         </div>
-        <div class="form-group">
-            {{ form.color.label }} {{ form.color(class_='form-control') }}
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.cylinders.label }} {{ form.cylinders(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.passengers.label }} {{ form.passengers(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.doors.label }} {{ form.doors(class_='form-control') }}
+            </div>
         </div>
-        <div class="form-group">
-            {{ form.year.label }} {{ form.year(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.make.label }} {{ form.make(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.model.label }} {{ form.model(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.odometer.label }} {{ form.odometer(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.cylinders.label }} {{ form.cylinders(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.passengers.label }} {{ form.passengers(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.doors.label }} {{ form.doors(class_='form-control') }}
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.color.label }} {{ form.color(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.odometer.label }} {{ form.odometer(class_='form-control') }}
+            </div>
         </div>
         <hr>
         <h3>Informações do Título Anterior</h3>
-        <div class="form-group">
-            {{ form.previous_title_number.label }} {{ form.previous_title_number(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.previous_title_state.label }} {{ form.previous_title_state(class_='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.previous_title_country.label }} {{ form.previous_title_country(class_='form-control') }}
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.previous_title_number.label }} {{ form.previous_title_number(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.previous_title_state.label }} {{ form.previous_title_state(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.previous_title_country.label }} {{ form.previous_title_country(class_='form-control') }}
+            </div>
         </div>
         <hr>
+        <h3>Informações do Proprietário</h3>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.owner_name.label }} {{ form.owner_name(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.owner_dob.label }} {{ form.owner_dob(class_='form-control', type='date') }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.owner_license.label }} {{ form.owner_license(class_='form-control') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                {{ form.owner_residential_address.label }} {{ form.owner_residential_address(class_='form-control') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.owner_license_issued_state.label }} {{ form.owner_license_issued_state(class_='form-control') }}
+            </div>
+        </div>
+        <hr>
+        <h3>Informações da Venda</h3>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.gross_sale_price.label }} {{ form.gross_sale_price(class_='form-control') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.purchase_date.label }} {{ form.purchase_date(class_='form-control', type='date') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.insurance_effective_date.label }} {{ form.insurance_effective_date(class_='form-control', type='date') }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.insurance_policy_change_date.label }} {{ form.insurance_policy_change_date(class_='form-control', type='date') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.seller_name.label }} {{ form.seller_name(class_='form-control') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                {{ form.seller_address.label }} {{ form.seller_address(class_='form-control') }}
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Gerar RTA</button>
     </form>
 </div>
