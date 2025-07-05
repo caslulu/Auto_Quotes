@@ -12,7 +12,24 @@ def cotacao():
     cotacao_form = CotacaoForm()
     seguradora_form = SeguradoraForm()
 
+
     if cotacao_form.validate_on_submit():
+        # Validação condicional dos campos do cônjuge
+        adicionar_conjuge = getattr(cotacao_form, "adicionar_conjuge", None)
+        if adicionar_conjuge and adicionar_conjuge.data:
+            erros = False
+            if not cotacao_form.nome_conjuge.data:
+                cotacao_form.nome_conjuge.errors.append("Campo obrigatório.")
+                erros = True
+            if not cotacao_form.data_nascimento_conjuge.data:
+                cotacao_form.data_nascimento_conjuge.errors.append("Campo obrigatório.")
+                erros = True
+            if not cotacao_form.documento_conjuge.data:
+                cotacao_form.documento_conjuge.errors.append("Campo obrigatório.")
+                erros = True
+            if erros:
+                cotacoes = Cotacao.query.all()
+                return render_template('cotacao.html', form=cotacao_form, cotacoes=cotacoes, form_seguradora=seguradora_form)
         cotacao_service.criar_cotacao(cotacao_form)
         return redirect(url_for('cotacao.cotacao'))
 

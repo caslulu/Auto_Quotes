@@ -8,11 +8,11 @@ SIZE_ASSOCIADO = 45
 
 class PrecoAutomatico:
     def __init__(self):
-        self.basico_img = Image.open("app/services/Canva_Banner/Imagens/basico.png")
-        self.completo = Image.open("app/services/Canva_Banner/Imagens/full.png")
-        self.fonte_preco = ImageFont.truetype("app/services/Canva_Banner/Fonte/fonte.otf", size=SIZE_PRECO)
-        self.fonte_seguradora = ImageFont.truetype("app/services/Canva_Banner/Fonte/fonte.otf", size=SIZE_SEGURADORA)
-        self.fonte_associado = ImageFont.truetype("app/services/Canva_Banner/Fonte/fonte.otf", size=SIZE_ASSOCIADO)
+        self.basico_img = Image.open("app/assets/images/basico.png")
+        self.completo = Image.open("app/assets/images/full.png")
+        self.fonte_preco = ImageFont.truetype("app/assets/fonts/fonte.otf", size=SIZE_PRECO)
+        self.fonte_seguradora = ImageFont.truetype("app/assets/fonts/fonte.otf", size=SIZE_SEGURADORA)
+        self.fonte_associado = ImageFont.truetype("app/assets/fonts/fonte.otf", size=SIZE_ASSOCIADO)
 
     def financiado(self, seguradora, **kwargs):
         draw = ImageDraw.Draw(self.completo)
@@ -21,7 +21,7 @@ class PrecoAutomatico:
         draw.text((885, 1545), kwargs.get("mensal_completo", ""), font=self.fonte_associado, fill="black")
         draw.text((850, 1695), kwargs.get("valor_total_completo", ""), font=self.fonte_preco, fill="black")
         draw.text((490, 1908), kwargs.get("nome", ""), font=self.fonte_associado, fill="white")
-        caminho = "app/services/Canva_Banner/Imagens/financiado_feito.png"
+        caminho = "app/assets/images/financiado_feito.png"
         self.completo.save(caminho)
         return caminho
 
@@ -36,6 +36,6 @@ class PrecoAutomatico:
         draw.text((440, 1655), kwargs.get("valor_total_basico", ""), font=self.fonte_preco, fill="black")
         draw.text((1090, 1655), kwargs.get("valor_total_completo", ""), font=self.fonte_preco, fill="black")
         draw.text((490, 1890), kwargs.get("nome", ""), font=self.fonte_associado, fill="white")
-        caminho = "app/services/Canva_Banner/Imagens/quitado_feito.png"
+        caminho = "app/assets/images/quitado_feito.png"
         self.basico_img.save(caminho)
         return caminho

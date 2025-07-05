@@ -1,13 +1,28 @@
-# 1. Funcionalidades Essenciais e Experiência do Usuário
-- Implementar autenticação e autorização para proteger rotas sensíveis (login, perfis de usuário, proteção de rotas).
-- Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
-- Adicionar uma página de histórico para listar cotações anteriores salvas no banco de dados, com filtros e busca.
-- Adicionar feedback visual para ações do usuário (ex.: carregamento, sucesso ou erro).
-- Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
-- Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
-- Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
+# ToDo - Ordem de Prioridade
 
-# 2. Integrações e Automação
+## 2. Funcionalidades Essenciais e Experiência do Usuário
+- Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
+- Permitir upload de documentos e imagens diretamente na cotação (ex: CNH, comprovante de residência).
+- Adicionar feedback visual para ações do usuário (ex.: carregamento, sucesso ou erro).
+- Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário.
+- Implementar confirmação antes de excluir veículos, pessoas ou cotações.
+- Permitir duplicar uma cotação existente para facilitar novos orçamentos.
+- Permitir adicionar/remover veículos e pessoas na edição da cotação.
+- Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
+- Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
+- Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
+
+## 3. Banco de Dados e Performance
+- Adicionar migrações de banco de dados usando Flask-Migrate para facilitar alterações no esquema.
+- Implementar validações e restrições no modelo Cotacao para evitar dados inconsistentes.
+- Criar índices no banco de dados para melhorar a performance de consultas.
+- Gerar e aplicar migration Alembic para garantir que o banco ML esteja sempre sincronizado com o modelo Python.
+- Revisar e otimizar queries para evitar N+1 e melhorar performance em listas grandes.
+- Adicionar campos de auditoria (criado_em, atualizado_em, usuário) nas tabelas principais.
+
+## 4. Integrações e Automação
+- Adicionar integração com WhatsApp ou Telegram para atendimento automatizado (menu de opções para clientes).
+- Permitir envio de notificações automáticas para clientes (ex: status da cotação, documentos pendentes).
 - Melhorar a integração com o Trello, exibindo status, comentários e anexos no sistema.
 - Adicionar suporte para envio de e-mails automáticos com os resultados das cotações.
 - Integrar com APIs de terceiros para validação de dados (ex.: validação de VIN ou CEP).
@@ -16,36 +31,34 @@
 - Automatizar exportação de dados para CSV periodicamente.
 - Exibir anexos e comentários do Trello diretamente no sistema.
 
-# 3. Banco de Dados e Performance
-- Adicionar migrações de banco de dados usando Flask-Migrate para facilitar alterações no esquema.
-- Implementar validações e restrições no modelo Cotacao para evitar dados inconsistentes.
-- Criar índices no banco de dados para melhorar a performance de consultas.
-- Gerar e aplicar migration Alembic para garantir que o banco ML esteja sempre sincronizado com o modelo Python.
-
-# 4. Testes e Qualidade
+## 5. Testes e Qualidade
 - Escrever testes unitários para todas as funções e métodos principais.
 - Implementar testes de integração para verificar o fluxo completo de cotações.
 - Adicionar testes para garantir que as imagens geradas (PrecoAutomatico) estão corretas.
 - Configurar um pipeline de CI/CD para rodar os testes automaticamente.
 - Criar testes automatizados para o fluxo de ML e integração.
+- Adicionar testes para uploads de arquivos e validação de anexos.
+- Testar o fluxo de múltiplos veículos/pessoas na edição e criação de cotações.
+- Adicionar testes para rotas protegidas e autenticação.
 
-# 5. Segurança
-- Implementar validação de entrada para evitar ataques como SQL Injection ou XSS.
-- Configurar HTTPS para proteger a comunicação entre o cliente e o servidor.
-
-# 6. Organização e Estrutura do Código
+## 6. Organização e Estrutura do Código
 - Refatorar o código para garantir modularidade e reutilização.
 - Revisar e organizar os arquivos em pastas apropriadas (ex.: services, routes, forms, models, etc.).
 - Adicionar docstrings em todas as funções e classes para melhorar a documentação do código.
 - Garantir que todos os métodos utilizem **kwargs onde aplicável para maior flexibilidade.
+- Mover arquivos estáticos (fonts, imagens, templates PDF) para uma pasta assets ou static.
+- Remover pastas e arquivos não utilizados (ex: canva_banner).
+- Separar integrações externas (Trello, WhatsApp, e-mail) em módulos próprios.
 
-# 7. Documentação
+## 7. Documentação
 - Criar um README detalhado com instruções de instalação, configuração e uso do projeto.
 - Adicionar exemplos de uso para cada funcionalidade principal.
 - Documentar as dependências no requirements.txt e garantir que ele esteja atualizado.
 - Documentar e padronizar variáveis de ambiente (ex: .env para segredos e configs sensíveis).
+- Adicionar um guia rápido para desenvolvedores contribuírem com o projeto.
+- Documentar o fluxo de atendimento automatizado (chatbot/menu de opções).
 
-# 8. Funcionalidades Futuras e Expansão
+## 8. Funcionalidades Futuras e Expansão
 - Implementar uma API REST para permitir integração com outros sistemas.
 - Criar um painel administrativo para gerenciar cotações, usuários e configurações.
 - Dashboard de cotações e preços em tempo real.
@@ -56,13 +69,10 @@
 - Visualização dos anexos e comentários do Trello diretamente no sistema.
 - Exportação de dados para análise externa.
 - Histórico detalhado e auditoria de alterações em cotações e preços.
+- Adicionar suporte a múltiplas empresas/filiais no sistema.
+- Permitir customização de templates de e-mail e PDF por usuário ou empresa.
 
-# 9. Manutenção e Boas Práticas
-- Automatizar backup do banco de dados periodicamente.
-- Adicionar testes para rotas protegidas e autenticação.
-- Revisar dependências periodicamente para evitar vulnerabilidades.
-
-# 10. Tarefas Concluídas
+## 9. Tarefas Concluídas
 - Suporte a múltiplas pessoas e veículos no formulário de cotação e edição.
 - Separação de pessoas e veículos no banco de dados principal (Cotacao).
 - Criação do modelo CotacaoPrecoML para ML.

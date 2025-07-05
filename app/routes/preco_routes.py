@@ -4,7 +4,7 @@ from app.models.cotacao_preco_ml import CotacaoPrecoML
 from app.forms.preco_form import PrecoForm_quitado, PrecoForm_financiado
 from app.forms.seguradora_form import SeguradoraForm
 from app.services.trello_service import Trello
-from app.services.Canva_Banner.preco_automatico import PrecoAutomatico
+from app.services.preco_service import PrecoAutomatico
 from app.services.cotacao_service import CotacaoService
 from sqlalchemy.orm.exc import NoResultFound
 
