@@ -2,14 +2,70 @@ import requests
 import os
 from dotenv import load_dotenv
 
-
 class Trello:
+
+    def criar_carta_e_anexar_imagem(self, cotacao_form, imagens_files):
+        """
+        Cria a carta no Trello (se solicitado) e anexa múltiplas imagens/documentos, se fornecido.
+        Retorna (trello_card_id, status_msg, status_type)
+        """
+        trello_card_id = None
+        status_msgs = []
+        status_type = None
+        # Só processa se a caixinha "colocar_trello" estiver marcada
+        colocar_trello = cotacao_form.colocar_trello.data if hasattr(cotacao_form, 'colocar_trello') else False
+        if not colocar_trello:
+            return None, None, None
+        # Cria carta no Trello
+        trello_card_id = self.criar_carta(
+            nome=cotacao_form.nome.data,
+            documento=cotacao_form.documento.data,
+            endereco=cotacao_form.endereco.data,
+            data_nascimento=cotacao_form.data_nascimento.data,
+            tempo_de_seguro=cotacao_form.tempo_de_seguro.data,
+            tempo_no_endereco=cotacao_form.tempo_no_endereco.data,
+            veiculos=[v.data for v in cotacao_form.veiculos],
+            nome_conjuge=getattr(cotacao_form, 'nome_conjuge', None) and cotacao_form.nome_conjuge.data or None,
+            data_nascimento_conjuge=getattr(cotacao_form, 'data_nascimento_conjuge', None) and cotacao_form.data_nascimento_conjuge.data or None,
+            documento_conjuge=getattr(cotacao_form, 'documento_conjuge', None) and cotacao_form.documento_conjuge.data or None
+        )
+        if not trello_card_id:
+            return None, 'Falha ao criar card no Trello.', 'danger'
+        if imagens_files:
+            import os, tempfile
+            for imagem_file in imagens_files:
+                if not imagem_file or not getattr(imagem_file, 'filename', None):
+                    continue
+                ext = os.path.splitext(imagem_file.filename)[1].lower()
+                with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+                    temp_path = tmp.name
+                    imagem_file.save(temp_path)
+                try:
+                    resp = self.anexar_imagem_trello(trello_card_id, temp_path)
+                    status_code = resp.get('status_code', None) if isinstance(resp, dict) else getattr(resp, 'status_code', None)
+                    if status_code == 200:
+                        status_msgs.append(f'Arquivo "{imagem_file.filename}" anexado com sucesso!')
+                        status_type = 'success'
+                    else:
+                        status_msgs.append(f'Falha ao anexar "{imagem_file.filename}".')
+                        status_type = 'danger'
+                except Exception as e:
+                    status_msgs.append(f'Erro ao anexar "{imagem_file.filename}": {e}')
+                    status_type = 'danger'
+                finally:
+                    try:
+                        os.remove(temp_path)
+                    except Exception:
+                        pass
+        status_msg = "\n".join(status_msgs) if status_msgs else None
+        return trello_card_id, status_msg, status_type
     def __init__(self):
         load_dotenv()
         self.URL_TRELLO = os.getenv("URL_TRELLO")
         self.yourKey = os.getenv("TRELLO_KEY")
         self.yourToken = os.getenv("TRELLO_TOKEN")
         self.idList = os.getenv("TRELLO_ID_LIST") or "662d7f3ed2bd7931022f2ed6"
+
 
     def criar_carta(self, **kwargs):
         """

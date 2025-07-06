@@ -3,6 +3,7 @@ from wtforms import StringField, SubmitField, SelectField, BooleanField, RadioFi
 from wtforms.validators import DataRequired
 from app.forms.veiculo_form import VeiculoForm
 from app.forms.pessoa_form import PessoaForm
+from flask_wtf.file import MultipleFileField, FileAllowed
 
 class CotacaoForm(FlaskForm):
     class Meta:
@@ -21,6 +22,7 @@ class CotacaoForm(FlaskForm):
     data_nascimento_conjuge = StringField('Data de Nascimento do Cônjuge')
     documento_conjuge = StringField('Driver License do Cônjuge')
     colocar_trello = BooleanField('Colocar Trello')
+    imagem_doc = MultipleFileField('Documentos/Imagens (opcional)', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'pdf'], 'Apenas imagens ou PDF!')])
     submit = SubmitField('Enviar')
     veiculos = FieldList(FormField(VeiculoForm), min_entries=1, label='Veículos')
     pessoas = FieldList(FormField(PessoaForm), min_entries=0, label='Pessoas adicionais')

@@ -4,7 +4,7 @@ from pypdf.generic import NameObject, NumberObject, TextStringObject
 import io
 
 class RTAService:
-    def __init__(self, template_path='app/static/rta_template.pdf', font_path='arial.ttf', font_size=16):
+    def __init__(self, template_path='app/assets/rta_template.pdf', font_path='arial.ttf', font_size=16):
         self.template_path = template_path
         self.font_path = font_path
         self.font_size = font_size

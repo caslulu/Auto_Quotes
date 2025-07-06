@@ -48,8 +48,126 @@ function setupPessoasDinamicas() {
     }
 }
 
+// campo de upload de arquivos
+function setupModernFileUpload(imagemDocId, labelId, labelTextId, previewId) {
+    const fileInput = document.getElementById(imagemDocId);
+    const label = document.getElementById(labelId);
+    const labelText = document.getElementById(labelTextId);
+    const preview = document.getElementById(previewId);
+    let filesList = [];
+
+    if (fileInput && label) {
+        fileInput.addEventListener('change', function(e) {
+
+            const newFiles = Array.from(fileInput.files);
+            filesList = filesList.concat(newFiles);
+
+            filesList = filesList.filter((file, idx, arr) =>
+                arr.findIndex(f => f.name === file.name && f.size === file.size) === idx
+            );
+
+            fileInput.value = '';
+            // Atualizar label
+            if (filesList.length === 0) {
+                labelText.textContent = 'Selecionar arquivos';
+                preview.innerHTML = '';
+                return;
+            }
+
+            if (filesList.length === 1) {
+                labelText.textContent = 'Selecionar arquivos (1)';
+            } else {
+                labelText.textContent = `Selecionar arquivos (${filesList.length})`;
+            }
+            // Preview list
+            preview.innerHTML = '';
+            filesList.forEach((file, idx) => {
+                const ext = file.name.split('.').pop().toLowerCase();
+                let icon = 'fa-file';
+                if (["jpg","jpeg","png","gif","bmp","webp"].includes(ext)) {
+                    icon = 'fa-file-image';
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        const item = document.createElement('div');
+                        item.className = 'file-preview-item';
+                        item.innerHTML = `<img src='${ev.target.result}' class='file-thumb-img' alt='preview'/> <span class='file-name'>${file.name}</span> <button type='button' class='remove-file-btn' data-idx='${idx}' title='Remover'>&times;</button>`;
+                        preview.appendChild(item);
+                    };
+                    reader.readAsDataURL(file);
+                    return;
+                }
+                else if (["pdf"].includes(ext)) icon = 'fa-file-pdf';
+                else if (["doc","docx"].includes(ext)) icon = 'fa-file-word';
+                else if (["xls","xlsx"].includes(ext)) icon = 'fa-file-excel';
+                else if (["zip","rar","7z"].includes(ext)) icon = 'fa-file-archive';
+                const item = document.createElement('div');
+                item.className = 'file-preview-item';
+                item.innerHTML = `<i class=\"fas ${icon}\"></i> <span class=\"file-name\">${file.name}</span> <button type='button' class='remove-file-btn' data-idx='${idx}' title='Remover'>&times;</button>`;
+                preview.appendChild(item);
+            });
+        });
+        // Remover arquivo do preview
+        preview.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-file-btn')) {
+                const idx = parseInt(e.target.getAttribute('data-idx'));
+                filesList.splice(idx, 1);
+                // Atualizar preview
+                if (filesList.length === 0) {
+                    labelText.textContent = 'Selecionar arquivos';
+                } else if (filesList.length === 1) {
+                    labelText.textContent = 'Selecionar arquivos (1)';
+                } else {
+                    labelText.textContent = `Selecionar arquivos (${filesList.length})`;
+                }
+
+                preview.innerHTML = '';
+                filesList.forEach((file, idx) => {
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    let icon = 'fa-file';
+                    if (["jpg","jpeg","png","gif","bmp","webp"].includes(ext)) {
+                        icon = 'fa-file-image';
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            const item = document.createElement('div');
+                            item.className = 'file-preview-item';
+                            item.innerHTML = `<img src='${ev.target.result}' class='file-thumb-img' alt='preview'/> <span class='file-name'>${file.name}</span> <button type='button' class='remove-file-btn' data-idx='${idx}' title='Remover'>&times;</button>`;
+                            preview.appendChild(item);
+                        };
+                        reader.readAsDataURL(file);
+                        return;
+                    }
+                    else if (["pdf"].includes(ext)) icon = 'fa-file-pdf';
+                    else if (["doc","docx"].includes(ext)) icon = 'fa-file-word';
+                    else if (["xls","xlsx"].includes(ext)) icon = 'fa-file-excel';
+                    else if (["zip","rar","7z"].includes(ext)) icon = 'fa-file-archive';
+                    const item = document.createElement('div');
+                    item.className = 'file-preview-item';
+                    item.innerHTML = `<i class=\"fas ${icon}\"></i> <span class=\"file-name\">${file.name}</span> <button type='button' class='remove-file-btn' data-idx='${idx}' title='Remover'>&times;</button>`;
+                    preview.appendChild(item);
+                });
+            }
+        });
+        // Antes de enviar o form, criar um DataTransfer para enviar todos os arquivos acumulados
+        const form = fileInput.closest('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                if (filesList.length > 0) {
+                    const dt = new DataTransfer();
+                    filesList.forEach(f => dt.items.add(f));
+                    fileInput.files = dt.files;
+                }
+            });
+        }
+    }
+}
+
 // Inicialização
 window.addEventListener('DOMContentLoaded', function() {
     setupVeiculosDinamicos();
     setupPessoasDinamicas();
+
+    
+    if (document.getElementById('imagem_doc')) {
+        setupModernFileUpload('imagem_doc', 'imagem-doc-label', 'imagem-doc-label-text', 'imagem-doc-preview');
+    }
 });

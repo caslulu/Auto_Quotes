@@ -3,22 +3,19 @@ from datetime import datetime
 
 def veiculo_vin(vin):
     """Pega o(s) VINs e retorna marca, modelo e ano do veículo."""
-    try:
-        veiculos = ""
-        lista_vin = vin.split(" / ")
-        for veiculo in lista_vin:
-            get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{veiculo}?format=json').json()['Results']
-            marca = get_info[7]["Value"]
-            modelo = get_info[9]["Value"]
-            ano = get_info[10]["Value"]
-            if not marca or not modelo or not ano:
-                raise ValueError
-            else:
-                carro = f"{marca}, {modelo}, {ano} / "
-                veiculos = veiculos + carro
-        return veiculos.rstrip(" / ")
-    except Exception as e:
-        pass
+    veiculos = ""
+    lista_vin = vin.split(" / ")
+    for veiculo in lista_vin:
+        get_info = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{veiculo}?format=json').json()['Results']
+        marca = get_info[7]["Value"]
+        modelo = get_info[9]["Value"]
+        ano = get_info[10]["Value"]
+        if not marca or not modelo or not ano:
+            raise ValueError("Não foi possível decodificar o VIN.")
+        else:
+            carro = f"{marca}, {modelo}, {ano} / "
+            veiculos = veiculos + carro
+    return veiculos.rstrip(" / ")
 
 def formatar_data(data):
     nascimento = datetime.strptime(data, "%m/%d/%Y").strftime("%m/%d/%Y")
@@ -61,7 +58,7 @@ def decodificar_vin(vin):
         raise ValueError(f"Verifique se o vin number esta correto: {e}")
 
 def formatar_com_virgula(numero):
-    # Garante que seja string com parte decimal sempre visível (duas casas)
+
     numero_str = f"{float(numero):.2f}"
     parte_inteira, parte_decimal = numero_str.split('.')
     if len(parte_inteira) > 3:

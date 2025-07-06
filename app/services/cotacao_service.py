@@ -45,22 +45,10 @@ class CotacaoService:
         }
 
     def criar_cotacao(self, form):
-        
         """
-        Cria uma nova cotação a partir dos dados do formulário,
-        interage com o Trello se necessário e salva no banco de dados.
+        Cria uma nova cotação a partir dos dados do formulário e salva no banco de dados.
         """
         dados = self.extrair_dados_formulario(form)
-        trello_card_id = None
-
-        if form.colocar_trello.data:
-            trello = Trello()
-            email = self.gerar_email(dados['nome'])
-            trello_dados = {k: v for k, v in dados.items() if k != 'veiculos'}
-            trello_dados['veiculos'] = json.dumps(dados['veiculos'])
-            trello_dados['email'] = email
-            trello_card_id = trello.criar_carta(**trello_dados)
-
         cotacao = Cotacao(
             genero=dados['genero'],
             nome=dados['nome'],
@@ -75,7 +63,7 @@ class CotacaoService:
             documento_conjuge=dados['documento_conjuge'],
             vehicles_json=json.dumps(dados['veiculos']),
             pessoas_json=json.dumps(dados.get('pessoas', [])),
-            trello_card_id=trello_card_id
+            trello_card_id=None
         )
         db.session.add(cotacao)
         db.session.commit()

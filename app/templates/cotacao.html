@@ -3,7 +3,18 @@
 {% block content %}
 <div class="content-container">
     <div class="form-section">
-        <form class="small-form" method="post">
+        <form class="small-form" method="post" enctype="multipart/form-data">
+            <!-- Upload de documento/imagem - moderno -->
+            <div class="form-group">
+                <label class="custom-file-label" id="imagem-doc-label" for="imagem_doc">
+                    <i class="fas fa-upload"></i> <span id="imagem-doc-label-text">Selecionar arquivos</span>
+                </label>
+                {{ form.imagem_doc(class="custom-file-input", multiple=True, style="display:none;", id="imagem_doc") }}
+                <div id="imagem-doc-preview" class="file-preview-list mt-2"></div>
+                {% if form.imagem_doc.errors %}
+                <small class="text-danger">{{ form.imagem_doc.errors[0] }}</small>
+                {% endif %}
+            </div>
             {{ form.hidden_tag() }}
 
             <!-- Dados Pessoais -->
