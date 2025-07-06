@@ -252,7 +252,7 @@
         <div class="row py-3">
             {% for cotacao in cotacoes %}
             <div class="col-md-3 mb-4">
-                <div class="card-container px-3">
+                <div class="card-container px-3 cotacao-card">
                     <div class="seguradora-radios">
                         <div class="form-group">
                             <label for="genero">{{ form_seguradora.seguradora.label }}</label>
@@ -291,8 +291,8 @@
                                         Editar Cotação
                                     </a>
                                     <form action="{{ url_for('apagar.apagarCotacao', cotacao_id=cotacao.id) }}"
-                                        method="POST">
-                                        <button type="submit" class="btn btn-danger">Apagar Cotação</button>
+                                        method="POST" class="form-apagar-cotacao">
+                                        <button type="button" class="btn btn-danger remove-cotacao">Apagar Cotação</button>
                                     </form>
                                 </div>
                             </div>

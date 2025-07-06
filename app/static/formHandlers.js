@@ -14,14 +14,7 @@ function setupVeiculosDinamicos() {
             tempDiv.innerHTML = html;
             veiculosList.appendChild(tempDiv.firstElementChild);
         });
-
-        veiculosList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-veiculo')) {
-                if (veiculosList.children.length > 1) {
-                    e.target.closest('.veiculo-item').remove();
-                }
-            }
-        });
+        // Remoção de veículo agora é tratada apenas em setupConfirmacaoRemocao
     }
 }
 
@@ -39,12 +32,7 @@ function setupPessoasDinamicas() {
             tempDiv.innerHTML = html;
             pessoasList.appendChild(tempDiv.firstElementChild);
         });
-
-        pessoasList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-pessoa')) {
-                e.target.closest('.pessoa-item').remove();
-            }
-        });
+        // Remoção de pessoa agora é tratada apenas em setupConfirmacaoRemocao
     }
 }
 
@@ -161,10 +149,74 @@ function setupModernFileUpload(imagemDocId, labelId, labelTextId, previewId) {
     }
 }
 
+// Confirmação antes de excluir veículos, pessoas ou cards de cotação
+function setupConfirmacaoRemocao() {
+    // Veículos
+    const veiculosList = document.getElementById('veiculos-list');
+    if (veiculosList) {
+        veiculosList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-veiculo')) {
+                if (veiculosList.children.length > 1) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setTimeout(function() {
+                        if (window.confirm('Tem certeza que deseja remover este veículo?')) {
+                            e.target.closest('.veiculo-item').remove();
+                        }
+                    }, 0);
+                }
+            }
+        }, true);
+    }
+    // Pessoas
+    const pessoasList = document.getElementById('pessoas-list');
+    if (pessoasList) {
+        pessoasList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-pessoa')) {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(function() {
+                    if (window.confirm('Tem certeza que deseja remover esta pessoa?')) {
+                        e.target.closest('.pessoa-item').remove();
+                    }
+                }, 0);
+            }
+        }, true);
+    }
+    // Cards de cotação
+    document.body.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-cotacao')) {
+            const btn = e.target;
+            const form = btn.closest('form.form-apagar-cotacao');
+            if (form) {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(function() {
+                    if (window.confirm('Tem certeza que deseja remover esta cotação?')) {
+                        form.submit();
+                    }
+                }, 0);
+            } else {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(function() {
+                    if (window.confirm('Tem certeza que deseja remover esta cotação?')) {
+                        let card = btn.closest('.cotacao-card, .card, .cotacao-item');
+                        if (card) {
+                            card.remove();
+                        }
+                    }
+                }, 0);
+            }
+        }
+    }, true);
+}
+
 // Inicialização
 window.addEventListener('DOMContentLoaded', function() {
     setupVeiculosDinamicos();
     setupPessoasDinamicas();
+    setupConfirmacaoRemocao();
 
     
     if (document.getElementById('imagem_doc')) {

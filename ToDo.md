@@ -2,12 +2,10 @@
 
 ## 2. Funcionalidades Essenciais e Experiência do Usuário
 - Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
-- Permitir upload de documentos e imagens diretamente na cotação (ex: CNH, comprovante de residência).
 - Adicionar feedback visual para ações do usuário (ex.: carregamento, sucesso ou erro).
 - Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário.
 - Implementar confirmação antes de excluir veículos, pessoas ou cotações.
 - Permitir duplicar uma cotação existente para facilitar novos orçamentos.
-- Permitir adicionar/remover veículos e pessoas na edição da cotação.
 - Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
 - Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
 - Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
@@ -47,8 +45,14 @@
 - Adicionar docstrings em todas as funções e classes para melhorar a documentação do código.
 - Garantir que todos os métodos utilizem **kwargs onde aplicável para maior flexibilidade.
 - Mover arquivos estáticos (fonts, imagens, templates PDF) para uma pasta assets ou static.
-- Remover pastas e arquivos não utilizados (ex: canva_banner).
-- Separar integrações externas (Trello, WhatsApp, e-mail) em módulos próprios.
+
+## 10. Automação de preenchimento de campos via imagem (OCR)
+- Adicionar botão "Preencher automático" nos campos do condutor principal (e outros relevantes).
+- Ao clicar, permitir que o usuário envie uma foto/documento (ex: Driver License).
+- Utilizar OCR (ex: Tesseract, Google Vision API) para extrair dados da imagem e preencher automaticamente campos como nome, data de nascimento, número da CNH/DL, etc.
+- Exibir preview dos dados extraídos para o usuário revisar/editar antes de salvar.
+- Permitir anexar a imagem ao formulário junto com os dados extraídos.
+- Garantir fallback manual caso o OCR não consiga extrair algum campo.
 
 ## 7. Documentação
 - Criar um README detalhado com instruções de instalação, configuração e uso do projeto.
@@ -89,3 +93,4 @@
 - Tema escuro/claro persistente via localStorage.
 - Implementar um tema escuro/claro persistente usando cookies ou local storage.
 - Permitir adicionar/remover veículos e pessoas na edição da cotação.
+- Permitir upload de documentos e imagens diretamente na cotação (ex: CNH, comprovante de residência).
