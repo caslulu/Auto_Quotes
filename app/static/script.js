@@ -1,23 +1,3 @@
-/**
- * Alterna entre os modos claro e escuro do site com transição suave e ícone dinâmico.
- */
-function setTheme(mode) {
-    document.body.classList.remove('light-mode', 'dark-mode');
-    document.body.classList.add(mode);
-    localStorage.setItem('theme-mode', mode);
-    // Atualiza o ícone
-    const icon = document.getElementById('theme-icon');
-    if (icon) icon.textContent = mode === 'dark-mode' ? '☀️' : '🌙';
-}
-
-function toggleThemeMode() {
-    const current = document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
-    setTheme(current === 'dark-mode' ? 'light-mode' : 'dark-mode');
-}
-
-/**
- * Adiciona o comportamento de ativação visual ao botão "Colocar Trello".
- */
 function setupTrelloButton() {
     const trelloButton = document.getElementById('colocar-trello');
     if (!trelloButton) return;
@@ -173,13 +153,6 @@ function setupTaxaRadios() {
 
 // Inicialização dos módulos ao carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
-    // Tema claro/escuro com ícone dinâmico
-    const saved = localStorage.getItem('theme-mode') || 'light-mode';
-    setTheme(saved);
-
-    const btn = document.getElementById('theme-toggle');
-    if (btn) btn.addEventListener('click', toggleThemeMode);
-
     setupTrelloButton();
     setupCotarFormSubmission();
     syncSeguradoraHiddenFields();
@@ -192,49 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleCamposConjuge();
     }
 
-    // --- Adição dinâmica de veículos (cotacao.html) ---
-    const addBtn = document.getElementById('add-veiculo');
-    const veiculosList = document.getElementById('veiculos-list');
-    const template = document.getElementById('veiculo-template');
-
-    if (addBtn && veiculosList && template) {
-        addBtn.addEventListener('click', function() {
-            const total = veiculosList.children.length;
-            const html = template.innerHTML.replace(/__index__/g, total);
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            veiculosList.appendChild(tempDiv.firstElementChild);
-        });
-
-        veiculosList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-veiculo')) {
-                if (veiculosList.children.length > 1) {
-                    e.target.closest('.veiculo-item').remove();
-                }
-            }
-        });
-    }
-
-    // --- Adição dinâmica de pessoas (cotacao.html) ---
-    const addPessoaBtn = document.getElementById('add-pessoa');
-    const pessoasList = document.getElementById('pessoas-list');
-    const pessoaTemplate = document.getElementById('pessoa-template');
-
-    if (addPessoaBtn && pessoasList && pessoaTemplate) {
-        addPessoaBtn.addEventListener('click', function() {
-            const total = pessoasList.children.length;
-            const html = pessoaTemplate.innerHTML.replace(/__index__/g, total);
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            pessoasList.appendChild(tempDiv.firstElementChild);
-        });
-
-        pessoasList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-pessoa')) {
-                e.target.closest('.pessoa-item').remove();
-            }
-        });
-    }
+    // Manipulação dinâmica de veículos e pessoas agora está em formHandlers.js
 
     // Validação de seguradora ao submeter qualquer formulário de preço
     document.querySelectorAll('.preco-form').forEach(function(form) {

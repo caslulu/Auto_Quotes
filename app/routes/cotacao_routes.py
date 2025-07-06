@@ -14,7 +14,6 @@ def cotacao():
 
 
     if cotacao_form.validate_on_submit():
-        # Validação condicional dos campos do cônjuge
         adicionar_conjuge = getattr(cotacao_form, "adicionar_conjuge", None)
         if adicionar_conjuge and adicionar_conjuge.data:
             erros = False

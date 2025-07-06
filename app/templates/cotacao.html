@@ -36,13 +36,13 @@
                 <small class="text-danger">{{ form.nome.errors[0] }}</small>
                 {% endif %}
             </div>
-            <div class="form-group">
-                <label for="data_nascimento">{{ form.data_nascimento.label }}</label>
-                {{ form.data_nascimento(class="form-control") }}
-                {% if form.data_nascimento.errors %}
-                <small class="text-danger">{{ form.data_nascimento.errors[0] }}</small>
-                {% endif %}
-            </div>
+                <div class="form-group">
+                    <label for="data_nascimento">{{ form.data_nascimento.label }}</label>
+                    {{ form.data_nascimento(class="form-control", data_mask="date", placeholder="dd/mm/aaaa") }}
+                    {% if form.data_nascimento.errors %}
+                    <small class="text-danger">{{ form.data_nascimento.errors[0] }}</small>
+                    {% endif %}
+                </div>
             <div class="form-group">
                 <label for="documento">{{ form.documento.label }}</label>
                 {{ form.documento(class="form-control") }}
@@ -63,7 +63,7 @@
                 </div>
                 <div class="form-group">
                     <label for="data_nascimento_conjuge">{{ form.data_nascimento_conjuge.label }}</label>
-                    {{ form.data_nascimento_conjuge(class="form-control", id="data_nascimento_conjuge") }}
+                    {{ form.data_nascimento_conjuge(class="form-control", id="data_nascimento_conjuge", data_mask="date", placeholder="dd/mm/aaaa") }}
                 </div>
                 <div class="form-group">
                     <label for="documento_conjuge">{{ form.documento_conjuge.label }}</label>
@@ -91,7 +91,7 @@
                 <div class="veiculo-item border rounded p-2 mb-2">
                     <div class="form-group">
                         <label>{{ veiculo_form.vin.label }}</label>
-                        {{ veiculo_form.vin(class="form-control") }}
+                        {{ veiculo_form.vin(class="form-control", data_mask="vin", maxlength="17", placeholder="VIN (17 caracteres)") }}
                     </div>
                     <div class="form-group">
                         <label>{{ veiculo_form.tempo_com_veiculo.label }}</label>
@@ -116,7 +116,7 @@
                 <div class="veiculo-item border rounded p-2 mb-2">
                     <div class="form-group">
                         <label>VIN</label>
-                        <input type="text" name="veiculos-__index__-vin" class="form-control" />
+                        <input type="text" name="veiculos-__index__-vin" class="form-control" data-mask="vin" maxlength="17" placeholder="VIN (17 caracteres)" />
                     </div>
                     <div class="form-group">
                         <label>Tempo com Veículo</label>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="form-group">
                         <label>Data de Nascimento</label>
-                        <input type="text" name="pessoas-__index__-data_nascimento" class="form-control" />
+                        <input type="text" name="pessoas-__index__-data_nascimento" class="form-control" data-mask="date" placeholder="dd/mm/aaaa" />
                     </div>
                     <div class="form-group">
                         <label>Parentesco</label>
