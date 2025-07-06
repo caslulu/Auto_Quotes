@@ -218,8 +218,9 @@ window.addEventListener('DOMContentLoaded', function() {
     setupPessoasDinamicas();
     setupConfirmacaoRemocao();
 
-    
-    if (document.getElementById('imagem_doc')) {
+    // Não é necessário JS para acionar o input file, o label já faz isso pelo atributo for
+    const fileInput = document.getElementById('imagem_doc');
+    if (fileInput) {
         setupModernFileUpload('imagem_doc', 'imagem-doc-label', 'imagem-doc-label-text', 'imagem-doc-preview');
     }
 });

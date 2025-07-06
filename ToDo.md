@@ -4,7 +4,6 @@
 - Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
 - Adicionar feedback visual para ações do usuário (ex.: carregamento, sucesso ou erro).
 - Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário.
-- Implementar confirmação antes de excluir veículos, pessoas ou cotações.
 - Permitir duplicar uma cotação existente para facilitar novos orçamentos.
 - Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
 - Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
@@ -94,3 +93,4 @@
 - Implementar um tema escuro/claro persistente usando cookies ou local storage.
 - Permitir adicionar/remover veículos e pessoas na edição da cotação.
 - Permitir upload de documentos e imagens diretamente na cotação (ex: CNH, comprovante de residência).
+- Implementar confirmação antes de excluir veículos, pessoas ou cotações.
