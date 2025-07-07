@@ -106,6 +106,7 @@ body.dark-mode .blue-btn {
     font-size: 1rem;
     margin-bottom: 0.25rem;
 }
+/* Ajuste de cor para placeholder visível em todos os temas */
 .form-control {
     width: 100%;
     padding: 10px;
@@ -116,6 +117,16 @@ body.dark-mode .blue-btn {
     background: #fff;
     color: #174ea6;
     transition: background 0.5s, color 0.5s, border-color 0.5s;
+}
+.form-control::placeholder {
+    color: #2563eb;
+    opacity: 1;
+    font-weight: 500;
+}
+body.dark-mode .form-control::placeholder {
+    color: #b3d1f7;
+    opacity: 1;
+    font-weight: 500;
 }
 body.dark-mode .form-control {
     background: #232f45;

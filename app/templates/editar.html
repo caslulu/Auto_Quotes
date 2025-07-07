@@ -12,7 +12,7 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     {{ form.nome.label(class="form-label") }}
-                    {{ form.nome(class="form-control") }}
+                    {{ form.nome(class="form-control", placeholder="Nome completo", title="Nome completo do condutor principal") }}
                 </div>
                 <div class="mb-3">
                     {{ form.genero.label(class="form-label") }}
@@ -27,23 +27,23 @@
                 </div>
                 <div class="mb-3">
                     {{ form.data_nascimento.label(class="form-label") }}
-                    {{ form.data_nascimento(class="form-control") }}
+                    {{ form.data_nascimento(class="form-control", placeholder="dd/mm/aaaa", title="Data de nascimento do condutor principal", data_mask="date") }}
                 </div>
                 <div class="mb-3">
                     {{ form.documento.label(class="form-label") }}
-                    {{ form.documento(class="form-control") }}
+                    {{ form.documento(class="form-control", placeholder="CNH/Driver License", title="Número da CNH ou Driver License do condutor principal") }}
                 </div>
                 <div class="mb-3">
                     {{ form.endereco.label(class="form-label") }}
-                    {{ form.endereco(class="form-control") }}
+                    {{ form.endereco(class="form-control", placeholder="Endereço residencial", title="Endereço residencial do condutor principal") }}
                 </div>
                 <div class="mb-3">
                     {{ form.tempo_no_endereco.label(class="form-label") }}
-                    {{ form.tempo_no_endereco(class="form-control") }}
+                    {{ form.tempo_no_endereco(class="form-control", placeholder="Tempo no endereço", title="Tempo de residência no endereço atual") }}
                 </div>
                 <div class="mb-3">
                     {{ form.tempo_de_seguro.label(class="form-label") }}
-                    {{ form.tempo_de_seguro(class="form-control") }}
+                    {{ form.tempo_de_seguro(class="form-control", placeholder="Tempo de seguro", title="Há quanto tempo possui seguro de veículo") }}
                 </div>
                 <div class="mb-3">
                     {{ form.estado_civil.label(class="form-label") }}
@@ -60,15 +60,15 @@
                 <div id="campos-conjuge">
                     <div class="mb-3">
                         {{ form.nome_conjuge.label(class="form-label") }}
-                        {{ form.nome_conjuge(class="form-control") }}
+                        {{ form.nome_conjuge(class="form-control", placeholder="Nome completo do cônjuge", title="Nome completo do cônjuge") }}
                     </div>
                     <div class="mb-3">
                         {{ form.data_nascimento_conjuge.label(class="form-label") }}
-                        {{ form.data_nascimento_conjuge(class="form-control") }}
+                        {{ form.data_nascimento_conjuge(class="form-control", placeholder="dd/mm/aaaa", title="Data de nascimento do cônjuge", data_mask="date") }}
                     </div>
                     <div class="mb-3">
                         {{ form.documento_conjuge.label(class="form-label") }}
-                        {{ form.documento_conjuge(class="form-control") }}
+                        {{ form.documento_conjuge(class="form-control", placeholder="CNH/Driver License", title="Número da CNH ou Driver License do cônjuge") }}
                     </div>
                 </div>
             </div>
@@ -80,19 +80,19 @@
                     <div class="veiculo-item border rounded p-2 mb-2">
                         <div class="mb-2">
                             {{ veiculo_form.vin.label(class="form-label") }}
-                            {{ veiculo_form.vin(class="form-control") }}
+                            {{ veiculo_form.vin(class="form-control", placeholder="VIN (17 caracteres)", title="Número de identificação do veículo (Vehicle Identification Number)", data_mask="vin", maxlength="17") }}
                         </div>
                         <div class="mb-2">
                             {{ veiculo_form.tempo_com_veiculo.label(class="form-label") }}
-                            {{ veiculo_form.tempo_com_veiculo(class="form-control") }}
+                            {{ veiculo_form.tempo_com_veiculo(class="form-control", placeholder="Tempo com o veículo", title="Há quanto tempo possui o veículo") }}
                         </div>
                         <div class="mb-2">
                             {{ veiculo_form.financiado.label(class="form-label") }}
-                            {{ veiculo_form.financiado(class="form-control") }}
+                            {{ veiculo_form.financiado(class="form-control", placeholder="Situação do veículo", title="Situação financeira do veículo: Quitado ou Financiado") }}
                         </div>
                         <div class="mb-2">
                             {{ veiculo_form.placa.label(class="form-label") }}
-                            {{ veiculo_form.placa(class="form-control") }}
+                            {{ veiculo_form.placa(class="form-control", placeholder="Placa do veículo", title="Placa do veículo") }}
                         </div>
                          <button type="button" class="btn btn-danger btn-sm remove-veiculo">Remover</button>
                     </div>
@@ -137,7 +137,7 @@
                     <div class="pessoa-item border rounded p-2 mb-2">
                         <div class="mb-2">
                             {{ pessoa_form.nome.label(class="form-label") }}
-                            {{ pessoa_form.nome(class="form-control") }}
+                            {{ pessoa_form.nome(class="form-control", placeholder="Nome completo", title="Nome completo da pessoa adicional") }}
                         </div>
                         <div class="mb-2">
                             {{ pessoa_form.genero.label(class="form-label") }}
@@ -152,15 +152,15 @@
                         </div>
                         <div class="mb-2">
                             {{ pessoa_form.documento.label(class="form-label") }}
-                            {{ pessoa_form.documento(class="form-control") }}
+                            {{ pessoa_form.documento(class="form-control", placeholder="CNH/Driver License", title="Número da CNH ou Driver License da pessoa adicional") }}
                         </div>
                         <div class="mb-2">
                             {{ pessoa_form.data_nascimento.label(class="form-label") }}
-                            {{ pessoa_form.data_nascimento(class="form-control") }}
+                            {{ pessoa_form.data_nascimento(class="form-control", placeholder="dd/mm/aaaa", title="Data de nascimento da pessoa adicional", data_mask="date") }}
                         </div>
                         <div class="mb-2">
                             {{ pessoa_form.parentesco.label(class="form-label") }}
-                            {{ pessoa_form.parentesco(class="form-control") }}
+                            {{ pessoa_form.parentesco(class="form-control", placeholder="Parentesco", title="Relação com o condutor principal") }}
                         </div>
                         <button type="button" class="btn btn-danger btn-sm remove-pessoa">Remover</button>
                     </div>

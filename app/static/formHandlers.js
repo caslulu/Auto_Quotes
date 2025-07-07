@@ -260,7 +260,6 @@ window.addEventListener('DOMContentLoaded', function() {
     setupConfirmacaoRemocao();
     setupIdiomaCotacaoSync();
     setupSeguradoraSync();
-
     const fileInput = document.getElementById('imagem_doc');
     if (fileInput) {
         setupModernFileUpload('imagem_doc', 'imagem-doc-label', 'imagem-doc-label-text', 'imagem-doc-preview');

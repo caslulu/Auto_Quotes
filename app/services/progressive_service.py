@@ -5,7 +5,7 @@ class Progressive():
     Classe para automação de cotação no site da Progressive usando Playwright.
     """
     def cotacao(self, playwright, zipcode, first_name, last_name, email, data_nascimento, rua, cidade, apt=None, veiculos=None, genero=None, estado_documento=None, tempo_de_seguro=None, tempo_no_endereco=None, estado_civil=None, nome_conjuge=None, data_nascimento_conjuge=None, documento_conjuge=None, cotacao_obj=None):
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=False, args=["--incognito"])
         context = browser.new_context()
         self.page = context.new_page()
         try:

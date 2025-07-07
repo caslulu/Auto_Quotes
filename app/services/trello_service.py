@@ -16,6 +16,8 @@ class Trello:
         colocar_trello = cotacao_form.colocar_trello.data if hasattr(cotacao_form, 'colocar_trello') else False
         if not colocar_trello:
             return None, None, None
+        # Gera email a partir do nome usando método da classe
+        email = self.gerar_email(cotacao_form.nome.data)
         # Cria carta no Trello
         trello_card_id = self.criar_carta(
             nome=cotacao_form.nome.data,
@@ -27,8 +29,10 @@ class Trello:
             veiculos=[v.data for v in cotacao_form.veiculos],
             nome_conjuge=getattr(cotacao_form, 'nome_conjuge', None) and cotacao_form.nome_conjuge.data or None,
             data_nascimento_conjuge=getattr(cotacao_form, 'data_nascimento_conjuge', None) and cotacao_form.data_nascimento_conjuge.data or None,
-            documento_conjuge=getattr(cotacao_form, 'documento_conjuge', None) and cotacao_form.documento_conjuge.data or None
+            documento_conjuge=getattr(cotacao_form, 'documento_conjuge', None) and cotacao_form.documento_conjuge.data or None,
+            email=email
         )
+        
         if not trello_card_id:
             return None, 'Falha ao criar card no Trello.', 'danger'
         if imagens_files:
@@ -73,6 +77,8 @@ class Trello:
         """
         veiculos = kwargs.get('veiculos', '')
         email = kwargs.get('email', '')
+        if not email:
+            email = self.gerar_email(kwargs.get('nome', ''))
         nome_conjuge = kwargs.get('nome_conjuge')
         data_nascimento_conjuge = kwargs.get('data_nascimento_conjuge')
         documento_conjuge = kwargs.get('documento_conjuge')
@@ -87,6 +93,7 @@ class Trello:
         elif isinstance(veiculos, list):
             veiculos_lista = veiculos
         # Monta descrição dos veículos, cada info em uma linha
+        
         veiculos_desc = ''
         if veiculos_lista:
             for idx, v in enumerate(veiculos_lista, 1):
@@ -152,3 +159,9 @@ class Trello:
             response = requests.post(url, params=query, files=files)
         print("Resposta Trello:", response.status_code, response.text)
         return response.json()
+    
+    def gerar_email(self, nome_completo):
+        """Gera um email a partir do nome completo, removendo espaços e convertendo para minúsculas."""
+        if not nome_completo:
+            return ''
+        return f"{nome_completo.lower().replace(' ', '')}@outlook.com"

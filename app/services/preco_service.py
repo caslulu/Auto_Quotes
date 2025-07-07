@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+from app.util.data_funcoes import formatar_com_virgula, parse_float_val
 
 
 SIZE_PRECO = 55
@@ -7,7 +8,8 @@ SIZE_ASSOCIADO = 45
 
 
 class PrecoAutomatico:
-    def __init__(self):
+    def __init__(self, taxa_padrao=320.00):
+        self.taxa_padrao = taxa_padrao
         self.fonte_preco = ImageFont.truetype("app/assets/fonts/fonte.otf", size=SIZE_PRECO)
         self.fonte_seguradora = ImageFont.truetype("app/assets/fonts/fonte.otf", size=SIZE_SEGURADORA)
         self.fonte_associado = ImageFont.truetype("app/assets/fonts/fonte.otf", size=SIZE_ASSOCIADO)
@@ -63,3 +65,35 @@ class PrecoAutomatico:
         caminho = "app/assets/images/quitado_feito.png"
         img.save(caminho)
         return caminho
+
+    def processar_preco_quitado(self, preco_form, taxa=None):
+        taxa = parse_float_val(taxa) if taxa is not None else self.taxa_padrao
+        entrada_basico = parse_float_val(preco_form.entrada_basico.data) + taxa
+        mensal_basico = preco_form.mensal_basico.data
+        valor_total_basico = parse_float_val(preco_form.valor_total_basico.data) + taxa
+        entrada_completo = parse_float_val(preco_form.entrada_completo.data) + taxa
+        mensal_completo = preco_form.mensal_completo.data
+        valor_total_completo = parse_float_val(preco_form.valor_total_completo.data) + taxa
+        nome = preco_form.nome.data
+        return {
+            "entrada_basico": formatar_com_virgula(entrada_basico),
+            "mensal_basico": mensal_basico,
+            "valor_total_basico": formatar_com_virgula(valor_total_basico),
+            "entrada_completo": formatar_com_virgula(entrada_completo),
+            "mensal_completo": mensal_completo,
+            "valor_total_completo": formatar_com_virgula(valor_total_completo),
+            "nome": nome
+        }
+
+    def processar_preco_financiado(self, preco_form, taxa=None):
+        taxa = parse_float_val(taxa) if taxa is not None else self.taxa_padrao
+        entrada_completo = parse_float_val(preco_form.entrada_completo.data) + taxa
+        mensal_completo = preco_form.mensal_completo.data
+        valor_total_completo = parse_float_val(preco_form.valor_total_completo.data) + taxa
+        nome = preco_form.nome.data
+        return {
+            "entrada_completo": formatar_com_virgula(entrada_completo),
+            "mensal_completo": mensal_completo,
+            "valor_total_completo": formatar_com_virgula(valor_total_completo),
+            "nome": nome
+        }

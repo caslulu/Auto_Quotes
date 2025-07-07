@@ -8,104 +8,104 @@
         <h3>Informações do Veículo</h3>
         <div class="row">
             <div class="form-group col-md-6">
-                {{ form.vin.label }} {{ form.vin(class_='form-control') }}
+                {{ form.vin.label }} {{ form.vin(class_='form-control', placeholder='VIN (17 caracteres)', title='Número de identificação do veículo (Vehicle Identification Number)') }}
             </div>
             <div class="form-group col-md-6">
-                {{ form.body_style.label }} {{ form.body_style(class_='form-control') }}
+                {{ form.body_style.label }} {{ form.body_style(class_='form-control', placeholder='Ex: Sedan, SUV', title='Tipo de carroceria do veículo') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
-                {{ form.year.label }} {{ form.year(class_='form-control') }}
+                {{ form.year.label }} {{ form.year(class_='form-control', placeholder='Ano', title='Ano de fabricação do veículo') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.make.label }} {{ form.make(class_='form-control') }}
+                {{ form.make.label }} {{ form.make(class_='form-control', placeholder='Marca', title='Marca do veículo (ex: Toyota)') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.model.label }} {{ form.model(class_='form-control') }}
+                {{ form.model.label }} {{ form.model(class_='form-control', placeholder='Modelo', title='Modelo do veículo (ex: Corolla)') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
-                {{ form.cylinders.label }} {{ form.cylinders(class_='form-control') }}
+                {{ form.cylinders.label }} {{ form.cylinders(class_='form-control', placeholder='Cilindros', title='Quantidade de cilindros do motor') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.passengers.label }} {{ form.passengers(class_='form-control') }}
+                {{ form.passengers.label }} {{ form.passengers(class_='form-control', placeholder='Passageiros', title='Número de passageiros') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.doors.label }} {{ form.doors(class_='form-control') }}
+                {{ form.doors.label }} {{ form.doors(class_='form-control', placeholder='Portas', title='Número de portas') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                {{ form.color.label }} {{ form.color(class_='form-control') }}
+                {{ form.color.label }} {{ form.color(class_='form-control', placeholder='Cor', title='Cor do veículo') }}
             </div>
             <div class="form-group col-md-6">
-                {{ form.odometer.label }} {{ form.odometer(class_='form-control') }}
+                {{ form.odometer.label }} {{ form.odometer(class_='form-control', placeholder='Quilometragem', title='Quilometragem atual do veículo') }}
             </div>
         </div>
         <hr>
         <h3>Informações do Título Anterior</h3>
         <div class="row">
             <div class="form-group col-md-4">
-                {{ form.previous_title_number.label }} {{ form.previous_title_number(class_='form-control') }}
+                {{ form.previous_title_number.label }} {{ form.previous_title_number(class_='form-control', placeholder='Nº do título anterior', title='Número do título anterior do veículo') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.previous_title_state.label }} {{ form.previous_title_state(class_='form-control') }}
+                {{ form.previous_title_state.label }} {{ form.previous_title_state(class_='form-control', placeholder='Estado', title='Estado emissor do título anterior') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.previous_title_country.label }} {{ form.previous_title_country(class_='form-control') }}
+                {{ form.previous_title_country.label }} {{ form.previous_title_country(class_='form-control', placeholder='País', title='País emissor do título anterior') }}
             </div>
         </div>
         <hr>
         <h3>Informações do Proprietário</h3>
         <div class="row">
             <div class="form-group col-md-6">
-                {{ form.owner_name.label }} {{ form.owner_name(class_='form-control') }}
+                {{ form.owner_name.label }} {{ form.owner_name(class_='form-control', placeholder='Nome completo', title='Nome completo do proprietário') }}
             </div>
             <div class="form-group col-md-3">
-                {{ form.owner_dob.label }} {{ form.owner_dob(class_='form-control', type='date') }}
+                {{ form.owner_dob.label }} {{ form.owner_dob(class_='form-control', type='date', placeholder='dd/mm/aaaa', title='Data de nascimento do proprietário') }}
             </div>
             <div class="form-group col-md-3">
-                {{ form.owner_license.label }} {{ form.owner_license(class_='form-control') }}
+                {{ form.owner_license.label }} {{ form.owner_license(class_='form-control', placeholder='CNH/Driver License', title='Número da CNH ou Driver License do proprietário') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                {{ form.owner_residential_address.label }} {{ form.owner_residential_address(class_='form-control') }}
+                {{ form.owner_residential_address.label }} {{ form.owner_residential_address(class_='form-control', placeholder='Endereço residencial', title='Endereço residencial do proprietário') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
-                {{ form.owner_license_issued_state.label }} {{ form.owner_license_issued_state(class_='form-control') }}
+                {{ form.owner_license_issued_state.label }} {{ form.owner_license_issued_state(class_='form-control', placeholder='Estado emissor', title='Estado emissor da CNH/Driver License') }}
             </div>
         </div>
         <hr>
         <h3>Informações da Venda</h3>
         <div class="row">
             <div class="form-group col-md-4">
-                {{ form.gross_sale_price.label }} {{ form.gross_sale_price(class_='form-control') }}
+                {{ form.gross_sale_price.label }} {{ form.gross_sale_price(class_='form-control', placeholder='Valor da venda', title='Valor bruto da venda do veículo') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.purchase_date.label }} {{ form.purchase_date(class_='form-control', type='date') }}
+                {{ form.purchase_date.label }} {{ form.purchase_date(class_='form-control', type='date', placeholder='Data da compra', title='Data da compra do veículo') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
-                {{ form.insurance_effective_date.label }} {{ form.insurance_effective_date(class_='form-control', type='date') }}
+                {{ form.insurance_effective_date.label }} {{ form.insurance_effective_date(class_='form-control', type='date', placeholder='Início do seguro', title='Data de início da vigência do seguro') }}
             </div>
             <div class="form-group col-md-4">
-                {{ form.insurance_policy_change_date.label }} {{ form.insurance_policy_change_date(class_='form-control', type='date') }}
+                {{ form.insurance_policy_change_date.label }} {{ form.insurance_policy_change_date(class_='form-control', type='date', placeholder='Alteração da apólice', title='Data de alteração da apólice de seguro') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                {{ form.seller_name.label }} {{ form.seller_name(class_='form-control') }}
+                {{ form.seller_name.label }} {{ form.seller_name(class_='form-control', placeholder='Nome do vendedor', title='Nome completo do vendedor') }}
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                {{ form.seller_address.label }} {{ form.seller_address(class_='form-control') }}
+                {{ form.seller_address.label }} {{ form.seller_address(class_='form-control', placeholder='Endereço do vendedor', title='Endereço completo do vendedor') }}
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Gerar RTA</button>

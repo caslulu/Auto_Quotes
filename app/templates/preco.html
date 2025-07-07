@@ -100,26 +100,20 @@
                         <div class="col-12 col-lg-6 mb-3 mb-lg-0">
                             <h6 class="blue-label">Básico <i class="fas fa-info-circle" data-bs-toggle="tooltip" title="Cobertura básica do seguro."></i></h6>
                             {{ form_quitado.entrada_basico.label(class="form-label") }}
-                            <input type="text" name="entrada_basico_masked" id="entrada_basico_masked" class="form-control" placeholder="Entrada ($)" autocomplete="off" />
-                            <input type="hidden" name="entrada_basico" id="entrada_basico" />
+                            <input type="text" name="entrada_basico" id="entrada_basico" class="form-control" placeholder="Entrada ($)" autocomplete="off" />
                             {{ form_quitado.mensal_basico.label(class="form-label") }}
-                            <input type="text" name="mensal_basico_masked" id="mensal_basico_masked" class="form-control" placeholder="Mensalidade ($)" autocomplete="off" />
-                            <input type="hidden" name="mensal_basico" id="mensal_basico" />
+                            <input type="text" name="mensal_basico" id="mensal_basico" class="form-control" placeholder="Mensalidade ($)" autocomplete="off" />
                             {{ form_quitado.valor_total_basico.label(class="form-label") }}
-                            <input type="text" name="valor_total_basico_masked" id="valor_total_basico_masked" class="form-control" placeholder="Total ($)" autocomplete="off" />
-                            <input type="hidden" name="valor_total_basico" id="valor_total_basico" />
+                            <input type="text" name="valor_total_basico" id="valor_total_basico" class="form-control" placeholder="Total ($)" autocomplete="off" />
                         </div>
                         <div class="col-12 col-lg-6">
                             <h6 class="blue-label">Completo <i class="fas fa-info-circle" data-bs-toggle="tooltip" title="Cobertura completa do seguro."></i></h6>
                             {{ form_quitado.entrada_completo.label(class="form-label") }}
-                            <input type="text" name="entrada_completo_masked" id="entrada_completo_masked" class="form-control" placeholder="Entrada ($)" autocomplete="off" />
-                            <input type="hidden" name="entrada_completo" id="entrada_completo" />
+                            <input type="text" name="entrada_completo" id="entrada_completo" class="form-control" placeholder="Entrada ($)" autocomplete="off" />
                             {{ form_quitado.mensal_completo.label(class="form-label") }}
-                            <input type="text" name="mensal_completo_masked" id="mensal_completo_masked" class="form-control" placeholder="Mensalidade ($)" autocomplete="off" />
-                            <input type="hidden" name="mensal_completo" id="mensal_completo" />
+                            <input type="text" name="mensal_completo" id="mensal_completo" class="form-control" placeholder="Mensalidade ($)" autocomplete="off" />
                             {{ form_quitado.valor_total_completo.label(class="form-label") }}
-                            <input type="text" name="valor_total_completo_masked" id="valor_total_completo_masked" class="form-control" placeholder="Total ($)" autocomplete="off" />
-                            <input type="hidden" name="valor_total_completo" id="valor_total_completo" />
+                            <input type="text" name="valor_total_completo" id="valor_total_completo" class="form-control" placeholder="Total ($)" autocomplete="off" />
                         </div>
                     </div>
                     <div class="d-grid mt-4">
@@ -143,16 +137,14 @@
                         <label class="form-check-label" for="apenas_prever_financiado">Somente prever preço (ML)</label>
                     </div>
                     {{ form_financiado.hidden_tag() }}
-                    <div class="mb-3">
+                                                                                                                                                                                                                                                                                                                                            <div class="mb-3">
                         {{ form_financiado.nome.label(class="form-label blue-label") }}
                         {{ form_financiado.nome(class="form-control form-control-lg", placeholder="Nome do cliente") }}
                     </div>
                     {% for field in form_financiado if field.type not in ['CSRFToken', 'SubmitField', 'HiddenField', 'Hidden'] and field.name != 'csrf_token' and field.name != 'nome' %}
                         <div class="mb-3">
                             {{ field.label(class="form-label blue-label") }}
-                            {% set is_valor = 'valor' in field.name or 'mensal' in field.name or 'entrada' in field.name %}
-                            <input type="text" name="{{ field.name }}_masked" id="{{ field.name }}_masked" class="form-control" placeholder="{{ field.label.text }}{% if is_valor %} ($){% endif %}" autocomplete="off" />
-                            <input type="hidden" name="{{ field.name }}" id="{{ field.name }}" />
+                            <input type="text" name="{{ field.name }}" id="{{ field.name }}" class="form-control" placeholder="{{ field.label.text }}{% if 'valor' in field.name or 'mensal' in field.name or 'entrada' in field.name %} ($){% endif %}" autocomplete="off" />
                         </div>
                     {% endfor %}
                     <div class="d-grid mt-4">

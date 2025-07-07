@@ -5,8 +5,8 @@ from app.services.trello_service import Trello
 import json
 
 class CotacaoService:
-    def __init__(self, taxa=320.00):
-        self.TAXA = taxa
+    def __init__(self):
+        pass
 
     def extrair_dados_formulario(self, cotacao_form):
         veiculos = [
@@ -117,39 +117,7 @@ class CotacaoService:
             "documento_conjuge": getattr(primeiro, 'documento_conjuge', None),
             "veiculos": veiculos
         }
-
-    def processar_preco_quitado(self, preco_form, taxa=None):
-        taxa = parse_float_val(taxa) if taxa is not None else self.TAXA
-        entrada_basico = parse_float_val(preco_form.entrada_basico.data) + taxa
-        mensal_basico = preco_form.mensal_basico.data
-        valor_total_basico = parse_float_val(preco_form.valor_total_basico.data) + taxa
-        entrada_completo = parse_float_val(preco_form.entrada_completo.data) + taxa
-        mensal_completo = preco_form.mensal_completo.data
-        valor_total_completo = parse_float_val(preco_form.valor_total_completo.data) + taxa
-        nome = preco_form.nome.data
-
-        return {
-            "entrada_basico": formatar_com_virgula(entrada_basico),
-            "mensal_basico": mensal_basico,
-            "valor_total_basico": formatar_com_virgula(valor_total_basico),
-            "entrada_completo": formatar_com_virgula(entrada_completo),
-            "mensal_completo": mensal_completo,
-            "valor_total_completo": formatar_com_virgula(valor_total_completo),
-            "nome": nome
-        }
-
-    def processar_preco_financiado(self, preco_form, taxa=None):
-        taxa = parse_float_val(taxa) if taxa is not None else self.TAXA
-        entrada_completo = parse_float_val(preco_form.entrada_completo.data) + taxa
-        mensal_completo = preco_form.mensal_completo.data
-        valor_total_completo = parse_float_val(preco_form.valor_total_completo.data) + taxa
-        nome = preco_form.nome.data
-        return {
-            "entrada_completo": formatar_com_virgula(entrada_completo),
-            "mensal_completo": mensal_completo,
-            "valor_total_completo": formatar_com_virgula(valor_total_completo),
-            "nome": nome
-        }
+    
     def duplicar_cotacao(self, cotacao):
         nova_cotacao = Cotacao(
             genero=cotacao.genero,

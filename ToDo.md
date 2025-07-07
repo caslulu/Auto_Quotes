@@ -3,7 +3,7 @@
 ## 2. Funcionalidades Essenciais e Experiência do Usuário
 - Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
 - Adicionar feedback visual para ações do usuário (ex.: carregamento, sucesso ou erro).
-- Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário.
+- Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário. ✅
 - Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
 - Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
 
@@ -20,7 +20,6 @@
 - Permitir envio de notificações automáticas para clientes (ex: status da cotação, documentos pendentes).
 - Melhorar a integração com o Trello, exibindo status, comentários e anexos no sistema.
 - Adicionar suporte para envio de e-mails automáticos com os resultados das cotações.
-- Integrar com APIs de terceiros para validação de dados (ex.: validação de VIN ou CEP).
 - Implementar cache para evitar chamadas repetidas a APIs externas (ex.: decodificação de VIN).
 - Adicionar logs detalhados para monitorar o comportamento do sistema em produção.
 - Automatizar exportação de dados para CSV periodicamente.
@@ -54,7 +53,6 @@
 ## 7. Documentação
 - Criar um README detalhado com instruções de instalação, configuração e uso do projeto.
 - Adicionar exemplos de uso para cada funcionalidade principal.
-- Documentar as dependências no requirements.txt e garantir que ele esteja atualizado.
 - Documentar e padronizar variáveis de ambiente (ex: .env para segredos e configs sensíveis).
 - Adicionar um guia rápido para desenvolvedores contribuírem com o projeto.
 - Documentar o fluxo de atendimento automatizado (chatbot/menu de opções).
@@ -94,3 +92,5 @@
 - Permitir upload de documentos e imagens diretamente na cotação (ex: CNH, comprovante de residência).
 - Implementar confirmação antes de excluir veículos, pessoas ou cotações.
 - Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
+- Integrar com APIs de terceiros para validação de VIN.
+- Documentar as dependências no requirements.txt e garantir que ele esteja atualizado.
