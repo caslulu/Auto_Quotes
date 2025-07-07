@@ -233,14 +233,34 @@ function setupIdiomaCotacaoSync() {
     });
 }
 
+function setupSeguradoraSync() {
+    function updateSeguradoraHidden() {
+        const radio = document.querySelector('input[name="seguradora"]:checked');
+        const val = radio ? radio.value : '';
+        const hiddenQuitado = document.getElementById('seguradora_quitado');
+        const hiddenFinanciado = document.getElementById('seguradora_financiado');
+        if (hiddenQuitado) hiddenQuitado.value = val;
+        if (hiddenFinanciado) hiddenFinanciado.value = val;
+    }
+    document.querySelectorAll('input[name="seguradora"]').forEach(r => {
+        r.addEventListener('change', updateSeguradoraHidden);
+    });
+    document.querySelectorAll('form.preco-form').forEach(form => {
+        form.addEventListener('submit', function() {
+            updateSeguradoraHidden();
+        });
+    });
+    updateSeguradoraHidden();
+}
+
 // Inicialização
 window.addEventListener('DOMContentLoaded', function() {
     setupVeiculosDinamicos();
     setupPessoasDinamicas();
     setupConfirmacaoRemocao();
     setupIdiomaCotacaoSync();
+    setupSeguradoraSync();
 
-    // Não é necessário JS para acionar o input file, o label já faz isso pelo atributo for
     const fileInput = document.getElementById('imagem_doc');
     if (fileInput) {
         setupModernFileUpload('imagem_doc', 'imagem-doc-label', 'imagem-doc-label-text', 'imagem-doc-preview');

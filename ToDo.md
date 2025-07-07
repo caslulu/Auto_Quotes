@@ -6,7 +6,6 @@
 - Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário.
 - Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
 - Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
-- Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
 
 ## 3. Banco de Dados e Performance
 - Adicionar migrações de banco de dados usando Flask-Migrate para facilitar alterações no esquema.
@@ -94,3 +93,4 @@
 - Permitir adicionar/remover veículos e pessoas na edição da cotação.
 - Permitir upload de documentos e imagens diretamente na cotação (ex: CNH, comprovante de residência).
 - Implementar confirmação antes de excluir veículos, pessoas ou cotações.
+- Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.

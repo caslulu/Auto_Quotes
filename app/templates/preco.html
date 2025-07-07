@@ -76,17 +76,16 @@
             </div>
         </div>
     </div>
-    <div class="row g-5 align-items-stretch justify-content-center">
+    <div class="row g-4 align-items-stretch justify-content-center">
         <!-- Formulário Quitado -->
-        <div class="col-12 col-lg-5 mb-4 mb-lg-0">
-            <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
-                <h4 class="section-title">Veículo Quitado</h4>
+        <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <div class="card shadow-sm p-4 h-100 d-flex flex-column justify-content-between">
+                <h4 class="section-title mb-3"><i class="fas fa-car-side me-2"></i>Veículo Quitado</h4>
                 <form method="post" class="flex-grow-1 d-flex flex-column preco-form" id="form_quitado">
                     {{ form_quitado.hidden_tag() }}
                     <input type="hidden" name="form_type" value="quitado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
                     <input type="hidden" name="seguradora" id="seguradora_quitado" value="{{ form_seguradora.seguradora.data }}">
-                    <!-- Campo hidden para taxa -->
                     <input type="hidden" name="taxa_cotacao" id="taxa_cotacao_quitado" value="320.00">
                     <input type="hidden" name="idioma_cotacao" id="idioma_cotacao_quitado" value="pt">
                     <div class="form-check mb-2">
@@ -95,47 +94,48 @@
                     </div>
                     <div class="mb-3">
                         {{ form_quitado.nome.label(class="form-label blue-label") }}
-                        {{ form_quitado.nome(class="form-control form-control-lg") }}
+                        {{ form_quitado.nome(class="form-control form-control-lg", placeholder="Nome do cliente") }}
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            <h6 class="blue-label">Básico</h6>
+                        <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+                            <h6 class="blue-label">Básico <i class="fas fa-info-circle" data-bs-toggle="tooltip" title="Cobertura básica do seguro."></i></h6>
                             {{ form_quitado.entrada_basico.label(class="form-label") }}
-                            {{ form_quitado.entrada_basico(class="form-control") }}
+                            <input type="text" name="entrada_basico_masked" id="entrada_basico_masked" class="form-control" placeholder="Entrada ($)" autocomplete="off" />
+                            <input type="hidden" name="entrada_basico" id="entrada_basico" />
                             {{ form_quitado.mensal_basico.label(class="form-label") }}
-                            {{ form_quitado.mensal_basico(class="form-control") }}
+                            <input type="text" name="mensal_basico_masked" id="mensal_basico_masked" class="form-control" placeholder="Mensalidade ($)" autocomplete="off" />
+                            <input type="hidden" name="mensal_basico" id="mensal_basico" />
                             {{ form_quitado.valor_total_basico.label(class="form-label") }}
-                            {{ form_quitado.valor_total_basico(class="form-control") }}
+                            <input type="text" name="valor_total_basico_masked" id="valor_total_basico_masked" class="form-control" placeholder="Total ($)" autocomplete="off" />
+                            <input type="hidden" name="valor_total_basico" id="valor_total_basico" />
                         </div>
-                        <div class="col-6">
-                            <h6 class="blue-label">Completo</h6>
+                        <div class="col-12 col-lg-6">
+                            <h6 class="blue-label">Completo <i class="fas fa-info-circle" data-bs-toggle="tooltip" title="Cobertura completa do seguro."></i></h6>
                             {{ form_quitado.entrada_completo.label(class="form-label") }}
-                            {{ form_quitado.entrada_completo(class="form-control") }}
+                            <input type="text" name="entrada_completo_masked" id="entrada_completo_masked" class="form-control" placeholder="Entrada ($)" autocomplete="off" />
+                            <input type="hidden" name="entrada_completo" id="entrada_completo" />
                             {{ form_quitado.mensal_completo.label(class="form-label") }}
-                            {{ form_quitado.mensal_completo(class="form-control") }}
+                            <input type="text" name="mensal_completo_masked" id="mensal_completo_masked" class="form-control" placeholder="Mensalidade ($)" autocomplete="off" />
+                            <input type="hidden" name="mensal_completo" id="mensal_completo" />
                             {{ form_quitado.valor_total_completo.label(class="form-label") }}
-                            {{ form_quitado.valor_total_completo(class="form-control") }}
+                            <input type="text" name="valor_total_completo_masked" id="valor_total_completo_masked" class="form-control" placeholder="Total ($)" autocomplete="off" />
+                            <input type="hidden" name="valor_total_completo" id="valor_total_completo" />
                         </div>
                     </div>
                     <div class="d-grid mt-4">
-                        {{ form_quitado.submit(class="btn blue-btn btn-lg") }}
+                        <button type="submit" class="btn blue-btn btn-lg"><i class="fas fa-check me-2"></i>Gerar Cotação Quitado</button>
                     </div>
                 </form>
             </div>
         </div>
-        <!-- Divisor -->
-        <div class="col-1 d-none d-lg-flex align-items-center justify-content-center">
-            <div class="blue-divider"></div>
-        </div>
         <!-- Formulário Financiado -->
-        <div class="col-12 col-lg-5">
-            <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
-                <h4 class="section-title">Veículo Financiado</h4>
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm p-4 h-100 d-flex flex-column justify-content-between">
+                <h4 class="section-title mb-3"><i class="fas fa-car me-2"></i>Veículo Financiado</h4>
                 <form method="post" class="flex-grow-1 d-flex flex-column preco-form" id="form_financiado">
                     <input type="hidden" name="form_type" value="financiado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
                     <input type="hidden" name="seguradora" id="seguradora_financiado" value="{{ form_seguradora.seguradora.data }}">
-                    <!-- Campo hidden para taxa -->
                     <input type="hidden" name="taxa_cotacao" id="taxa_cotacao_financiado" value="320.00">
                     <input type="hidden" name="idioma_cotacao" id="idioma_cotacao_financiado" value="pt">
                     <div class="form-check mb-2">
@@ -143,14 +143,20 @@
                         <label class="form-check-label" for="apenas_prever_financiado">Somente prever preço (ML)</label>
                     </div>
                     {{ form_financiado.hidden_tag() }}
-                    {% for field in form_financiado if field.type not in ['CSRFToken', 'SubmitField', 'HiddenField', 'Hidden'] and field.name != 'csrf_token' %}
+                    <div class="mb-3">
+                        {{ form_financiado.nome.label(class="form-label blue-label") }}
+                        {{ form_financiado.nome(class="form-control form-control-lg", placeholder="Nome do cliente") }}
+                    </div>
+                    {% for field in form_financiado if field.type not in ['CSRFToken', 'SubmitField', 'HiddenField', 'Hidden'] and field.name != 'csrf_token' and field.name != 'nome' %}
                         <div class="mb-3">
                             {{ field.label(class="form-label blue-label") }}
-                            {{ field(class="form-control") }}
+                            {% set is_valor = 'valor' in field.name or 'mensal' in field.name or 'entrada' in field.name %}
+                            <input type="text" name="{{ field.name }}_masked" id="{{ field.name }}_masked" class="form-control" placeholder="{{ field.label.text }}{% if is_valor %} ($){% endif %}" autocomplete="off" />
+                            <input type="hidden" name="{{ field.name }}" id="{{ field.name }}" />
                         </div>
                     {% endfor %}
                     <div class="d-grid mt-4">
-                        {{ form_financiado.submit(class="btn blue-btn btn-lg") }}
+                        <button type="submit" class="btn blue-btn btn-lg"><i class="fas fa-check me-2"></i>Gerar Cotação Financiado</button>
                     </div>
                 </form>
             </div>
@@ -160,21 +166,3 @@
 
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
-<script src="{{ url_for('static', filename='toggle-mode.js') }}"></script>
-<script>
-// Atualiza o hidden de idioma de cada form ao trocar o radio global
-    document.addEventListener('DOMContentLoaded', function() {
-        const radios = document.getElementsByName('idioma_cotacao_radio');
-        function updateIdiomaHidden() {
-            let val = 'pt';
-            for (const r of radios) { if (r.checked) val = r.value; }
-            document.getElementById('idioma_cotacao_quitado').value = val;
-            document.getElementById('idioma_cotacao_financiado').value = val;
-        }
-        radios.forEach(r => r.addEventListener('change', updateIdiomaHidden));
-        updateIdiomaHidden();
-    });
-</script>
-{% endblock %}

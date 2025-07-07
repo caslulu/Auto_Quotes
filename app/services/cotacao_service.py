@@ -1,4 +1,4 @@
-from app.util.data_funcoes import formatar_data, separar_nome, separar_documento, separar_endereco, formatar_com_virgula
+from app.util.data_funcoes import formatar_data, separar_nome, separar_documento, separar_endereco, formatar_com_virgula, parse_float_val
 from app.extensions import db
 from app.models.cotacao_db import Cotacao
 from app.services.trello_service import Trello
@@ -119,13 +119,13 @@ class CotacaoService:
         }
 
     def processar_preco_quitado(self, preco_form, taxa=None):
-        taxa = float(taxa) if taxa is not None else self.TAXA
-        entrada_basico = float(preco_form.entrada_basico.data.replace(",", "")) + taxa
+        taxa = parse_float_val(taxa) if taxa is not None else self.TAXA
+        entrada_basico = parse_float_val(preco_form.entrada_basico.data) + taxa
         mensal_basico = preco_form.mensal_basico.data
-        valor_total_basico = float(preco_form.valor_total_basico.data.replace(",", "")) + taxa
-        entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + taxa
+        valor_total_basico = parse_float_val(preco_form.valor_total_basico.data) + taxa
+        entrada_completo = parse_float_val(preco_form.entrada_completo.data) + taxa
         mensal_completo = preco_form.mensal_completo.data
-        valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + taxa
+        valor_total_completo = parse_float_val(preco_form.valor_total_completo.data) + taxa
         nome = preco_form.nome.data
 
         return {
@@ -139,10 +139,10 @@ class CotacaoService:
         }
 
     def processar_preco_financiado(self, preco_form, taxa=None):
-        taxa = float(taxa) if taxa is not None else self.TAXA
-        entrada_completo = float(preco_form.entrada_completo.data.replace(",", "")) + taxa
+        taxa = parse_float_val(taxa) if taxa is not None else self.TAXA
+        entrada_completo = parse_float_val(preco_form.entrada_completo.data) + taxa
         mensal_completo = preco_form.mensal_completo.data
-        valor_total_completo = float(preco_form.valor_total_completo.data.replace(",", "")) + taxa
+        valor_total_completo = parse_float_val(preco_form.valor_total_completo.data) + taxa
         nome = preco_form.nome.data
         return {
             "entrada_completo": formatar_com_virgula(entrada_completo),

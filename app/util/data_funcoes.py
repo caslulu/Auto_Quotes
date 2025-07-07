@@ -1,3 +1,17 @@
+def parse_float_val(val):
+    """Remove símbolos de moeda, espaços e converte para float de forma robusta."""
+    if val is None:
+        return 0.0
+    if isinstance(val, (int, float)):
+        return float(val)
+    val = str(val).replace('$', '').replace('R$', '').replace(' ', '').replace('\xa0', '')
+    val = val.replace('.', '').replace(',', '.') if val.count(',') == 1 and val.count('.') == 0 else val.replace(',', '')
+    import re
+    val = re.sub(r'[^0-9.\-]', '', val)
+    try:
+        return float(val)
+    except Exception:
+        return 0.0
 import requests
 from datetime import datetime
 
