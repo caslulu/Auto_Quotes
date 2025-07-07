@@ -212,11 +212,33 @@ function setupConfirmacaoRemocao() {
     }, true);
 }
 
+// Sincroniza o campo hidden de idioma com o radio global antes do submit dos formulários de preço
+function setupIdiomaCotacaoSync() {
+    const radios = document.getElementsByName('idioma_cotacao_radio');
+    function updateIdiomaHidden() {
+        let val = 'pt';
+        for (const r of radios) { if (r.checked) val = r.value; }
+        const hiddenQuitado = document.getElementById('idioma_cotacao_quitado');
+        const hiddenFinanciado = document.getElementById('idioma_cotacao_financiado');
+        if (hiddenQuitado) hiddenQuitado.value = val;
+        if (hiddenFinanciado) hiddenFinanciado.value = val;
+    }
+    radios.forEach(r => r.addEventListener('change', updateIdiomaHidden));
+    updateIdiomaHidden();
+    // Garante atualização do hidden imediatamente antes do submit
+    document.querySelectorAll('form.preco-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            updateIdiomaHidden();
+        });
+    });
+}
+
 // Inicialização
 window.addEventListener('DOMContentLoaded', function() {
     setupVeiculosDinamicos();
     setupPessoasDinamicas();
     setupConfirmacaoRemocao();
+    setupIdiomaCotacaoSync();
 
     // Não é necessário JS para acionar o input file, o label já faz isso pelo atributo for
     const fileInput = document.getElementById('imagem_doc');

@@ -56,6 +56,24 @@
                 {% endfor %}
                 </div>
             </div>
+            <!-- Radio para idioma -->
+            <div class="mb-4 text-center">
+                <label class="blue-label">Idioma da Cotação:</label><br>
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="idioma_cotacao_radio" value="pt" id="idioma_pt" checked>
+                        <span class="form-check-label" for="idioma_pt">Português</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="idioma_cotacao_radio" value="en" id="idioma_en">
+                        <span class="form-check-label" for="idioma_en">Inglês</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="idioma_cotacao_radio" value="es" id="idioma_es">
+                        <span class="form-check-label" for="idioma_es">Espanhol</span>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row g-5 align-items-stretch justify-content-center">
@@ -63,13 +81,14 @@
         <div class="col-12 col-lg-5 mb-4 mb-lg-0">
             <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
                 <h4 class="section-title">Veículo Quitado</h4>
-                <form method="post" class="flex-grow-1 d-flex flex-column preco-form">
+                <form method="post" class="flex-grow-1 d-flex flex-column preco-form" id="form_quitado">
                     {{ form_quitado.hidden_tag() }}
                     <input type="hidden" name="form_type" value="quitado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_quitado">
                     <input type="hidden" name="seguradora" id="seguradora_quitado" value="{{ form_seguradora.seguradora.data }}">
                     <!-- Campo hidden para taxa -->
                     <input type="hidden" name="taxa_cotacao" id="taxa_cotacao_quitado" value="320.00">
+                    <input type="hidden" name="idioma_cotacao" id="idioma_cotacao_quitado" value="pt">
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" name="apenas_prever" id="apenas_prever_quitado">
                         <label class="form-check-label" for="apenas_prever_quitado">Somente prever preço (ML)</label>
@@ -112,12 +131,13 @@
         <div class="col-12 col-lg-5">
             <div class="blue-card p-4 h-100 d-flex flex-column justify-content-between">
                 <h4 class="section-title">Veículo Financiado</h4>
-                <form method="post" class="flex-grow-1 d-flex flex-column preco-form">
+                <form method="post" class="flex-grow-1 d-flex flex-column preco-form" id="form_financiado">
                     <input type="hidden" name="form_type" value="financiado">
                     <input type="hidden" name="cotacao_id" id="cotacao_id_financiado">
                     <input type="hidden" name="seguradora" id="seguradora_financiado" value="{{ form_seguradora.seguradora.data }}">
                     <!-- Campo hidden para taxa -->
                     <input type="hidden" name="taxa_cotacao" id="taxa_cotacao_financiado" value="320.00">
+                    <input type="hidden" name="idioma_cotacao" id="idioma_cotacao_financiado" value="pt">
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" name="apenas_prever" id="apenas_prever_financiado">
                         <label class="form-check-label" for="apenas_prever_financiado">Somente prever preço (ML)</label>
@@ -143,4 +163,18 @@
 {% block scripts %}
 {{ super() }}
 <script src="{{ url_for('static', filename='toggle-mode.js') }}"></script>
+<script>
+// Atualiza o hidden de idioma de cada form ao trocar o radio global
+    document.addEventListener('DOMContentLoaded', function() {
+        const radios = document.getElementsByName('idioma_cotacao_radio');
+        function updateIdiomaHidden() {
+            let val = 'pt';
+            for (const r of radios) { if (r.checked) val = r.value; }
+            document.getElementById('idioma_cotacao_quitado').value = val;
+            document.getElementById('idioma_cotacao_financiado').value = val;
+        }
+        radios.forEach(r => r.addEventListener('change', updateIdiomaHidden));
+        updateIdiomaHidden();
+    });
+</script>
 {% endblock %}

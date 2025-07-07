@@ -281,15 +281,23 @@
                                 <p><strong>Driver do Cônjuge:</strong> {{ cotacao.documento_conjuge or '-' }}</p>
                                 {% endif %}
                                 <div class="d-flex gap-2">
+                                    
                                     <form id="cotar-form-{{ cotacao.id }}"
                                         action="{{ url_for('cotar.cotar', cotacao_id=cotacao.id) }}" method="POST">
                                         <input type="hidden" name="seguradora" id="seguradora-input-{{ cotacao.id }}">
                                         <button type="button" class="btn btn-primary"
                                             onclick="submitCotarForm({{ cotacao.id }})">Cotar</button>
                                     </form>
+
                                     <a href="{{ url_for('editar.editarCotacao', cotacao_id=cotacao.id) }}" class="btn btn-warning">
                                         Editar Cotação
                                     </a>
+
+                                    <form action="{{ url_for('duplicar.duplicarCotacao', cotacao_id=cotacao.id) }}"
+                                        method="POST" class="form-duplicar-cotacao" style="display:inline;">
+                                        <button type="submit" class="btn btn-info">Duplicar Cotação</button>
+                                    </form>
+
                                     <form action="{{ url_for('apagar.apagarCotacao', cotacao_id=cotacao.id) }}"
                                         method="POST" class="form-apagar-cotacao">
                                         <button type="button" class="btn btn-danger remove-cotacao">Apagar Cotação</button>

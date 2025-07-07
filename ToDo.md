@@ -4,7 +4,6 @@
 - Implementar validações mais robustas nos formulários (PrecoForm_quitado, PrecoForm_financiado, etc.).
 - Adicionar feedback visual para ações do usuário (ex.: carregamento, sucesso ou erro).
 - Adicionar placeholders e tooltips nos campos dos formulários para melhorar a experiência do usuário.
-- Permitir duplicar uma cotação existente para facilitar novos orçamentos.
 - Melhorar o design do formulário preco.html para torná-lo mais responsivo e intuitivo.
 - Adicionar uma barra de progresso para indicar o status do preenchimento da cotação.
 - Adicionar suporte a múltiplos idiomas (ex.: português e inglês) para mensagens e labels.
@@ -76,6 +75,7 @@
 - Permitir customização de templates de e-mail e PDF por usuário ou empresa.
 
 ## 9. Tarefas Concluídas
+- Permitir duplicar uma cotação existente para facilitar novos orçamentos.
 - Suporte a múltiplas pessoas e veículos no formulário de cotação e edição.
 - Separação de pessoas e veículos no banco de dados principal (Cotacao).
 - Criação do modelo CotacaoPrecoML para ML.

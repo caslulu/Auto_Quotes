@@ -150,3 +150,21 @@ class CotacaoService:
             "valor_total_completo": formatar_com_virgula(valor_total_completo),
             "nome": nome
         }
+    def duplicar_cotacao(self, cotacao):
+        nova_cotacao = Cotacao(
+            genero=cotacao.genero,
+            nome=cotacao.nome,
+            documento=cotacao.documento,
+            endereco=cotacao.endereco,
+            tempo_de_seguro=cotacao.tempo_de_seguro,
+            data_nascimento=cotacao.data_nascimento,
+            tempo_no_endereco=cotacao.tempo_no_endereco,
+            estado_civil=cotacao.estado_civil,
+            nome_conjuge=cotacao.nome_conjuge,
+            data_nascimento_conjuge=cotacao.data_nascimento_conjuge,
+            documento_conjuge=cotacao.documento_conjuge,
+            vehicles_json=cotacao.vehicles_json,
+            pessoas_json=cotacao.pessoas_json,
+            trello_card_id=None
+        )
+        return nova_cotacao
